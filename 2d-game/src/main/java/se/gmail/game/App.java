@@ -16,8 +16,5 @@ public class App {
         };
 
         SwingUtilities.invokeLater(startApp);
-        while(true) {
-            Thread.sleep(1000);
-        }
     }
 }

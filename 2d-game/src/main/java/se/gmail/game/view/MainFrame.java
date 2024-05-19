@@ -17,5 +17,7 @@ public class MainFrame extends JFrame {
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        gamePanel.startGameThread();
     }
 }
