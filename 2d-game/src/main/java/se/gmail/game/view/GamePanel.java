@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import se.gmail.game.controller.KeyHandler;
+
 public class GamePanel extends JPanel implements Runnable {
 
     final int originalTileSize = 16;
@@ -21,11 +23,14 @@ public class GamePanel extends JPanel implements Runnable {
     int fps = 60;
 
     Thread gameThread;
+    KeyHandler keyHandler = new KeyHandler();
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyHandler);
+        this.setFocusable(true);
     }
 
     public void startGameThread() {
@@ -41,7 +46,6 @@ public class GamePanel extends JPanel implements Runnable {
         double nextDrawTime = System.nanoTime() + drawInterval;
         double remainingTime;
         while(gameThread != null) {
-            System.out.println("Game Running!");
             update();
 
             repaint();
@@ -51,11 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
             try {
 
                 if(remainingTime < 0) {
-                    System.out.println("Update!");
                     remainingTime = 0;
-                } else {
-                    System.out.println("Sleep a little");
-
                 }
                 Thread.sleep((long)remainingTime);
 
@@ -67,7 +67,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-
+        if(keyHandler.isUpPressed()) {
+            System.out.println("Pressed Up!");
+        }
     }
 
     public void paintComponent(Graphics g) {

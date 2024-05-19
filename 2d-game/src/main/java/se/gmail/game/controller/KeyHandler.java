@@ -6,7 +6,10 @@ import java.util.HashMap;
 
 public class KeyHandler implements KeyListener {
 
-    HashMap<Integer, Boolean> keyMap = new HashMap<>();
+    HashMap<Integer, Boolean> keyMap;
+    public KeyHandler() {
+        this.keyMap = new HashMap<>();
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -22,5 +25,9 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
+    }
+
+    public boolean isUpPressed() {
+        return keyMap.containsKey(KeyEvent.VK_W) && keyMap.get(KeyEvent.VK_W);
     }
 }
