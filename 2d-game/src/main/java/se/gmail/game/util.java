@@ -1,4 +1,4 @@
-package main.java.se;
+package se.gmail.game;
 
 public class util {
     
