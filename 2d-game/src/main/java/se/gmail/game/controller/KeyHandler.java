@@ -10,6 +10,8 @@ public class KeyHandler implements KeyListener {
     HashMap<Integer, Boolean> keyMap;
     HashMap<Integer, Boolean> keyToggleMap;
 
+    int keysActive = 0;
+
     public KeyHandler() {
         this.keyMap = new HashMap<>();
         this.keyToggleMap = new HashMap<>();
@@ -23,6 +25,7 @@ public class KeyHandler implements KeyListener {
         } else {
             keyMap.put(e.getKeyCode(), true);
         }
+        keysActive++;
     }
 
     @Override
@@ -30,6 +33,7 @@ public class KeyHandler implements KeyListener {
         if(!keyToggleMap.containsKey(e.getKeyCode())) {
             keyMap.put(e.getKeyCode(), false);
         }
+        keysActive--;
     }
 
     @Override
@@ -71,5 +75,20 @@ public class KeyHandler implements KeyListener {
         if(keyToggleMap.containsKey(keyCode)) {
             keyToggleMap.remove(keyCode);
         }
+    }
+
+    public boolean keysActive() {
+        return keysActive != 0;
+    }
+
+    public boolean movementKeysActive() {
+        if(keysActive()) {
+            for (int keyCode : keyMap.keySet()) {
+                if(keyMap.get(keyCode)) {
+                    return true;
+                }
+            }
+        } 
+        return false;
     }
 }

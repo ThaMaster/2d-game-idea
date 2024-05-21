@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.SwingUtilities;
 
 import se.gmail.game.model.entities.Player;
+import se.gmail.game.util.enums.Direction;
 import se.gmail.game.view.MainFrame;
 
 public class UpdateHandler implements Runnable {
@@ -22,7 +23,7 @@ public class UpdateHandler implements Runnable {
         this.keyHandler = keyH;
         this.mainWindow = mf;
         this.player = new Player();
-        mainWindow.getGamePanel().updatePlayerData(player.getImage(), player.getXPosition(), player.getYPosition());
+        mainWindow.getGamePanel().updatePlayerData(player.getAnimator().getSprites("idle").get(0), player.getXPosition(), player.getYPosition(), player.getDirection());
     }
 
     public void startGameThread() {
@@ -31,71 +32,74 @@ public class UpdateHandler implements Runnable {
     }
     
     @Override
-public void run() {
-    final int targetFPS = 60;
-    final long targetTimePerFrame = 1000000000 / targetFPS; // nanoseconds per frame
+    public void run() {
+        final int targetFPS = 60;
+        final long targetTimePerFrame = 1000000000 / targetFPS; // nanoseconds per frame
 
-    long lastTime = System.nanoTime();
-    long currentTime;
-    long elapsedTime;
-    long sleepTime;
+        long lastTime = System.nanoTime();
+        long currentTime;
+        long elapsedTime;
+        long sleepTime;
 
-    while (gameThread != null) {
-        currentTime = System.nanoTime();
-        elapsedTime = currentTime - lastTime;
+        while (gameThread != null) {
+            currentTime = System.nanoTime();
+            elapsedTime = currentTime - lastTime;
 
-        // Update game logic
-        update();
+            // Update game logic
+            update();
 
-        // Render game
-        repaint();
+            // Render game
+            repaint();
 
-        // Calculate sleep time to achieve target frame rate
-        sleepTime = targetTimePerFrame - elapsedTime;
+            // Calculate sleep time to achieve target frame rate
+            sleepTime = targetTimePerFrame - elapsedTime;
 
-        if (sleepTime > 0) {
-            try {
-                // Sleep to cap frame rate and reduce CPU usage
-                Thread.sleep(sleepTime / 1000000); // Convert nanoseconds to milliseconds
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (sleepTime > 0) {
+                try {
+                    // Sleep to cap frame rate and reduce CPU usage
+                    Thread.sleep(sleepTime / 1000000); // Convert nanoseconds to milliseconds
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // If rendering took longer than expected, yield to other threads
+                Thread.yield();
             }
-        } else {
-            // If rendering took longer than expected, yield to other threads
-            Thread.yield();
+
+            lastTime = System.nanoTime();
         }
-
-        lastTime = System.nanoTime();
     }
-}
-
-
-
-
 
     private void update() {
-        if (keyHandler.isKeyActive(KeyEvent.VK_W)) {
-            player.setYPosition(player.getYPosition() - player.getSpeed());
-        }
-        if (keyHandler.isKeyActive(KeyEvent.VK_S)) {
-            player.setYPosition(player.getYPosition() + player.getSpeed());
-        }
-        if (keyHandler.isKeyActive(KeyEvent.VK_D)) {
-            player.setXPosition(player.getXPosition() + player.getSpeed());
-        }
-        if (keyHandler.isKeyActive(KeyEvent.VK_A)) {
-            player.setXPosition(player.getXPosition() - player.getSpeed());
+        player.getAnimator().update();
+        if(keyHandler.movementKeysActive()) {
+            player.getAnimator().changeAnimation("run");
+            if (keyHandler.isKeyActive(KeyEvent.VK_W)) {
+                player.setYPosition(player.getYPosition() - player.getSpeed());
+                player.setDirection(Direction.NORTH);
+            }
+            if (keyHandler.isKeyActive(KeyEvent.VK_S)) {
+                player.setYPosition(player.getYPosition() + player.getSpeed());
+                player.setDirection(Direction.SOUTH);
+            }
+            if (keyHandler.isKeyActive(KeyEvent.VK_D)) {
+                player.setXPosition(player.getXPosition() + player.getSpeed());
+                player.setDirection(Direction.EAST);
+            }
+            if (keyHandler.isKeyActive(KeyEvent.VK_A)) {
+                player.setXPosition(player.getXPosition() - player.getSpeed());
+                player.setDirection(Direction.WEST);
+            }
+        } else {
+            player.getAnimator().changeAnimation("idle");
         }
     }
 
     private void repaint() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                mainWindow.getGamePanel().updatePlayerData(player.getImage(), player.getXPosition(), player.getYPosition());
-                mainWindow.getGamePanel().revalidate();
-                mainWindow.getGamePanel().repaint();
-            }
+        SwingUtilities.invokeLater(() -> {
+            mainWindow.getGamePanel().updatePlayerData(player.getAnimator().getCurrentSprite(), player.getXPosition(), player.getYPosition(), player.getDirection());
+            mainWindow.getGamePanel().revalidate();
+            mainWindow.getGamePanel().repaint();
         });
 
     }

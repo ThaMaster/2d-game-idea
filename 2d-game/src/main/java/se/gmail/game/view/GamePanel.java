@@ -12,10 +12,12 @@ import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.RepaintManager;
 
+import se.gmail.game.util.enums.Direction;
+
 public class GamePanel extends JPanel {
 
-    final int originalTileSize = 16;
-    final int scale = 3;
+    final int originalTileSize = 48;
+    final int scale = 1;
 
     final int tileSize = originalTileSize * scale;
     final int maxScreenCol = 16;
@@ -26,6 +28,7 @@ public class GamePanel extends JPanel {
     BufferedImage playerImage;
     int playerXPos;
     int playerYPos;
+    Direction playerDir;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -39,13 +42,19 @@ public class GamePanel extends JPanel {
 
         Graphics2D g2 = (Graphics2D)g;
         synchronized(g2) {
-            g2.drawImage(playerImage, playerXPos, playerYPos, tileSize, tileSize, null);
+            if(playerDir == Direction.EAST) {
+                g2.drawImage(playerImage, playerXPos, playerYPos, tileSize, tileSize, null);
+            } else {
+                g2.drawImage(playerImage, tileSize+playerXPos, playerYPos, -tileSize, tileSize, null);
+            }
+            g2.setBackground(Color.BLUE);
         }
     }
 
-    public void updatePlayerData(BufferedImage image, int xPos, int yPos) {
+    public void updatePlayerData(BufferedImage image, int xPos, int yPos, Direction dir) {
         this.playerImage = image;
         this.playerXPos = xPos;
         this.playerYPos = yPos;
+        this.playerDir = dir;
     }
 }
