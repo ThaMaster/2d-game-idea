@@ -17,7 +17,7 @@ import se.gmail.game.util.enums.Direction;
 public class GamePanel extends JPanel {
 
     final int originalTileSize = 48;
-    final int scale = 1;
+    final int scale = 2;
 
     final int tileSize = originalTileSize * scale;
     final int maxScreenCol = 16;

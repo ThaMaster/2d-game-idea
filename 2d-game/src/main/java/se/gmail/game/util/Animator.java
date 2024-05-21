@@ -28,7 +28,7 @@ public class Animator {
 
     public void setDefaultValues() {
         changeAnimation("run");
-        animationSpeed = 10;
+        animationSpeed = 5;
         updateCount = 0;
     }
 
