@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.JPanel;
+import javax.swing.RepaintManager;
 
 public class GamePanel extends JPanel {
 
@@ -37,9 +38,9 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
-
-        g2.drawImage(playerImage, playerXPos, playerYPos, tileSize, tileSize, null);
-        g2.dispose();
+        synchronized(g2) {
+            g2.drawImage(playerImage, playerXPos, playerYPos, tileSize, tileSize, null);
+        }
     }
 
     public void updatePlayerData(BufferedImage image, int xPos, int yPos) {
