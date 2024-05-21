@@ -29,48 +29,49 @@ public class UpdateHandler implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
     }
-
+    
     @Override
-    public void run() {
-        long lastTime = System.nanoTime();
-        long currentTime;
-        long elapsedTime;
-        long sleepTime;
-        double delta = 0;
-        double drawInterval = 1000000000 / fps;
-        long timer = System.currentTimeMillis();
-        int drawCount = 0;
+public void run() {
+    final int targetFPS = 60;
+    final long targetTimePerFrame = 1000000000 / targetFPS; // nanoseconds per frame
 
-        while (gameThread != null) {
-            currentTime = System.nanoTime();
-            elapsedTime = currentTime - lastTime;
-            lastTime = currentTime;
-            delta += elapsedTime / drawInterval;
+    long lastTime = System.nanoTime();
+    long currentTime;
+    long elapsedTime;
+    long sleepTime;
 
-            while (delta >= 1) {
-                update();
-                delta--;
-                drawCount++;
-                repaint();
+    while (gameThread != null) {
+        currentTime = System.nanoTime();
+        elapsedTime = currentTime - lastTime;
+
+        // Update game logic
+        update();
+
+        // Render game
+        repaint();
+
+        // Calculate sleep time to achieve target frame rate
+        sleepTime = targetTimePerFrame - elapsedTime;
+
+        if (sleepTime > 0) {
+            try {
+                // Sleep to cap frame rate and reduce CPU usage
+                Thread.sleep(sleepTime / 1000000); // Convert nanoseconds to milliseconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
-
-            sleepTime = targetTime - (System.currentTimeMillis() - timer);
-            if (sleepTime > 0) {
-                try {
-                    Thread.sleep(sleepTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (System.currentTimeMillis() - timer >= 1000) {
-                System.out.println("FPS: " + drawCount);
-                drawCount = 0;
-                timer += 1000;
-            }
+        } else {
+            // If rendering took longer than expected, yield to other threads
+            Thread.yield();
         }
+
+        lastTime = System.nanoTime();
     }
+}
+
+
+
+
 
     private void update() {
         if (keyHandler.isKeyActive(KeyEvent.VK_W)) {

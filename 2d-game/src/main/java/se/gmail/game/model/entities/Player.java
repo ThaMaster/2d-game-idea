@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import se.gmail.game.util.ImageLoader;
+
 public class Player extends Entity {
 
     private double health;
@@ -25,11 +27,7 @@ public class Player extends Entity {
      * Can only load the images from the absolute path, which is not good at all!
      */
     private void loadPlayerImages() {
-        try {
-            idleImages.add(ImageIO.read(new File("/home/christoffer-nordlander/Documents/personal_projects/2d-game-idea/2d-game/src/main/resources/player_sprites/idle/_idle1.png")));
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+        idleImages.add(ImageLoader.loadImage("/player_sprites/idle/_idle1.png"));
     }
 
     public void setPlayerDefaultValues() {
