@@ -43,9 +43,9 @@ public class GamePanel extends JPanel {
         Graphics2D g2 = (Graphics2D)g;
         synchronized(g2) {
             if(playerDir == Direction.EAST) {
-                g2.drawImage(playerImage, playerXPos, playerYPos, tileSize, tileSize, null);
-            } else {
                 g2.drawImage(playerImage, tileSize+playerXPos, playerYPos, -tileSize, tileSize, null);
+            } else {
+                g2.drawImage(playerImage, playerXPos, playerYPos, tileSize, tileSize, null);
             }
             g2.setBackground(Color.BLUE);
         }
