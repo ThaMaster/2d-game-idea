@@ -21,6 +21,7 @@ public class TileManager {
         mapTileNum = new int[gp.getMaxScreenColumns()][gp.getMaxScreenRows()];
 
         getTileImages();
+        loadMap();
     }
 
     public void getTileImages() {
@@ -56,7 +57,6 @@ public class TileManager {
                     String numbers[] = line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
-                    System.out.println(num);
                     mapTileNum[col][row] = num;
                 }                
             }
