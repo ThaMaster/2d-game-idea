@@ -1,4 +1,4 @@
-package se.gmail.game.model.systems.stockMarket.modes;
+package se.gmail.game.model.systems.stockMarket.stockModes;
 
 import se.gmail.game.util.Util;
 
