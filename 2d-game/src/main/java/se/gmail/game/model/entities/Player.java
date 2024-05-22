@@ -15,4 +15,20 @@ public class Player extends Entity {
         this.setSpeed(4);
         this.setPosition(1, 1);
     }
+
+    public double getHealth() {
+        return this.health;
+    }
+
+    public void setHealth(double health) {
+        this.health = health;
+    }
+
+    public double getMana() {
+        return this.mana;
+    }
+
+    public void setMana(double mana) {
+        this.mana = mana;
+    }
 }

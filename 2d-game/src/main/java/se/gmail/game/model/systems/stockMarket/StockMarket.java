@@ -63,4 +63,8 @@ public class StockMarket {
         stockModes.add(new FastFall());
         stockModes.add(new Chaotic());
     }
+
+    public String getName() {
+        return this.name;
+    }
 }

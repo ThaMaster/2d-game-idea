@@ -4,7 +4,7 @@ import se.gmail.game.model.systems.stockMarket.stockModes.StockMode;
 import se.gmail.game.util.Util;
 
 public class Stock {
-    
+
     private int id;
     private String name;
     private String symbol;
@@ -116,6 +116,14 @@ public class Stock {
                 delta *= 0.95;
             }
         }
+    }
+
+    public void setStockModeDuration(int duration) {
+       this.stockModeDuration = duration;
+    }
+
+    public int getStockModeDuration() {
+        return this.stockModeDuration;
     }
 
     @Override
