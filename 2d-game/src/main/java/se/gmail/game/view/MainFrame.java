@@ -5,7 +5,7 @@ import javax.swing.RepaintManager;
 
 public class MainFrame extends JFrame {
 
-    GamePanel gamePanel;
+    private GamePanel gamePanel;
     
     public MainFrame() {
         JFrame window = new JFrame();

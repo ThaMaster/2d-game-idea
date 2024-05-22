@@ -1,10 +1,5 @@
 package se.gmail.game.model.entities;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
-import se.gmail.game.util.ImageLoader;
-
 public class Player extends Entity {
 
     private double health;

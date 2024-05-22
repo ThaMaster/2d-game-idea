@@ -20,8 +20,8 @@ public class Animator {
         animationSprites = new HashMap<>();
         currentAnimation = new ArrayList<>();
 
-        addAnimation("idle", "/playerSprites/idle");
-        addAnimation("run", "/playerSprites/run");
+        addAnimation("idle", "/player/sprites/executioner/male/idle");
+        addAnimation("run", "/player/sprites/executioner/male/run");
 
         setDefaultValues();
     }

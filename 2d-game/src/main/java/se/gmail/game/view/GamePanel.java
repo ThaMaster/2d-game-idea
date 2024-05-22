@@ -5,30 +5,29 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOError;
-import java.io.IOException;
-import java.util.Vector;
 
 import javax.swing.JPanel;
-import javax.swing.RepaintManager;
 
+import se.gmail.game.model.tiles.TileManager;
 import se.gmail.game.util.enums.Direction;
 
 public class GamePanel extends JPanel {
 
-    final int originalTileSize = 48;
-    final int scale = 2;
+    final int originalTileSize = 80;
+    final int scale = 1;
 
-    final int tileSize = originalTileSize * scale;
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    private final int tileSize = originalTileSize * scale;
+    private final int maxScreenCol = 12;
+    private final int maxScreenRow = 10;
+    private final int screenWidth = tileSize * maxScreenCol;
+    private final int screenHeight = tileSize * maxScreenRow;
 
-    BufferedImage playerImage;
-    int playerXPos;
-    int playerYPos;
-    Direction playerDir;
+    private BufferedImage playerImage;
+    private int playerXPos;
+    private int playerYPos;
+    private Direction playerDir;
+
+    private TileManager tileManager = new TileManager(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -42,6 +41,8 @@ public class GamePanel extends JPanel {
 
         Graphics2D g2 = (Graphics2D)g;
         synchronized(g2) {
+            tileManager.draw(g2);
+
             if(playerDir == Direction.EAST) {
                 g2.drawImage(playerImage, tileSize+playerXPos, playerYPos, -tileSize, tileSize, null);
             } else {
@@ -56,5 +57,25 @@ public class GamePanel extends JPanel {
         this.playerXPos = xPos;
         this.playerYPos = yPos;
         this.playerDir = dir;
+    }
+
+    public int getTileSize() {
+        return this.tileSize;
+    }
+
+    public int getMaxScreenColumns() {
+        return this.maxScreenCol;
+    }
+
+    public int getMaxScreenRows() {
+        return this.maxScreenRow;
+    }
+
+    public int getMaxScreenWidth() {
+        return this.screenWidth;
+    }
+
+    public int getMaxScreenHeight() {
+        return this.screenHeight;
     }
 }
