@@ -1,0 +1,72 @@
+[
+    {
+        "id": 0,
+        "name": "Grain",
+        "symbol": "GRN",
+        "description": "",
+        "iconPath": ""
+    },
+    {
+        "id": 1,
+        "name": "Rice",
+        "symbol": "RCE",
+        "description": "",
+        "iconPath": ""
+    },
+    {
+        "id": 2,
+        "name": "Potatoes",
+        "symbol": "",
+        "description": "",
+        "iconPath": ""
+    },
+    {
+        "id": 3,
+        "name": "Silk",
+        "symbol": "SLK",
+        "description": "",
+        "iconPath": ""
+    },
+    {
+        "id": 4,
+        "name": "Iron",
+        "symbol": "IRN",
+        "description": "",
+        "iconPath": ""
+    },    
+    {
+        "id": 5,
+        "name": "Silver",
+        "symbol": "SIL",
+        "description": "",
+        "iconPath": ""
+    },
+    {
+        "id": 6,
+        "name": "Gold",
+        "symbol": "GLD",
+        "description": "",
+        "iconPath": ""
+    },
+    {
+        "id": 7,
+        "name": "Jewels",
+        "symbol": "JWL",
+        "description": "",
+        "iconPath": ""
+    },
+    {
+        "id": 8,
+        "name": "Crystals",
+        "symbol": "CST",
+        "description": "",
+        "iconPath": ""
+    },
+    {
+        "id": 9,
+        "name": "Diamonds",
+        "symbol": "DMD",
+        "description": "",
+        "iconPath": ""
+    }
+]

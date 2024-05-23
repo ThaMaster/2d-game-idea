@@ -60,8 +60,8 @@ public class Stock {
         return this.marketCap;
     }
 
-    public void setRestingValue(int id, int bankLevel) {
-        this.restingValue = 10 * (id + 1) + bankLevel - 1;
+    public void setRestingValue(int bankLevel) {
+        this.restingValue = 10 * (this.id + 1) + bankLevel - 1;
     }
 
     public double getValue() {
