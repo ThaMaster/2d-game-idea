@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class JsonLoader {
 
-    public static void loadStockInfo(String path) {
+    public static void loadStockData(String path) {
 
         InputStream inputStream = JsonLoader.class.getResourceAsStream(path);
         Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);

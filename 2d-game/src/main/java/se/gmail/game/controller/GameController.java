@@ -30,7 +30,7 @@ public class GameController {
             sm.performTick();
         }
         
-        JsonLoader.loadStock("/stockMarket/stock/data/stockData.json");
+        JsonLoader.loadStockData("/stockMarket/stock/data/stockData.json");
         
         smWindow.updateStock(s1, 5);
         smWindow.addStockValueHistory(sm.getStockValueHistory(s1.getId()), ImageLoader.loadImage("/player/sprites/executioner/male/idle/idle1.png"));
