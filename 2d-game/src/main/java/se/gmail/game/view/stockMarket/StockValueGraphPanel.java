@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -21,6 +22,7 @@ public class StockValueGraphPanel extends JPanel {
     private final int screenHeight = tileSize * maxScreenRow;
 
     private ArrayList<Double> stockValues;
+    private BufferedImage stockIcon;
 
     public StockValueGraphPanel() {
         stockValues = new ArrayList<>();
@@ -34,8 +36,9 @@ public class StockValueGraphPanel extends JPanel {
         this.stockValues.add(value);
     }
 
-    public void addStockValues(ArrayList<Double> values) {
+    public void addStockValues(ArrayList<Double> values, BufferedImage stockIcon) {
         stockValues.addAll(values);
+        this.stockIcon = stockIcon;
     }
 
     public void paintComponent(Graphics g) {
@@ -104,6 +107,15 @@ public class StockValueGraphPanel extends JPanel {
             }
 
             g2.drawLine(x1, y1, x2, y2);
+
+            // Draw the image at the start of the curve
+            if (i == 0 && stockIcon != null) {
+                int imageWidth = stockIcon.getWidth();
+                int imageHeight = stockIcon.getHeight();
+                int xImage = (x1 - imageWidth / 2) + 10;
+                int yImage = (y1 + y2) / 2 - imageHeight / 2;
+                g2.drawImage(stockIcon, xImage, yImage, null);
+            }
         }
     }
 

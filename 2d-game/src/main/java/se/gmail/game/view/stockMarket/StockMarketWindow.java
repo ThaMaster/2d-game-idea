@@ -1,6 +1,7 @@
 package se.gmail.game.view.stockMarket;
 
 import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -45,8 +46,8 @@ public class StockMarketWindow extends JFrame {
         return menuBar;
     }
 
-    public void addStockValueHistory(ArrayList<Double> values) {
-        svGraphPanel.addStockValues(values);
+    public void addStockValueHistory(ArrayList<Double> values, BufferedImage stockIcon) {
+        svGraphPanel.addStockValues(values, stockIcon);
         svGraphPanel.repaint();
     }
 

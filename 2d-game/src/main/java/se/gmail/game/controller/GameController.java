@@ -30,6 +30,6 @@ public class GameController {
         }
         
         smWindow.updateStock(s1, 5);
-        smWindow.addStockValueHistory(sm.getStockValueHistory(0));
+        smWindow.addStockValueHistory(sm.getStockValueHistory(0), ImageLoader.loadImage("/player/sprites/executioner/male/idle/idle1.png"));
     }
 }
