@@ -48,7 +48,6 @@ public class GamePanel extends JPanel {
             } else {
                 g2.drawImage(playerImage, playerXPos, playerYPos, tileSize, tileSize, null);
             }
-            g2.setBackground(Color.BLUE);
         }
     }
 

@@ -14,17 +14,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
 public class ImageLoader {
 
-    public static BufferedImage loadImage(String path) {
+    private static HashMap<String, BufferedImage> loadedImages = new HashMap<>();
 
+    public static BufferedImage loadImage(String path) {
+        if (loadedImages.containsKey(path)) {
+            return loadedImages.get(path);
+        }
         try {
             InputStream inputStream = ImageLoader.class.getResourceAsStream(path);
             if (inputStream != null) {
-                return ImageIO.read(inputStream);
+                BufferedImage bi = ImageIO.read(inputStream);
+                loadedImages.put(path, bi);
+                return bi;
             } else {
                 System.err.println("[ImageLoader] Error: Image not found: " + path);
                 return null;
@@ -75,8 +82,14 @@ public class ImageLoader {
 
             InputStream inputStream;
             for(String p : imagePaths) {
-                inputStream = ImageLoader.class.getResourceAsStream(p.toString());
-                images.add(ImageIO.read(inputStream));
+                if(loadedImages.containsKey(p)) {
+                    images.add(loadedImages.get(p));
+                } else {
+                    inputStream = ImageLoader.class.getResourceAsStream(p.toString());
+                    BufferedImage bi = ImageIO.read(inputStream);
+                    loadedImages.put(p, bi);
+                    images.add(bi);
+                }
             }
 
             return images;

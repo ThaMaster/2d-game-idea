@@ -1,25 +1,25 @@
 package se.gmail.game.view;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.RepaintManager;
 
 public class MainFrame extends JFrame {
 
     private GamePanel gamePanel;
     
-    public MainFrame() {
-        JFrame window = new JFrame();
-        window.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        window.setResizable(false);
-        window.setTitle("2D-Game");
+    public MainFrame(JPanel contentPanel) {
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setResizable(false);
+        this.setTitle("2D-Game");
         RepaintManager.currentManager(this).setDoubleBufferingEnabled(true);
         gamePanel = new GamePanel();
-        window.add(gamePanel);
 
-        window.pack();
+        this.add(gamePanel);
 
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     public GamePanel getGamePanel() {

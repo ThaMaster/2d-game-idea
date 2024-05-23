@@ -1,5 +1,7 @@
 package se.gmail.game.model.systems.stockMarket;
 
+import java.util.ArrayList;
+
 import se.gmail.game.model.systems.stockMarket.stockModes.StockMode;
 import se.gmail.game.util.Util;
 
@@ -11,18 +13,31 @@ public class Stock {
     private String description;
 
     private double value;
+    private ArrayList<Double> valueHistory;
     private double restingValue;
     private double delta;
 
     private StockMode currentSM;
     private int stockModeDuration;
+    private double percentage;
 
-    public Stock(int id, String name, String symbol) {
+    private int marketCap;
+
+    public Stock(int id, String name, String symbol, String desc) {
+        this.value = 1.0;
+        this.percentage = 0.0;
+        valueHistory = new ArrayList<>();
+        valueHistory.add(value);
         this.id = id;
         this.name = name;
         this.symbol = symbol;
+        this.description = desc;
         this.description = "";
         this.delta = 1;
+    }
+
+    public ArrayList<Double> getValueHistory() {
+        return this.valueHistory;
     }
 
     public String getName() {
@@ -37,12 +52,28 @@ public class Stock {
         return this.description;
     }
 
-    public void setDescription(String desc) {
-        this.description = desc;
+    public void setMarketCap(int bankLevel) {
+        this.marketCap = 100 + 3 * (bankLevel - 1);
+    }
+
+    public int getMarketCap() {
+        return this.marketCap;
     }
 
     public void setRestingValue(int id, int bankLevel) {
         this.restingValue = 10 * (id + 1) + bankLevel - 1;
+    }
+
+    public double getValue() {
+        return this.value;
+    }
+
+    public double getPercentage() {
+        return this.percentage;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     /**
@@ -51,6 +82,7 @@ public class Stock {
      * that depend on RNG.
      */
     public void performTick(double bankCeiling, boolean globalSpike, double globalDelta, double globalProbability) {
+        double prevValue = value;
         // Step 1
         delta *= 0.97;
         
@@ -116,6 +148,8 @@ public class Stock {
                 delta *= 0.95;
             }
         }
+        percentage = ((value / prevValue) - 1) * 100;
+        valueHistory.add(value);
     }
 
     public void setStockModeDuration(int duration) {
@@ -124,6 +158,14 @@ public class Stock {
 
     public int getStockModeDuration() {
         return this.stockModeDuration;
+    }
+
+    public StockMode getCurrentStockMode()  {
+        return this.currentSM;
+    }
+
+    public void setCurrentStockMode(StockMode sm) {
+        this.currentSM = sm;
     }
 
     @Override

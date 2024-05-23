@@ -20,6 +20,7 @@ public class StockMarket {
 
     public StockMarket(String name) {
         this.name = name;
+        this.stocks = new ArrayList<>();
         setDefaultMarketValues();
         initStockModes();
     }
@@ -33,6 +34,7 @@ public class StockMarket {
     }
 
     public void addStock(Stock s) {
+        s.setCurrentStockMode(stockModes.get(0));
         stocks.add(s);
     }
 
@@ -51,12 +53,14 @@ public class StockMarket {
             globalDelta = Util.randomDouble(-1, 1);
             globalProbability = Util.randomDouble(0, 1);
         } 
+
         for (Stock s : stocks) {
             s.performTick(bankCeiling, globalSpike, globalDelta, globalProbability);
         }
     }
 
     private void initStockModes() {
+        stockModes = new ArrayList<>();
         stockModes.add(new Stable());
         stockModes.add(new SlowClimb());
         stockModes.add(new SlowFall());
@@ -66,5 +70,22 @@ public class StockMarket {
 
     public String getName() {
         return this.name;
+    }
+
+    public ArrayList<Double> getStockValueHistory(int id) {
+        for (Stock s : stocks) {
+            if(s.getId() == id) {
+                return s.getValueHistory();
+            }     
+        }
+        return new ArrayList<Double>();
+    }
+
+    public ArrayList<Double> getStockValues() {
+        ArrayList<Double> currentValues = new ArrayList<>();
+        for (Stock s : stocks) {
+            currentValues.add(s.getValue());            
+        }
+        return currentValues;
     }
 }
