@@ -32,7 +32,6 @@ public class Stock {
         this.name = name;
         this.symbol = symbol;
         this.description = desc;
-        this.description = "";
         this.delta = 1;
     }
 

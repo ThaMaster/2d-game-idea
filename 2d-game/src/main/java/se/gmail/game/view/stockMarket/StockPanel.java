@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import se.gmail.game.util.ImageLoader;
 import se.gmail.game.view.GuiUtil;
 
 import javax.swing.BoxLayout;
@@ -45,26 +46,24 @@ public class StockPanel extends JPanel {
 
     private JPanel createTopPanel(BufferedImage bi, String symbol, String name, String desc) {
         JPanel topPanel = new JPanel(new FlowLayout());
+        JPanel stockSymbolPanel = new JPanel(new FlowLayout());
         stockIcon = new JLabel();
         ImageIcon icon = new ImageIcon(bi);
         stockIcon.setIcon(icon);
-
-        stockIcon.setToolTipText(GuiUtil.createStockToolTipText(icon, name, desc));
-
-        JPanel stockSymbolPanel = new JPanel(new FlowLayout());
         stockSymbol = new JLabel(symbol);
         stockSymbol.setFont(new Font("serif", Font.BOLD, 14));
 
         stockPercentage = new JLabel("0.00%");        
         stockPercentage.setForeground(Color.RED);
 
+        stockSymbolPanel.add(stockIcon);
         stockSymbolPanel.add(stockSymbol);
-        stockSymbolPanel.add(stockPercentage);
+        stockSymbolPanel.setToolTipText(GuiUtil.createStockToolTipText(name, desc));
 
         hideButton = new JButton("Hide");
         
-        topPanel.add(stockIcon);
         topPanel.add(stockSymbolPanel);
+        topPanel.add(stockPercentage);
         topPanel.add(hideButton);
         return topPanel;
     }

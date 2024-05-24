@@ -5,11 +5,13 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class JsonLoader {
 
-    public static void loadStockData(String path) {
+    public static ArrayList<ArrayList<String>> loadStockData(String path) {
+        ArrayList<ArrayList<String>> stockData = new ArrayList<>();
 
         InputStream inputStream = JsonLoader.class.getResourceAsStream(path);
         Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
@@ -17,22 +19,19 @@ public class JsonLoader {
         JSONArray jsonArray = new JSONArray(jsonText);
 
         for (int i = 0; i < jsonArray.length(); i++) {
+            ArrayList<String> data = new ArrayList<>();
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            int id = jsonObject.getInt("id");
-            String name = jsonObject.getString("name");
-            String symbol = jsonObject.getString("symbol");
-            String desc = jsonObject.getString("description");
-            String iconPath = jsonObject.getString("iconPath");
-
-            System.out.println("Id: " + id);
-            System.out.println("Name: " + name);
-            System.out.println("Symbol: " + symbol);
-            System.out.println("Description: " + desc);
-            System.out.println("Icon Path: " + iconPath);
+            data.add(String.valueOf(jsonObject.getInt("id")));
+            data.add(jsonObject.getString("name"));
+            data.add(jsonObject.getString("symbol"));
+            data.add(jsonObject.getString("description"));
+            data.add(jsonObject.getString("iconPath"));
+            stockData.add(data);
         }
 
         scanner.close();
+        return stockData;
     }
     
 }

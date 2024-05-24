@@ -21,6 +21,21 @@ import javax.imageio.ImageIO;
 public class ImageLoader {
 
     private static HashMap<String, BufferedImage> loadedImages = new HashMap<>();
+    private static HashMap<String, String> loadedImagePaths = new HashMap<>();
+
+
+    /**
+     * Function that returns a loaded images path. 
+     * @param imageName The name of the image.
+     * @return The path to the specified image.
+     */
+    public static String getImagePath(String imageName) {
+        if(!loadedImagePaths.containsKey(imageName)) {
+            return "IMAGE_NOT_FOUND";
+        }
+
+        return loadedImagePaths.get(imageName);
+    }
 
     public static BufferedImage loadImage(String path) {
         if (loadedImages.containsKey(path)) {
@@ -30,7 +45,10 @@ public class ImageLoader {
             InputStream inputStream = ImageLoader.class.getResourceAsStream(path);
             if (inputStream != null) {
                 BufferedImage bi = ImageIO.read(inputStream);
+
                 loadedImages.put(path, bi);
+                int lastSeparatorIndex = path.lastIndexOf('/');
+                loadedImagePaths.put(path.substring(lastSeparatorIndex + 1), path);
                 return bi;
             } else {
                 System.err.println("[ImageLoader] Error: Image not found: " + path);
@@ -84,6 +102,8 @@ public class ImageLoader {
             for(String p : imagePaths) {
                 if(loadedImages.containsKey(p)) {
                     images.add(loadedImages.get(p));
+                    int lastSeparatorIndex = p.lastIndexOf('/');
+                    loadedImagePaths.put(p.substring(lastSeparatorIndex + 1), p);
                 } else {
                     inputStream = ImageLoader.class.getResourceAsStream(p.toString());
                     BufferedImage bi = ImageIO.read(inputStream);
