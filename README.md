@@ -41,7 +41,7 @@ This section contains the most recent updates and changes that is implemented in
 - **Stock Market:** Fixed issue with the stock increase/decrease percentage displaying wrong values.
 
 ##### Images
-fdsafdas pgjearwopiåtgj aeriopjgeaölkdasölk
+
 ### TODO
 
 - **Stock Market:** Take a look at the stock modes, they maybe should have percentages such that they switch to the *right* mode. For example, *Fast Climb* have a *3%* chance to switch to *Fast Fall*.
