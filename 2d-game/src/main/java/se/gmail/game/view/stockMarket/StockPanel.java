@@ -17,7 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class StockPanel extends JPanel {
-
     boolean expanded = true;
 
     JPanel centerPanel;
@@ -68,9 +67,6 @@ public class StockPanel extends JPanel {
         stockSymbolPanel.setBackground(Color.LIGHT_GRAY);
 
         hideButton = new JButton("Hide");
-        hideButton.addActionListener(e -> {
-            toggleHideAction();
-        });
         
         topPanel.add(stockSymbolPanel);
         topPanel.add(stockPercentage);
@@ -163,5 +159,13 @@ public class StockPanel extends JPanel {
         } else {
             this.hideButton.setText("Expand");
         }
+    }
+
+    public JButton getHideButton() {
+        return this.hideButton;
+    }
+
+    public boolean getExpanded() {
+        return this.expanded;
     }
 }

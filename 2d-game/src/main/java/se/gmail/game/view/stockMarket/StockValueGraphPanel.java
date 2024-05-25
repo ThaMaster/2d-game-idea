@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import javax.swing.JPanel;
 
 public class StockValueGraphPanel extends JPanel {
@@ -21,10 +21,12 @@ public class StockValueGraphPanel extends JPanel {
     private final int screenWidth = tileSize * maxScreenCol;
     private final int screenHeight = tileSize * maxScreenRow;
 
-    private ArrayList<Double> stockValues = new ArrayList<>();
-    private BufferedImage stockIcon;
+    private ArrayList<Integer> stockIds = new ArrayList<>();
+    private HashMap<Integer, Boolean> stockVisible = new HashMap<>();
+    private HashMap<Integer, ArrayList<Double>> stockValues = new HashMap<>();
+    private HashMap<Integer, BufferedImage> stockIcons = new HashMap<>();
 
-    int viewInterval = 10;
+    int viewInterval = 50;
 
     public StockValueGraphPanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -33,18 +35,25 @@ public class StockValueGraphPanel extends JPanel {
         this.setFocusable(true);
     }
 
-    public void addStockValue(double value) {
-        this.stockValues.add(value);
+    public void addNewStock(int stockId, BufferedImage stockIcon, ArrayList<Double> values) {
+        stockIds.add(stockId);
+        stockValues.put(stockId, values);
+        stockIcons.put(stockId, stockIcon);
     }
 
-    public void addStockValues(ArrayList<Double> values, BufferedImage stockIcon) {
-        stockValues.addAll(values);
-        this.stockIcon = stockIcon;
+    public void updateStockValues(int stockId, ArrayList<Double> values) {
+        stockValues.put(stockId, values);
     }
 
-    public void paintComponent(Graphics g) {
+    public void removeStock(int stockId) {
+        stockIds.remove(stockId);
+        stockValues.remove(stockId);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+
         // Cast to Graphics2D for better control
         Graphics2D g2 = (Graphics2D) g;
 
@@ -56,14 +65,28 @@ public class StockValueGraphPanel extends JPanel {
         int height = getHeight();
 
         // Determine the horizontal spacing between data points
-        int maxDataPoints = stockValues.size();
-        int xSpacing = width / (maxDataPoints - 1);
+        if (stockValues.size() == 0 || stockIds.size() == 0) {
+            return;
+        }
 
-        // Find the maximum value in the data set to scale the graph
+        ArrayList<Double> stockData = stockValues.get(stockIds.get(0));
+        BufferedImage stockIcon = stockIcons.get(stockIds.get(0));
+
+        int maxDataPoints = stockData.size();
+
+        // Calculate xSpacing to use floating-point division
+        double xSpacing = (viewInterval > 1) ? (double) width / (viewInterval - 1) : width;
+
+        // Find the maximum and minimum values in the recent data set to scale the graph
         double maxValue = Double.MIN_VALUE;
-        for (double value : stockValues) {
+        double minValue = Double.MAX_VALUE;
+        for (int i = 0; i < maxDataPoints; i++) {
+            double value = stockData.get(i);
             if (value > maxValue) {
                 maxValue = value;
+            }
+            if (value < minValue) {
+                minValue = value;
             }
         }
 
@@ -73,10 +96,10 @@ public class StockValueGraphPanel extends JPanel {
 
         // Draw vertical grid lines at each data point x position
         g2.setColor(Color.GRAY);
-        for (int i = 0; i < maxDataPoints; i += 5) {
-            int x = i * xSpacing;
+        for (int i = 0; i < viewInterval; i+=viewInterval/10) {
+            int x = (int) (i * xSpacing);
             g2.drawLine(x, 0, x, height);
-            g2.drawString(String.valueOf(i), x - 5, height - 5);  // Label the x positions
+            g2.drawString(String.valueOf(viewInterval - i), x - 20, height - 5);
         }
 
         // Draw horizontal grid lines at even intervals and label them
@@ -84,37 +107,37 @@ public class StockValueGraphPanel extends JPanel {
         for (int i = 0; i <= numHorizontalLines; i++) {
             int y = height - (i * height / numHorizontalLines);
             g2.drawLine(0, y, width, y);
-            String label = String.format("%.2f", maxValue * i / numHorizontalLines);
-            g2.drawString(label, 5, y - 5);  // Adjust label position as needed
+            String label = String.format("%.2f", minValue + (maxValue - minValue) * i / numHorizontalLines);
+            g2.drawString(label, 5, y - 5); // Adjust label position as needed
         }
 
         // Draw the line graph
-        for (int i = 0; i < maxDataPoints - 1; i++) {
-            int x1 = i * xSpacing;
-            int y1 = (int) (height - (stockValues.get(i) * height / maxValue));
-            int x2 = (i + 1) * xSpacing;
-            int y2 = (int) (height - (stockValues.get(i + 1) * height / maxValue));
+        for (int i = 0; i < Math.min(viewInterval - 1, maxDataPoints  - 1); i++) {
+            int x1 = (int) (i * xSpacing);
+            int y1 = (int) (height - ((stockData.get(i) - minValue) * height / (maxValue - minValue)));
+            int x2 = (int) ((i + 1) * xSpacing);
+            int y2 = (int) (height - ((stockData.get(i + 1) - minValue) * height / (maxValue - minValue)));
 
             // Calculate the slope between the two points
-            double slope = (stockValues.get(i + 1) - stockValues.get(i)) / xSpacing;
+            double slope = (stockData.get(i + 1) - stockData.get(i)) / xSpacing;
 
             // Determine the color of the line based on the slope
             if (slope > slopeThresholdUp) {
-                g2.setColor(Color.GREEN);  // Line going up
+                g2.setColor(Color.GREEN); // Line going up
             } else if (slope < slopeThresholdDown) {
-                g2.setColor(Color.RED);  // Line going down
+                g2.setColor(Color.RED); // Line going down
             } else {
-                g2.setColor(Color.YELLOW);  // Line stable
+                g2.setColor(Color.YELLOW); // Line stable
             }
 
             g2.drawLine(x1, y1, x2, y2);
 
             // Draw the image at the end of the curve
-            if (i == maxDataPoints - 2 && stockIcon != null) {
+            if (i == viewInterval - 2 && stockIcon != null) {
                 int imageWidth = stockIcon.getWidth();
                 int imageHeight = stockIcon.getHeight();
-                int xImage = (x1 - imageWidth / 2);
-                int yImage = (y1 + y2) / 2 - imageHeight / 2;
+                int xImage = (int) ((x1 + x2) / 2 - imageWidth / 2);
+                int yImage = (int) ((y1 + y2) / 2 - imageHeight / 2);
                 g2.drawImage(stockIcon, xImage, yImage, null);
             }
         }
@@ -142,5 +165,11 @@ public class StockValueGraphPanel extends JPanel {
 
     public void setViewInterval(int interval) {
         this.viewInterval = interval;
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void setStockVisible(int stockId, boolean bool) {
+        stockVisible.put(stockId, bool);
     }
 }

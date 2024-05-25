@@ -2,12 +2,13 @@ package se.gmail.game.view.stockMarket;
 
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.RepaintManager;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 
 import se.gmail.game.model.systems.stockMarket.Stock;
 
@@ -16,6 +17,10 @@ public class StockMarketWindow extends JFrame {
     StockMarketTopPanel smTopPanel;
     StockMarketEastPanel smEastPanel;
     StockValueGraphPanel svGraphPanel;
+
+    JCheckBoxMenuItem scalingOption1;
+    JCheckBoxMenuItem scalingOption2;
+    JCheckBoxMenuItem scalingOption3;
 
     public StockMarketWindow(String marketName) {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -41,21 +46,60 @@ public class StockMarketWindow extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu stockMenu = new JMenu("Stock Options");
         JMenu graphMenu = new JMenu("Graph Options");
+        JMenu scalingMenu = new JMenu("Scaling Options");
+
+        this.scalingOption1 = new JCheckBoxMenuItem("10x");
+        this.scalingOption2 = new JCheckBoxMenuItem("50x");
+        this.scalingOption2.setSelected(true);
+        this.scalingOption3 = new JCheckBoxMenuItem("100x");
+        
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(scalingOption1);
+        bg.add(scalingOption2);
+        bg.add(scalingOption3);
+
+        scalingMenu.add(scalingOption1);
+        scalingMenu.add(scalingOption2);
+        scalingMenu.add(scalingOption3);
+
+        graphMenu.add(scalingMenu);
         menuBar.add(stockMenu);
         menuBar.add(graphMenu);
         return menuBar;
     }
 
-    public void addStockValueHistory(ArrayList<Double> values, BufferedImage stockIcon) {
-        svGraphPanel.addStockValues(values, stockIcon);
-        svGraphPanel.repaint();
-    }
-
-    public void addStockPanel(StockPanel sp) {
+    public void addStock(Stock s, BufferedImage stockIcon) {
+        StockPanel sp = new StockPanel(stockIcon, s.getName(), s.getSymbol(), s.getDescription());
+        sp.getHideButton().addActionListener(e -> {
+            sp.toggleHideAction();
+            svGraphPanel.setStockVisible(s.getId(), sp.getExpanded());
+        });
         smEastPanel.addStockPanel(sp);
+        svGraphPanel.addNewStock(s.getId(), stockIcon, s.getValueHistory());
     }
 
     public void updateStock(Stock s, int amount) {
         smEastPanel.updateStock(s, amount);
+        svGraphPanel.updateStockValues(s.getId(), s.getValueHistory());
+    }
+
+    public void removeStock(int stockId) {
+        svGraphPanel.removeStock(stockId);
+    }
+
+    public void updateGraphInterval(int newInterval) {
+        this.svGraphPanel.setViewInterval(newInterval);
+    }
+
+    public JCheckBoxMenuItem getScalingOption1Item() {
+        return this.scalingOption1;
+    }
+
+    public JCheckBoxMenuItem getScalingOption2Item() {
+        return this.scalingOption2;
+    }
+
+    public JCheckBoxMenuItem getScalingOption3Item() {
+        return this.scalingOption3;
     }
 }
