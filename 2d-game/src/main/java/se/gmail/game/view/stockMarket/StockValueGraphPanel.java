@@ -21,11 +21,10 @@ public class StockValueGraphPanel extends JPanel {
     private final int screenWidth = tileSize * maxScreenCol;
     private final int screenHeight = tileSize * maxScreenRow;
 
-    private ArrayList<Double> stockValues;
+    private ArrayList<Double> stockValues = new ArrayList<>();
     private BufferedImage stockIcon;
 
     public StockValueGraphPanel() {
-        stockValues = new ArrayList<>();
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);

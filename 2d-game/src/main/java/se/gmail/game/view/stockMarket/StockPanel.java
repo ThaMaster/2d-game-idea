@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
-import se.gmail.game.util.ImageLoader;
 import se.gmail.game.view.GuiUtil;
 
 import javax.swing.BoxLayout;
@@ -27,18 +27,15 @@ public class StockPanel extends JPanel {
     JLabel stockAmount;
 
     JLabel buyLabel;
-    ArrayList<JButton> buyButtons;
+    ArrayList<JButton> buyButtons = new ArrayList<>();
 
     JLabel sellLabel;
-    ArrayList<JButton> sellButtons;
+    ArrayList<JButton> sellButtons = new ArrayList<>();
 
     JButton hideButton;
 
     public StockPanel(BufferedImage icon, String name, String symbol, String desc) {
         this.setLayout(new BorderLayout());
-        buyButtons = new ArrayList<>();
-        sellButtons = new ArrayList<>();
-
         this.add(createTopPanel(icon, symbol, name, desc), BorderLayout.NORTH);
         this.add(createCenterPanel(), BorderLayout.CENTER);
         this.add(createSouthPanel(), BorderLayout.SOUTH);

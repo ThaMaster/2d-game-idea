@@ -33,6 +33,10 @@ public class StockMarket {
         globalProbability = 0;
     }
 
+    public int getLevel() {
+        return this.level;
+    }
+
     public void addStock(Stock s) {
         s.setCurrentStockMode(stockModes.get(0));
         stocks.add(s);

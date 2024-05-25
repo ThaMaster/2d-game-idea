@@ -13,9 +13,9 @@ public class Stock {
     private String description;
 
     private double value;
-    private ArrayList<Double> valueHistory;
-    private double restingValue;
-    private double delta;
+    private ArrayList<Double> valueHistory = new ArrayList<>();
+    private double restingValue = 0.0;
+    private double delta = 1.0;
 
     private StockMode currentSM;
     private int stockModeDuration;
@@ -23,16 +23,14 @@ public class Stock {
 
     private int marketCap;
 
-    public Stock(int id, String name, String symbol, String desc) {
-        this.value = 1.0;
-        this.percentage = 0.0;
-        valueHistory = new ArrayList<>();
-        valueHistory.add(value);
+    public Stock(int bankLevel, int id, String name, String symbol, String desc) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
         this.description = desc;
-        this.delta = 1;
+        setRestingValue(bankLevel);
+        this.value = restingValue + (Util.randomDouble(restingValue - 5, restingValue + 5));
+        valueHistory.add(value);
     }
 
     public ArrayList<Double> getValueHistory() {
@@ -147,7 +145,7 @@ public class Stock {
                 delta *= 0.95;
             }
         }
-        percentage = ((value / prevValue) - 1) * 100;
+        percentage = ((value / prevValue) - 1);
         valueHistory.add(value);
     }
 
