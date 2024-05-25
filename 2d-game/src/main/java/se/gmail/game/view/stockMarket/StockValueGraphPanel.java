@@ -37,6 +37,7 @@ public class StockValueGraphPanel extends JPanel {
 
     public void addNewStock(int stockId, BufferedImage stockIcon, ArrayList<Double> values) {
         stockIds.add(stockId);
+        stockVisible.put(stockId, true);
         stockValues.put(stockId, values);
         stockIcons.put(stockId, stockIcon);
     }
@@ -69,10 +70,8 @@ public class StockValueGraphPanel extends JPanel {
             return;
         }
 
-        ArrayList<Double> stockData = stockValues.get(stockIds.get(0));
-        BufferedImage stockIcon = stockIcons.get(stockIds.get(0));
 
-        int maxDataPoints = stockData.size();
+        int maxDataPoints = stockValues.get(stockIds.get(0)).size();
 
         // Calculate xSpacing to use floating-point division
         double xSpacing = (viewInterval > 1) ? (double) width / (viewInterval - 1) : width;
@@ -80,14 +79,25 @@ public class StockValueGraphPanel extends JPanel {
         // Find the maximum and minimum values in the recent data set to scale the graph
         double maxValue = Double.MIN_VALUE;
         double minValue = Double.MAX_VALUE;
-        for (int i = 0; i < maxDataPoints; i++) {
-            double value = stockData.get(i);
-            if (value > maxValue) {
-                maxValue = value;
+        for(int stockId : stockIds) {
+            if(!stockVisible.get(stockId)) {
+                continue;
             }
-            if (value < minValue) {
-                minValue = value;
+            ArrayList<Double> stockData = stockValues.get(stockId);
+            for (int i = 0; i < viewInterval; i++) {
+                if(((stockData.size()-1) - viewInterval) + i >= 0) {
+                    double value = stockData.get(((stockData.size()-1) - viewInterval) + i);
+                    if (value > maxValue) {
+                        maxValue = value;
+                    }
+                    if (value < minValue) {
+                        minValue = value;
+                    }
+                }
             }
+        }
+        if(maxValue == Double.MIN_VALUE && minValue == Double.MAX_VALUE) {
+            return;
         }
 
         // Define slope thresholds
@@ -111,34 +121,48 @@ public class StockValueGraphPanel extends JPanel {
             g2.drawString(label, 5, y - 5); // Adjust label position as needed
         }
 
+        int x1;
+        int y1;
+        int x2;
+        int y2;
+
         // Draw the line graph
-        for (int i = 0; i < Math.min(viewInterval - 1, maxDataPoints  - 1); i++) {
-            int x1 = (int) (i * xSpacing);
-            int y1 = (int) (height - ((stockData.get(i) - minValue) * height / (maxValue - minValue)));
-            int x2 = (int) ((i + 1) * xSpacing);
-            int y2 = (int) (height - ((stockData.get(i + 1) - minValue) * height / (maxValue - minValue)));
+        int dataPoints = Math.min(viewInterval, maxDataPoints-1);
+        for (int i = 0; i < dataPoints; i++) {
+            for(int stockId : stockIds) {
+                if(!stockVisible.get(stockId)) {
+                    continue;
+                }
+                ArrayList<Double> stockData = stockValues.get(stockId);
+                x1 = (int) (i * xSpacing);
+                y1 = (int) (height - ((stockData.get(((stockData.size()-1) - dataPoints) + i) - minValue) * height / (maxValue - minValue)));
+                x2 = (int) ((i + 1) * xSpacing);
+                y2 = (int) (height - ((stockData.get(((stockData.size()-1) - dataPoints) + i + 1) - minValue) * height / (maxValue - minValue)));
 
-            // Calculate the slope between the two points
-            double slope = (stockData.get(i + 1) - stockData.get(i)) / xSpacing;
 
-            // Determine the color of the line based on the slope
-            if (slope > slopeThresholdUp) {
-                g2.setColor(Color.GREEN); // Line going up
-            } else if (slope < slopeThresholdDown) {
-                g2.setColor(Color.RED); // Line going down
-            } else {
-                g2.setColor(Color.YELLOW); // Line stable
-            }
+                // Calculate the slope between the two points
+                double slope = (stockData.get(((stockData.size()-1) - dataPoints) + i + 1) - stockData.get(((stockData.size()-1) - dataPoints) + i)) / xSpacing;
 
-            g2.drawLine(x1, y1, x2, y2);
+                // Determine the color of the line based on the slope
+                if (slope > slopeThresholdUp) {
+                    g2.setColor(Color.GREEN); // Line going up
+                } else if (slope < slopeThresholdDown) {
+                    g2.setColor(Color.RED); // Line going down
+                } else {
+                    g2.setColor(Color.YELLOW); // Line stable
+                }
 
-            // Draw the image at the end of the curve
-            if (i == viewInterval - 2 && stockIcon != null) {
-                int imageWidth = stockIcon.getWidth();
-                int imageHeight = stockIcon.getHeight();
-                int xImage = (int) ((x1 + x2) / 2 - imageWidth / 2);
-                int yImage = (int) ((y1 + y2) / 2 - imageHeight / 2);
-                g2.drawImage(stockIcon, xImage, yImage, null);
+                g2.drawLine(x1, y1, x2, y2);
+            
+                // Draw the image at the end of the curve
+                if (i == Math.min(viewInterval - 2, maxDataPoints - 2)) {
+                    BufferedImage stockIcon = stockIcons.get(stockId);
+                    int imageWidth = stockIcon.getWidth();
+                    int imageHeight = stockIcon.getHeight();
+                    int xImage = (int) ((x1 + x2) / 2 - imageWidth / 2);
+                    int yImage = (int) ((y1 + y2) / 2 - imageHeight / 2);
+                    g2.drawImage(stockIcon, xImage, yImage, null);
+                }
             }
         }
     }
@@ -171,5 +195,7 @@ public class StockValueGraphPanel extends JPanel {
 
     public void setStockVisible(int stockId, boolean bool) {
         stockVisible.put(stockId, bool);
+        this.revalidate();
+        this.repaint();
     }
 }

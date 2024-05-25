@@ -50,6 +50,7 @@ public class StockMarket {
 
     public void addStock(Stock s) {
         s.setCurrentStockMode(stockModes.get(0));
+        s.setMarketCap(level);
         stocks.add(s);
     }
 

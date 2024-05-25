@@ -70,11 +70,11 @@ public class StockMarketWindow extends JFrame {
 
     public void addStock(Stock s, BufferedImage stockIcon) {
         StockPanel sp = new StockPanel(stockIcon, s.getName(), s.getSymbol(), s.getDescription());
+        smEastPanel.addStockPanel(sp);
         sp.getHideButton().addActionListener(e -> {
             sp.toggleHideAction();
             svGraphPanel.setStockVisible(s.getId(), sp.getExpanded());
         });
-        smEastPanel.addStockPanel(sp);
         svGraphPanel.addNewStock(s.getId(), stockIcon, s.getValueHistory());
     }
 

@@ -82,7 +82,7 @@ public class StockPanel extends JPanel {
         JLabel valText = new JLabel("value:");
         stockValue = new JLabel("$00.00");
         stockValue.setFont(new Font("serif", Font.BOLD, 14));
-        stockValue.setForeground(Color.WHITE);
+        stockValue.setForeground(Color.BLUE);
         valuePanel.add(valText);
         valuePanel.add(stockValue);
 

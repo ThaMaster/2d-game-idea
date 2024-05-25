@@ -18,12 +18,17 @@ public class GameController {
         // window.getGamePanel().addKeyListener(keyHandler);
         // this.updateHandler = new UpdateHandler(keyHandler, window);
         // updateHandler.startGameThread();
-        StockMarket sm = new StockMarket("Stockholm");        
+        StockMarket sm = new StockMarket("Town of the Hoobaglooba");        
         ArrayList<ArrayList<String>> stockData = JsonLoader.loadStockData("/stockMarket/stocks/data/stockData.json");
+        ArrayList<String> iron = stockData.get(4);
+        Stock s1 = new Stock(sm.getLevel(), Integer.parseInt(iron.get(0)), iron.get(1), iron.get(2), iron.get(3));
+        ArrayList<String> gold = stockData.get(6);
+        Stock s2 = new Stock(sm.getLevel(), Integer.parseInt(gold.get(0)), gold.get(1), gold.get(2), gold.get(3));
         ArrayList<String> diamond = stockData.get(9);
-        Stock s1 = new Stock(sm.getLevel(), Integer.parseInt(diamond.get(0)), diamond.get(1), diamond.get(2), diamond.get(3));
-        s1.setMarketCap(1);
+        Stock s3 = new Stock(sm.getLevel(), Integer.parseInt(diamond.get(0)), diamond.get(1), diamond.get(2), diamond.get(3));
         sm.addStock(s1);
+        sm.addStock(s2);
+        sm.addStock(s3);
         for(int i = 0; i < 50; i++) {
             sm.performTick();
         }
@@ -32,6 +37,10 @@ public class GameController {
         setStockMarketListeners();
         smWindow.addStock(s1, ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"));
         smWindow.updateStock(s1, 5);
+        smWindow.addStock(s2, ImageLoader.loadImage("/stockMarket/stocks/icons/gold.png"));
+        smWindow.updateStock(s2, 5);
+        smWindow.addStock(s3, ImageLoader.loadImage("/stockMarket/stocks/icons/iron.png"));
+        smWindow.updateStock(s3, 5);
     }
 
     private void setStockMarketListeners() {

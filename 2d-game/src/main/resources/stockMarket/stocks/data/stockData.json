@@ -31,7 +31,7 @@
         "id": 4,
         "name": "Iron",
         "symbol": "IRN",
-        "description": "",
+        "description": "Iron, the humble backbone of industry, the sturdy staple of construction. It's like the dependable friend who's always there when you need them, never seeking the spotlight but always holding things together with unwavering reliability. Iron: the unsung hero of the elements, proving that strength doesn't always need to shout to be heard.",
         "iconPath": ""
     },    
     {
@@ -45,7 +45,7 @@
         "id": 6,
         "name": "Gold",
         "symbol": "GLD",
-        "description": "",
+        "description": "Gold, the rockstar of elements, the VIP of the periodic table, the Kanye West of chemistry. It's like the Midas touch in solid form, turning everything it touches into pure fabulousness. With a shine so bright, it could blind a magpie, gold is the original bling-bling, the OG of ostentatiousness. It's like the James Bond of metals, smooth, suave, and always in high demand. So valuable, it's practically the Kim Kardashian of the periodic table - everyone wants a piece of it!",
         "iconPath": ""
     },
     {

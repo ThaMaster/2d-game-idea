@@ -22,13 +22,14 @@ public class StockMarketEastPanel extends JPanel {
     ArrayList<StockPanel> stockPanels;
     
     public StockMarketEastPanel() {
-        this.setLayout(new BorderLayout());
         stockPanels = new ArrayList<>();
         eastPanel = new JPanel();
+        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));   
+        eastPanel.setBackground(Color.BLACK);    
         scroll = new JScrollPane(eastPanel);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));       
+        scroll.setBackground(Color.BLACK);
         this.add(scroll, BorderLayout.CENTER); 
         this.setBackground(Color.BLACK);
     }
@@ -49,7 +50,7 @@ public class StockMarketEastPanel extends JPanel {
         for(StockPanel sp : stockPanels) {
             if(sp.getSymbol().equals(updateSymbol)) {
                 sp.setStockValue(s.getValue(), s.getPercentage());
-                sp.setStockOwnage(ALLBITS, ABORT);
+                sp.setStockOwnage(ALLBITS, amount);
             }
         }
     }
