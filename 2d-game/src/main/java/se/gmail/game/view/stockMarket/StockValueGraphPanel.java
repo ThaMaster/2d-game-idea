@@ -24,6 +24,8 @@ public class StockValueGraphPanel extends JPanel {
     private ArrayList<Double> stockValues = new ArrayList<>();
     private BufferedImage stockIcon;
 
+    int viewInterval = 10;
+
     public StockValueGraphPanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -107,11 +109,11 @@ public class StockValueGraphPanel extends JPanel {
 
             g2.drawLine(x1, y1, x2, y2);
 
-            // Draw the image at the start of the curve
-            if (i == 0 && stockIcon != null) {
+            // Draw the image at the end of the curve
+            if (i == maxDataPoints - 2 && stockIcon != null) {
                 int imageWidth = stockIcon.getWidth();
                 int imageHeight = stockIcon.getHeight();
-                int xImage = (x1 - imageWidth / 2) + 10;
+                int xImage = (x1 - imageWidth / 2);
                 int yImage = (y1 + y2) / 2 - imageHeight / 2;
                 g2.drawImage(stockIcon, xImage, yImage, null);
             }
@@ -136,5 +138,9 @@ public class StockValueGraphPanel extends JPanel {
 
     public int getMaxScreenHeight() {
         return this.screenHeight;
+    }
+
+    public void setViewInterval(int interval) {
+        this.viewInterval = interval;
     }
 }

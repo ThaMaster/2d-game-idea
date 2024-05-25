@@ -32,22 +32,7 @@ public class StockMarket {
         globalProbability = 0;
     }
 
-    public int getLevel() {
-        return this.level;
-    }
-
-    public void addStock(Stock s) {
-        s.setCurrentStockMode(stockModes.get(0));
-        stocks.add(s);
-    }
-
-    public void removeStock(Stock s) {
-        stocks.remove(s);
-    }
-
-    public Stock getStock(Stock s) {
-        return stocks.get(stocks.indexOf(s));
-    }
+    
 
     public void performTick() {
         boolean globalSpike = false;
@@ -62,8 +47,25 @@ public class StockMarket {
                 s.setCurrentStockMode(selectNextStockMode(s));
             }
             s.performTick(bankCeiling, globalSpike, globalDelta, globalProbability);
-            System.out.println(s.getCurrentStockMode().getModeName());
         }
+    }
+
+    public void addStock(Stock s) {
+        s.setCurrentStockMode(stockModes.get(0));
+        stocks.add(s);
+    }
+
+    public void removeStock(Stock s) {
+        stocks.remove(s);
+    }
+
+    public Stock getStock(int stockId) {
+        for (Stock s : stocks) {
+            if(s.getId() == stockId) {
+                return s;
+            }
+        }
+        return null;
     }
 
     private void initStockModes() {
@@ -106,6 +108,10 @@ public class StockMarket {
         }
     }
 
+    public int getLevel() {
+        return this.level;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -125,5 +131,14 @@ public class StockMarket {
             currentValues.add(s.getValue());            
         }
         return currentValues;
+    }
+
+    public double buyStocks(double money, int stockId, int amount) {
+        double stockCost = getStock(stockId).getValue();
+        if(money >= stockCost * amount) {
+
+        }
+
+        return money;
     }
 }
