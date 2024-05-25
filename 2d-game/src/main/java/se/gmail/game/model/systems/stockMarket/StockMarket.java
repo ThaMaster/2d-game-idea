@@ -32,8 +32,6 @@ public class StockMarket {
         globalProbability = 0;
     }
 
-    
-
     public void performTick() {
         boolean globalSpike = false;
         if(Util.probabilityCheck(globalSpikeChance)) {
