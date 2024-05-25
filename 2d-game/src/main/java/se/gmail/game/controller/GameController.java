@@ -27,24 +27,10 @@ public class GameController {
         Stock s1 = new Stock(sm.getLevel(), Integer.parseInt(diamond.get(0)), diamond.get(1), diamond.get(2), diamond.get(3));
         s1.setMarketCap(1);
         StockPanel sp1 = new StockPanel(ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"), s1.getName(), s1.getSymbol(), s1.getDescription());
-        StockPanel sp2 = new StockPanel(ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"), s1.getName(), s1.getSymbol(), s1.getDescription());
-        StockPanel sp3 = new StockPanel(ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"), s1.getName(), s1.getSymbol(), s1.getDescription());
-        StockPanel sp4 = new StockPanel(ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"), s1.getName(), s1.getSymbol(), s1.getDescription());
-        StockPanel sp5 = new StockPanel(ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"), s1.getName(), s1.getSymbol(), s1.getDescription());
-        StockPanel sp6 = new StockPanel(ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"), s1.getName(), s1.getSymbol(), s1.getDescription());
-        StockPanel sp7 = new StockPanel(ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"), s1.getName(), s1.getSymbol(), s1.getDescription());
-        StockPanel sp8 = new StockPanel(ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"), s1.getName(), s1.getSymbol(), s1.getDescription());
 
         sm.addStock(s1);
         smWindow.addStockPanel(sp1);
-        smWindow.addStockPanel(sp2);
-        smWindow.addStockPanel(sp3);
-        smWindow.addStockPanel(sp4);
-        smWindow.addStockPanel(sp5);
-        smWindow.addStockPanel(sp6);
-        smWindow.addStockPanel(sp7);
-        smWindow.addStockPanel(sp8);
-        for(int i = 0; i < 50; i++) {
+        for(int i = 0; i < 100; i++) {
             sm.performTick();
         }
         

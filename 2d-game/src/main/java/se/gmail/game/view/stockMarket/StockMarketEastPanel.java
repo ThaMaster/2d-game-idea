@@ -2,14 +2,14 @@ package se.gmail.game.view.stockMarket;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.EmptyBorder;
 
 import se.gmail.game.model.systems.stockMarket.Stock;
 
@@ -34,9 +34,12 @@ public class StockMarketEastPanel extends JPanel {
     }
 
     public void addStockPanel(StockPanel sp) {
-        sp.setBorder(new MatteBorder(5, 10, 5, 25, Color.GRAY));
         stockPanels.add(sp);
-        eastPanel.add(sp);
+        JPanel wrapperPanel = new JPanel(new FlowLayout());
+        wrapperPanel.add(sp);
+        wrapperPanel.setBackground(Color.BLACK);
+        wrapperPanel.setBorder(new EmptyBorder(2, 4, 2, 4));
+        eastPanel.add(wrapperPanel);
         eastPanel.revalidate();
         eastPanel.repaint();
     }
