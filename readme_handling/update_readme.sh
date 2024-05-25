@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Specify the folder containing Markdown files
-markdown_folder="logs"
+markdown_folder="./readme_handling/logs"
 
 # Find the newest Markdown files in the folder based on file names
 newest_files=$(ls -1 "$markdown_folder"/*.md | sort -r | head -n 1)
