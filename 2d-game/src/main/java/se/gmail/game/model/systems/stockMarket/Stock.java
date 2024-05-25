@@ -79,6 +79,7 @@ public class Stock {
      * that depend on RNG.
      */
     public void performTick(double bankCeiling, boolean globalSpike, double globalDelta, double globalProbability) {
+        this.stockModeDuration--;
         double prevValue = value;
         // Step 1
         delta *= 0.97;
@@ -145,7 +146,7 @@ public class Stock {
                 delta *= 0.95;
             }
         }
-        percentage = ((value / prevValue) - 1);
+        percentage = ((value / prevValue) - 1) * 100;
         valueHistory.add(value);
     }
 
@@ -163,6 +164,7 @@ public class Stock {
 
     public void setCurrentStockMode(StockMode sm) {
         this.currentSM = sm;
+        this.stockModeDuration = Util.randomInt(10, 700);
     }
 
     @Override

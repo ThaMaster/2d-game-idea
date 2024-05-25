@@ -13,6 +13,8 @@ public class UpdateHandler implements Runnable {
     int fps = 60;
     long targetTime = 1000 / fps;
 
+    int stockTicks = 0;
+
     KeyHandler keyHandler;
     Thread gameThread;
     MainFrame mainWindow;

@@ -15,12 +15,11 @@ public class StockMarket {
     private double globalDelta;
     private double globalProbability;
 
-    private ArrayList<Stock> stocks;
-    private ArrayList<StockMode> stockModes;
+    private ArrayList<Stock> stocks = new ArrayList<>();
+    private ArrayList<StockMode> stockModes = new ArrayList<>();
 
     public StockMarket(String name) {
         this.name = name;
-        this.stocks = new ArrayList<>();
         setDefaultMarketValues();
         initStockModes();
     }
@@ -59,17 +58,52 @@ public class StockMarket {
         } 
 
         for (Stock s : stocks) {
+            if(Util.probabilityCheck(0.1) || s.getStockModeDuration() <= 0) {
+                s.setCurrentStockMode(selectNextStockMode(s));
+            }
             s.performTick(bankCeiling, globalSpike, globalDelta, globalProbability);
+            System.out.println(s.getCurrentStockMode().getModeName());
         }
     }
 
     private void initStockModes() {
-        stockModes = new ArrayList<>();
         stockModes.add(new Stable());
         stockModes.add(new SlowClimb());
         stockModes.add(new SlowFall());
+        stockModes.add(new FastClimb());
         stockModes.add(new FastFall());
         stockModes.add(new Chaotic());
+    }
+
+    private StockMode selectNextStockMode(Stock s) {
+        double prob = Util.randomDouble(0, 1);
+        int mode = s.getCurrentStockMode().getId();
+
+        /**
+         * If the stockmode is either fast fall or fast rise there
+         * is a 70% chance that it turns Chaotic instead of choosing
+         * normally.
+         */ 
+        if((mode == 3 || mode == 4) && Util.probabilityCheck(0.7)) {
+            return stockModes.get(5);
+        }
+
+        /**
+         * Choose new stockmode normally.
+         */
+        if(prob < 0.125) {
+            return stockModes.get(0);
+        } else if(prob >= 0.125 && prob < 0.375) {
+            return stockModes.get(1);
+        } else if(prob >= 0.375 && prob < 0.625) {
+            return stockModes.get(2);
+        } else if(prob >= 0.625 && prob < 0.75) {
+            return stockModes.get(3);
+        } else if(prob >= 0.75 && prob < 0.875) {
+            return stockModes.get(4);
+        } else {
+            return stockModes.get(5);
+        }
     }
 
     public String getName() {

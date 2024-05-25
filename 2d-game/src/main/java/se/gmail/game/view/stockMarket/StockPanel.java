@@ -19,6 +19,11 @@ import javax.swing.JButton;
 
 public class StockPanel extends JPanel {
 
+    boolean expanded = true;
+
+    JPanel centerPanel;
+    JPanel southPanel;
+
     JLabel stockIcon;
     JLabel stockSymbol;
     JLabel stockPercentage;
@@ -36,9 +41,14 @@ public class StockPanel extends JPanel {
 
     public StockPanel(BufferedImage icon, String name, String symbol, String desc) {
         this.setLayout(new BorderLayout());
+
+        this.centerPanel = createCenterPanel();
+        this.centerPanel.setBackground(Color.GRAY);
+        this.southPanel = createSouthPanel();
+        this.southPanel.setBackground(Color.GRAY);
         this.add(createTopPanel(icon, symbol, name, desc), BorderLayout.NORTH);
-        this.add(createCenterPanel(), BorderLayout.CENTER);
-        this.add(createSouthPanel(), BorderLayout.SOUTH);
+        this.add(centerPanel, BorderLayout.CENTER);
+        this.add(southPanel, BorderLayout.SOUTH);
     }
 
     private JPanel createTopPanel(BufferedImage bi, String symbol, String name, String desc) {
@@ -56,12 +66,17 @@ public class StockPanel extends JPanel {
         stockSymbolPanel.add(stockIcon);
         stockSymbolPanel.add(stockSymbol);
         stockSymbolPanel.setToolTipText(GuiUtil.createStockToolTipText(name, desc));
+        stockSymbolPanel.setBackground(Color.LIGHT_GRAY);
 
         hideButton = new JButton("Hide");
+        hideButton.addActionListener(e -> {
+            toggleHideAction();
+        });
         
         topPanel.add(stockSymbolPanel);
         topPanel.add(stockPercentage);
         topPanel.add(hideButton);
+        topPanel.setBackground(Color.LIGHT_GRAY);
         return topPanel;
     }
 
@@ -88,8 +103,8 @@ public class StockPanel extends JPanel {
     }
 
     private JPanel createSouthPanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
         createStockButtons();
         
         JPanel buyPanel = new JPanel(new FlowLayout());
@@ -106,9 +121,9 @@ public class StockPanel extends JPanel {
             sellPanel.add(b);
         }
 
-        buttonPanel.add(buyPanel);
-        buttonPanel.add(sellPanel);
-        return buttonPanel;
+        southPanel.add(buyPanel);
+        southPanel.add(sellPanel);
+        return southPanel;
     }
 
     private void createStockButtons() {
@@ -124,7 +139,7 @@ public class StockPanel extends JPanel {
 
     public void setStockValue(double stockValue, double percentage) {
         this.stockValue.setText("$" + String.format("%.02f", stockValue));
-        this.stockPercentage.setText(String.format("%.02f", stockValue) + "%");
+        this.stockPercentage.setText(String.format("%.02f", percentage) + "%");
         if(percentage > 0) {
             this.stockPercentage.setForeground(Color.GREEN);
         } else {
@@ -138,5 +153,16 @@ public class StockPanel extends JPanel {
 
     public String getSymbol() {
         return stockSymbol.getText();
+    }
+
+    public void toggleHideAction() {
+        this.expanded = !expanded;
+        this.centerPanel.setVisible(expanded);
+        this.southPanel.setVisible(expanded);
+        if(expanded) {
+            this.hideButton.setText("Hide");
+        } else {
+            this.hideButton.setText("Expand");
+        }
     }
 }
