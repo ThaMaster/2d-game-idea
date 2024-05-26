@@ -1,14 +1,13 @@
 package se.gmail.game.view;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.RepaintManager;
 
 public class MainFrame extends JFrame {
 
     private GamePanel gamePanel;
     
-    public MainFrame(JPanel contentPanel) {
+    public MainFrame() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setTitle("2D-Game");

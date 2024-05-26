@@ -20,7 +20,7 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if(keyToggleMap.containsKey(e.getKeyCode())) {
-            boolean keyStatus = !keyToggleMap.get(e.getKeyCode());
+            boolean keyStatus = keyToggleMap.get(e.getKeyCode());
             keyToggleMap.put(e.getKeyCode(), !keyStatus);
         } else {
             keyMap.put(e.getKeyCode(), true);
@@ -83,8 +83,10 @@ public class KeyHandler implements KeyListener {
     public boolean movementKeysActive() {
         if(keysActive()) {
             for (int keyCode : keyMap.keySet()) {
-                if(keyMap.get(keyCode)) {
-                    return true;
+                if(keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_D) {
+                    if(keyMap.get(keyCode)) {
+                        return true;
+                    }
                 }
             }
         } 

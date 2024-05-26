@@ -44,6 +44,8 @@ public class StockValueGraphPanel extends JPanel {
 
     public void updateStockValues(int stockId, ArrayList<Double> values) {
         stockValues.put(stockId, values);
+        revalidate();
+        repaint();
     }
 
     public void removeStock(int stockId) {

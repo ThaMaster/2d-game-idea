@@ -15,6 +15,8 @@ public class StockMarket {
     private double globalDelta;
     private double globalProbability;
 
+    private int marketTicks = 0;
+
     private ArrayList<Stock> stocks = new ArrayList<>();
     private ArrayList<StockMode> stockModes = new ArrayList<>();
 
@@ -32,20 +34,27 @@ public class StockMarket {
         globalProbability = 0;
     }
 
-    public void performTick() {
-        boolean globalSpike = false;
-        if(Util.probabilityCheck(globalSpikeChance)) {
-            globalSpike = true;
-            globalDelta = Util.randomDouble(-1, 1);
-            globalProbability = Util.randomDouble(0, 1);
-        } 
+    public void performTicks() {
+        for(int i = 0 ; i < marketTicks; i++) {
+            boolean globalSpike = false;
+            if(Util.probabilityCheck(globalSpikeChance)) {
+                globalSpike = true;
+                globalDelta = Util.randomDouble(-1, 1);
+                globalProbability = Util.randomDouble(0, 1);
+            } 
 
-        for (Stock s : stocks) {
-            if(Util.probabilityCheck(0.1) || s.getStockModeDuration() <= 0) {
-                s.setCurrentStockMode(selectNextStockMode(s));
+            for (Stock s : stocks) {
+                if(Util.probabilityCheck(0.1) || s.getStockModeDuration() <= 0) {
+                    s.setCurrentStockMode(selectNextStockMode(s));
+                }
+                s.performTick(bankCeiling, globalSpike, globalDelta, globalProbability);
             }
-            s.performTick(bankCeiling, globalSpike, globalDelta, globalProbability);
         }
+        marketTicks = 0;
+    }
+
+    public void incTick() {
+        this.marketTicks++;
     }
 
     public void addStock(Stock s) {
