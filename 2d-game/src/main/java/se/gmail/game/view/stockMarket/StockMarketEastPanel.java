@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -45,13 +46,32 @@ public class StockMarketEastPanel extends JPanel {
         eastPanel.repaint();
     }
 
-    public void updateStock(Stock s, int amount) {
+    public void updateStock(Stock s, int amount, int maxAmount, Boolean canBuy[], Boolean canSell[]) {
         String updateSymbol = s.getSymbol();
         for(StockPanel sp : stockPanels) {
             if(sp.getSymbol().equals(updateSymbol)) {
                 sp.setStockValue(s.getValue(), s.getPercentage());
-                sp.setStockOwnage(ALLBITS, amount);
+                sp.setStockOwnage(amount, maxAmount);
+                sp.updateButtons(canBuy, canSell);
             }
         }
+    }
+
+    public ArrayList<JButton> getBuyButtons(int stockId) {
+        for(StockPanel sp : stockPanels) {
+            if(sp.getStockId() == stockId) {
+                return sp.getBuyButtons();
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public ArrayList<JButton> getSellButtons(int stockId) {
+        for(StockPanel sp : stockPanels) {
+            if(sp.getStockId() == stockId) {
+                return sp.getSellButtons();
+            }
+        }
+        return new ArrayList<>();
     }
 }

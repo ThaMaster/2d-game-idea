@@ -2,12 +2,14 @@ package se.gmail.game.view.stockMarket;
 
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.RepaintManager;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 
 import se.gmail.game.model.systems.stockMarket.Stock;
@@ -68,8 +70,8 @@ public class StockMarketWindow extends JFrame {
         return menuBar;
     }
 
-    public void addStock(Stock s, BufferedImage stockIcon) {
-        StockPanel sp = new StockPanel(stockIcon, s.getName(), s.getSymbol(), s.getDescription());
+    public void addStock(Stock s, int maxAmount, BufferedImage stockIcon) {
+        StockPanel sp = new StockPanel(s.getId(), stockIcon, maxAmount, s.getName(), s.getSymbol(), s.getDescription());
         smEastPanel.addStockPanel(sp);
         sp.getHideButton().addActionListener(e -> {
             sp.toggleHideAction();
@@ -78,9 +80,13 @@ public class StockMarketWindow extends JFrame {
         svGraphPanel.addNewStock(s.getId(), stockIcon, s.getValueHistory());
     }
 
-    public void updateStock(Stock s, int amount) {
-        smEastPanel.updateStock(s, amount);
+    public void updateStock(Stock s, int amount, int maxAmount, Boolean canBuy[], Boolean canSell[]) {
+        smEastPanel.updateStock(s, amount, maxAmount, canBuy, canSell);
         svGraphPanel.updateStockValues(s.getId(), s.getValueHistory());
+    }
+
+    public void updateUserMoney(double money) {
+        smTopPanel.setMoneyAmount(money);
     }
 
     public void removeStock(int stockId) {
@@ -101,5 +107,12 @@ public class StockMarketWindow extends JFrame {
 
     public JCheckBoxMenuItem getScalingOption3Item() {
         return this.scalingOption3;
+    }
+
+    public ArrayList<JButton> getBuyButtons(int stockId) {
+        return this.smEastPanel.getBuyButtons(stockId);
+    }
+    public ArrayList<JButton> getSellButtons(int stockId) {
+        return this.smEastPanel.getSellButtons(stockId);
     }
 }

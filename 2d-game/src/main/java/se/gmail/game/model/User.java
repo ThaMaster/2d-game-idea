@@ -1,27 +1,42 @@
 package se.gmail.game.model;
 
-public class User {
-    private static double userMoney = 0.0;
 
-    private static String userName;
+public class User {
+
+    private double userMoney;
+    private String userName;
 
     public User(String name) {
-        userName = name;
+        this.userMoney = 10000.0;
+        this.userName = name;
     }
 
-    public static double getMoney() {
-        return userMoney;
+    public double getMoney() {
+        return this.userMoney;
     }
-    public static void setMoney(double money) {
-        userMoney = money;
+    
+    public void setMoney(double money) {
+        this.userMoney = money;
+    }
+    
+    public boolean canAfford(double money) {
+        return (this.userMoney >= money);
     }
 
-    public static String getUserName() {
-        return userName;
+    public void decreaseMoney(double money) {
+        this.userMoney -= money;
     }
 
-    public static void setUserName(String name) {
-        userName = name;
+    public void increaseMoney(double money) {
+        this.userMoney += money;
+    }
+    
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public void setUserName(String name) {
+        this.userName = name;
     }
 
 }

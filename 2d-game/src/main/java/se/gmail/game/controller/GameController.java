@@ -1,8 +1,10 @@
 package se.gmail.game.controller;
 
+import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import se.gmail.game.model.User;
 import se.gmail.game.model.entities.Player;
 import se.gmail.game.model.systems.stockMarket.Stock;
 import se.gmail.game.model.systems.stockMarket.StockMarket;
@@ -26,13 +28,16 @@ public class GameController implements ActionListener{
     private double smElapsedTime = 0;
     //private int fpsCounter = 0;
 
-    KeyHandler keyHandler = new KeyHandler();
-    MainFrame window = new MainFrame();
+    private KeyHandler keyHandler = new KeyHandler();
+    private MainFrame window = new MainFrame();
 
-    Player player;
-    StockMarket sm;
-    StockMarketWindow smWindow;
-    Stock s1, s2, s3;
+    private User user = new User("FrasByxan");;
+    private Player player;
+    private StockMarket sm;
+    private StockMarketWindow smWindow;
+    private Stock s1, s2, s3;
+    private Boolean enableBuy[] = {false, false, false};
+    private Boolean enableSell[] = {false, false, false};
 
 
     public GameController() {
@@ -59,7 +64,6 @@ public class GameController implements ActionListener{
         
         lastTime = currentTime;
     }
-
 
     /**
      * Function for updating the logic of the game.
@@ -116,10 +120,11 @@ public class GameController implements ActionListener{
         this.sm.addStock(s3);
 
         smWindow = new StockMarketWindow(sm.getName());
+        smWindow.addStock(s1, sm.getMaxOwnage(s1.getId()), ImageLoader.loadImage("/stockMarket/stocks/icons/iron.png"));
+        smWindow.addStock(s2, sm.getMaxOwnage(s2.getId()), ImageLoader.loadImage("/stockMarket/stocks/icons/gold.png"));
+        smWindow.addStock(s3, sm.getMaxOwnage(s3.getId()), ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"));
+        
         setStockMarketListeners();
-        smWindow.addStock(s1, ImageLoader.loadImage("/stockMarket/stocks/icons/iron.png"));
-        smWindow.addStock(s2, ImageLoader.loadImage("/stockMarket/stocks/icons/gold.png"));
-        smWindow.addStock(s3, ImageLoader.loadImage("/stockMarket/stocks/icons/diamond.png"));
     }
 
     private void updateStockMarket() {
@@ -133,14 +138,19 @@ public class GameController implements ActionListener{
             sm.incTick();
             if(smWindow.isVisible()) {
                 sm.performTicks();
-                smWindow.updateStock(s1, 5);
-                smWindow.updateStock(s2, 5);
-                smWindow.updateStock(s3, 5);
+                for(int stockId : sm.getStockIds()) {
+                    updateStockButtons(stockId);
+                    smWindow.updateStock(sm.getStock(stockId), sm.getOwnage(stockId), sm.getMaxOwnage(stockId), enableBuy, enableSell);
+                    smWindow.updateUserMoney(user.getMoney());
+                }
             }
             smElapsedTime = 0;
         }
     }
 
+    /**
+     * For the love of god, refactor this shit!
+     */
     private void setStockMarketListeners() {
         smWindow.getScalingOption1Item().addItemListener(e -> {
             smWindow.updateGraphInterval(10);
@@ -151,5 +161,85 @@ public class GameController implements ActionListener{
         smWindow.getScalingOption3Item().addItemListener(e -> {
             smWindow.updateGraphInterval(100);
         });
+
+        ArrayList<JButton> buyButtons = new ArrayList<>();
+        ArrayList<JButton> sellButtons = new ArrayList<>();
+
+        for(int stockId : sm.getStockIds()) {
+            buyButtons = smWindow.getBuyButtons(stockId);
+            buyButtons.get(0).addActionListener(e -> {
+                System.out.println(stockId);
+                user.decreaseMoney(1 * sm.getStockValue(stockId));
+                sm.buyStocks(stockId, 1);
+                updateStockButtons(stockId);
+                smWindow.updateStock(sm.getStock(stockId), sm.getOwnage(stockId), sm.getMaxOwnage(stockId), enableBuy, enableSell); 
+                smWindow.updateUserMoney(user.getMoney());
+            });
+
+            buyButtons.get(1).addActionListener(e -> {
+                user.decreaseMoney(10 * sm.getStock(stockId).getValue());
+                sm.buyStocks(stockId, 10);
+                updateStockButtons(stockId);
+                smWindow.updateStock(sm.getStock(stockId), sm.getOwnage(stockId), sm.getMaxOwnage(stockId), enableBuy, enableSell);
+                smWindow.updateUserMoney(user.getMoney());
+            });
+
+            buyButtons.get(2).addActionListener(e -> {
+                user.decreaseMoney(100 * sm.getStock(stockId).getValue());
+                sm.buyStocks(stockId, 100);
+                updateStockButtons(stockId);
+                smWindow.updateStock(sm.getStock(stockId), sm.getOwnage(stockId), sm.getMaxOwnage(stockId), enableBuy, enableSell);
+                smWindow.updateUserMoney(user.getMoney());
+            });
+
+            buyButtons.get(3).addActionListener(e -> {
+                int maxAmount = sm.getMaxPurchase(stockId, user.getMoney());
+                user.decreaseMoney(maxAmount * sm.getStock(stockId).getValue());
+                sm.buyStocks(stockId, maxAmount);
+                updateStockButtons(stockId);
+                smWindow.updateStock(sm.getStock(stockId), sm.getOwnage(stockId), sm.getMaxOwnage(stockId), enableBuy, enableSell);
+                smWindow.updateUserMoney(user.getMoney());
+            });
+
+            sellButtons = smWindow.getSellButtons(stockId);
+            sellButtons.get(0).addActionListener(e -> {
+                user.increaseMoney(1 * sm.getStock(stockId).getValue());
+                sm.sellStocks(stockId, 1);
+                updateStockButtons(stockId);
+                smWindow.updateStock(sm.getStock(stockId), sm.getOwnage(stockId), sm.getMaxOwnage(stockId), enableBuy, enableSell);
+                smWindow.updateUserMoney(user.getMoney());
+            });
+            sellButtons.get(1).addActionListener(e -> {
+                user.increaseMoney(10 * sm.getStock(stockId).getValue());
+                sm.sellStocks(stockId, 10);
+                updateStockButtons(stockId);
+                smWindow.updateStock(sm.getStock(stockId), sm.getOwnage(stockId), sm.getMaxOwnage(stockId), enableBuy, enableSell);
+                smWindow.updateUserMoney(user.getMoney());
+            });
+            sellButtons.get(2).addActionListener(e -> {
+                user.increaseMoney(100 * sm.getStock(stockId).getValue());
+                sm.sellStocks(stockId, 100);
+                updateStockButtons(stockId);
+                smWindow.updateStock(sm.getStock(stockId), sm.getOwnage(stockId), sm.getMaxOwnage(stockId), enableBuy, enableSell);
+                smWindow.updateUserMoney(user.getMoney());
+            });
+            sellButtons.get(3).addActionListener(e -> {
+                int allAmount = sm.getOwnage(stockId);
+                user.increaseMoney(allAmount * sm.getStock(stockId).getValue());
+                sm.sellStocks(stockId, allAmount);
+                updateStockButtons(stockId);
+                smWindow.updateStock(sm.getStock(stockId), sm.getOwnage(stockId), sm.getMaxOwnage(stockId), enableBuy, enableSell);
+                smWindow.updateUserMoney(user.getMoney());
+            });
+        }
+    }
+
+    private void updateStockButtons(int stockId) {
+        enableBuy[0] = sm.canBuy(stockId, user.getMoney(), 1);
+        enableBuy[1] = sm.canBuy(stockId, user.getMoney(), 10);
+        enableBuy[2] = sm.canBuy(stockId, user.getMoney(), 100);
+        enableSell[0] = sm.canSell(stockId, 1);
+        enableSell[1] = sm.canSell(stockId, 10);
+        enableSell[2] = sm.canSell(stockId, 100);
     }
 }

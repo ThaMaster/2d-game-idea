@@ -1,5 +1,7 @@
 package se.gmail.game.model.systems.stockMarket;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import se.gmail.game.model.systems.stockMarket.stockModes.StockMode;
@@ -29,7 +31,10 @@ public class Stock {
         this.symbol = symbol;
         this.description = desc;
         setRestingValue(bankLevel);
-        this.value = restingValue + (Util.randomDouble(restingValue - 5, restingValue + 5));
+        
+        BigDecimal bd = BigDecimal.valueOf(restingValue + (Util.randomDouble(restingValue - 5, restingValue + 5)));
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        this.value = bd.doubleValue();
         valueHistory.add(value);
     }
 
@@ -146,8 +151,13 @@ public class Stock {
                 delta *= 0.95;
             }
         }
-        percentage = ((value / prevValue) - 1) * 100;
-        valueHistory.add(value);
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        double roundedValue = bd.doubleValue();
+        percentage = ((roundedValue / prevValue) - 1) * 100;
+        valueHistory.add(roundedValue);
+        this.value = roundedValue;
+
     }
 
     public void setStockModeDuration(int duration) {

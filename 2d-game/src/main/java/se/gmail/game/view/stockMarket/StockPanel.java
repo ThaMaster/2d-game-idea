@@ -17,6 +17,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class StockPanel extends JPanel {
+
+    int stockId;
     boolean expanded = true;
 
     JPanel centerPanel;
@@ -37,10 +39,11 @@ public class StockPanel extends JPanel {
 
     JButton hideButton;
 
-    public StockPanel(BufferedImage icon, String name, String symbol, String desc) {
+    public StockPanel(int stockId, BufferedImage icon, int maxAmount, String name, String symbol, String desc) {
+        this.stockId = stockId;
         this.setLayout(new BorderLayout());
 
-        this.centerPanel = createCenterPanel();
+        this.centerPanel = createCenterPanel(maxAmount);
         this.centerPanel.setBackground(Color.GRAY);
         this.southPanel = createSouthPanel();
         this.southPanel.setBackground(Color.GRAY);
@@ -75,7 +78,7 @@ public class StockPanel extends JPanel {
         return topPanel;
     }
 
-    private JPanel createCenterPanel() {
+    private JPanel createCenterPanel(int maxAmount) {
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         JPanel valuePanel = new JPanel(new FlowLayout());
@@ -88,7 +91,7 @@ public class StockPanel extends JPanel {
 
         JPanel amountPanel = new JPanel(new FlowLayout());
         JLabel amountLabel = new JLabel("stock:");
-        stockAmount = new JLabel("0");
+        stockAmount = new JLabel("0/" + maxAmount);
         amountPanel.add(amountLabel);
         amountPanel.add(stockAmount);
 
@@ -168,4 +171,25 @@ public class StockPanel extends JPanel {
     public boolean getExpanded() {
         return this.expanded;
     }
+
+    public int getStockId() {
+        return this.stockId;
+    }
+
+    public ArrayList<JButton> getBuyButtons() {
+        return this.buyButtons;
+    }
+
+    public ArrayList<JButton> getSellButtons() {
+        return this.sellButtons;
+    }
+
+    public void updateButtons(Boolean canBuy[], Boolean canSell[]) {
+        for(int i = 0; i < 3; i++) {
+            buyButtons.get(i).setEnabled(canBuy[i]);
+            sellButtons.get(i).setEnabled(canSell[i]);
+        }
+        buyButtons.get(3).setEnabled(canBuy[0]);
+        sellButtons.get(3).setEnabled(canSell[0]);
+    } 
 }
