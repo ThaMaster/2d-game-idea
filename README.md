@@ -25,7 +25,7 @@ This section lists all the differnet keybinds used for the game. These keybinds 
 
 ## Recent changes and TODO log
 
-This section contains the most recent updates and changes that is implemented in the game. It will contain a somewhat detailed description of new systems, bug fixes, gameplay tweaks, and and more to give a good overview on how the project is going. In addition to this, the section will end with a TODO log that details what should be the focus of the next programming session. Only the most recent updates will be detailed here so if you would like to see previous logs, these are located [here](/readme_handling/logs).
+This section contains the most recent updates and changes that is implemented in the game. It will contain a somewhat detailed description of new systems, bug fixes, gameplay tweaks, and and more to give a good overview on how the project is going. In addition to this, the section will end with a TODO log that details what should be the focus of the next programming session. Only the most recent updates will be detailed here so if you would like to see previous logs, these are located [here](/logs).
 
 ### Change log 2024-05-25
 
@@ -71,6 +71,13 @@ This section contains the most recent updates and changes that is implemented in
 
 *Additional icons that has been added to the game.*
 
+![idle](/readme_handling/images/2024-05-25/idle.gif)
+![attackUnarmedGif](/readme_handling/images/2024-05-25/attackUnarmed.gif)
+![idleWeapon](/readme_handling/images/2024-05-25/idleWeapon.gif)
+![attackWeaponGif](/readme_handling/images/2024-05-25/axe_attack.gif)
+
+*Some animations for one of the classes which the player can choose on character creation.*
+
 ### TODO
 
 - **Stock Market:** Implement functionality to buy and sell stocks.
@@ -82,8 +89,23 @@ This section contains the most recent updates and changes that is implemented in
 
 ---
 
+- **Game Settings:** Implement different display modes such as **Fullscreen**, **Windowed fullscreen**, and **Windowed**.
+- **Game Settings:** Implement a **Brightness** slider.
+- **Game Settings:** Option to toggle **FPS** on and off.
+- **Game Settings:** Make it possible to change keybindings.
+- **Game Settings:** Implement specific game options.
+- **Game Settings:** Implement audio sliders for different types of audio.
+
+---
+
+- **General Game:** Create a character creation screen.
+- **General Game:** Create a starting screen.
+- **General Game:** Create the player stats screen which displays all kinds of stats.
+- **General Game:** Create the equipment screen where different types of equipable gear is placed, does not need to change appearence of player yet.
+- **General Game:** Create the inventory screen where different items can be stored, toggled with *Tab*.
 - **General Game:** Make the environemnt tiles have multiple layers such as a base terrain layer, detail layer, and more.
 - **General Game:** Fix the scaling of the tilemap.
+- **General Game:** Make it possible to save the character and all the gear that is in inventory/equipped.
 - **General Game:** Make the game run smoothly and become more reliable, oh god...
 - **General Game:** Make the camera follow the player and not be fixed.
 - **General Game:** Implement collisionboxes/hitboxes.
