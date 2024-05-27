@@ -44,6 +44,7 @@ public class GameController implements ActionListener{
         keyHandler.setToggleKey(KeyEvent.VK_Q);
         this.window.getGamePanel().addKeyListener(keyHandler);
         this.player = new Player();
+        
 
         this.timer = new Timer(1000/FRAME_RATE, this);
         initStockMarket();
