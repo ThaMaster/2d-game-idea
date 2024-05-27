@@ -25,7 +25,7 @@ public class StockMarketWindow extends JFrame {
     JCheckBoxMenuItem scalingOption3;
 
     public StockMarketWindow(String marketName) {
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setResizable(false);
         this.setTitle("Stock Market");
         RepaintManager.currentManager(this).setDoubleBufferingEnabled(true);

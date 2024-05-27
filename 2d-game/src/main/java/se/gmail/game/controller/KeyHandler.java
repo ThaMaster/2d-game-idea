@@ -5,10 +5,14 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+/**
+ * 
+ */
 public class KeyHandler implements KeyListener {
 
-    HashMap<Integer, Boolean> keyMap;
-    HashMap<Integer, Boolean> keyToggleMap;
+    HashMap<Character, Boolean> keyMap;
+    HashMap<Character, Boolean> keyToggleMap;
 
     int keysActive = 0;
 
@@ -19,19 +23,19 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(keyToggleMap.containsKey(e.getKeyCode())) {
-            boolean keyStatus = keyToggleMap.get(e.getKeyCode());
-            keyToggleMap.put(e.getKeyCode(), !keyStatus);
+        if(keyToggleMap.containsKey(e.getKeyChar())) {
+            boolean keyStatus = keyToggleMap.get(e.getKeyChar());
+            keyToggleMap.put(e.getKeyChar(), !keyStatus);
         } else {
-            keyMap.put(e.getKeyCode(), true);
+            keyMap.put(e.getKeyChar(), true);
         }
         keysActive++;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(!keyToggleMap.containsKey(e.getKeyCode())) {
-            keyMap.put(e.getKeyCode(), false);
+        if(!keyToggleMap.containsKey(e.getKeyChar())) {
+            keyMap.put(e.getKeyChar(), false);
         }
         keysActive--;
     }
@@ -40,39 +44,39 @@ public class KeyHandler implements KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
-    public boolean isKeyActive(int keyCode) {
+    public boolean isKeyActive(char key) {
         boolean keyStatus;
-        if(keyToggleMap.containsKey(keyCode)) {
-            keyStatus = keyToggleMap.get(keyCode);
-        } else if(keyMap.containsKey(keyCode)) {
-            keyStatus = keyMap.get(keyCode);
+        if(keyToggleMap.containsKey(key)) {
+            keyStatus = keyToggleMap.get(key);
+        } else if(keyMap.containsKey(key)) {
+            keyStatus = keyMap.get(key);
         } else {
             keyStatus = false;
         }
         return keyStatus;
     }
 
-    public void setToggleKeys(ArrayList<Integer> keyCodes) {
-        for (int keyCode : keyCodes) {
-            setToggleKey(keyCode);
+    public void setToggleKeys(ArrayList<Character> keys) {
+        for (char key : keys) {
+            setToggleKey(key);
         }
     }
 
-    public void setToggleKey(int keyCode) {
-        if(!keyToggleMap.containsKey(keyCode)) {
-            keyToggleMap.put(keyCode, false);
+    public void setToggleKey(char key) {
+        if(!keyToggleMap.containsKey(key)) {
+            keyToggleMap.put(key, false);
         }
     }
 
-    public void removeToggleKeys(ArrayList<Integer> keyCodes) {
-        for(int keyCode : keyCodes) {
-            removeToggleKey(keyCode);
+    public void removeToggleKeys(ArrayList<Character> keys) {
+        for(char key : keys) {
+            removeToggleKey(key);
         }
     }
 
-    public void removeToggleKey(int keyCode) {
-        if(keyToggleMap.containsKey(keyCode)) {
-            keyToggleMap.remove(keyCode);
+    public void removeToggleKey(char key) {
+        if(keyToggleMap.containsKey(key)) {
+            keyToggleMap.remove(key);
         }
     }
 
@@ -82,9 +86,9 @@ public class KeyHandler implements KeyListener {
 
     public boolean movementKeysActive() {
         if(keysActive()) {
-            for (int keyCode : keyMap.keySet()) {
-                if(keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_D) {
-                    if(keyMap.get(keyCode)) {
+            for (char key : keyMap.keySet()) {
+                if(key == 'w' || key == 's' || key == 'a' || key == 'd') {
+                    if(keyMap.get(key)) {
                         return true;
                     }
                 }

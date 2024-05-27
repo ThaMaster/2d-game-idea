@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -12,8 +11,6 @@ import javax.swing.JPanel;
 import se.gmail.game.model.entities.Enemy;
 import se.gmail.game.model.entities.Player;
 import se.gmail.game.model.tiles.TileManager;
-import se.gmail.game.util.Util;
-import se.gmail.game.util.enums.Direction;
 
 public class GamePanel extends JPanel {
 
@@ -40,7 +37,7 @@ public class GamePanel extends JPanel {
 
         for(int i = 0; i < 3; i++) {
             Enemy e = new Enemy();
-            e.setPosition(3, 3);
+            e.setPosition((int)(screenWidth/2), (int)(screenHeight/2));
             this.enemies.add(e);
         }
     }
@@ -56,6 +53,7 @@ public class GamePanel extends JPanel {
             for(Enemy e : enemies) {
                 e.update();
                 e.getAnimator().update();
+                // Prevent enemies going outside the screen, for now...
                 if(e.getXPosition() > screenWidth) {
                     e.setXPosition(screenWidth-1);
                 } 
@@ -70,12 +68,6 @@ public class GamePanel extends JPanel {
                 }
                 e.draw(g2);
             }
-
-            // if(playerDir == Direction.EAST) {
-            //     g2.drawImage(playerImage, tileSize+playerXPos, playerYPos, -tileSize, tileSize, null);
-            // } else {
-            //     g2.drawImage(playerImage, playerXPos, playerYPos, tileSize, tileSize, null);
-            // }
         }
     }
 
