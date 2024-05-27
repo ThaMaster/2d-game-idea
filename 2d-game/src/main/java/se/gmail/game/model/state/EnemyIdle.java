@@ -5,12 +5,10 @@ import se.gmail.game.util.Util;
 
 public class EnemyIdle extends State {
 
-    private int moveSpeed = 1;
+    private int moveSpeed = 0;
 
-    private int xDirection = 0;
-    private int yDirection = 0;
     // in milliseconds
-    private double wanderTime = 0;
+    private double idleTime = 0;
     private double currentTime = 0, lastTime = 0, elapsedTime = 0;
     private Enemy enemy;
 
@@ -28,7 +26,7 @@ public class EnemyIdle extends State {
 
     @Override
     public void exit() {
-
+        this.setTransition(false);
     }
 
     @Override
@@ -36,20 +34,17 @@ public class EnemyIdle extends State {
         currentTime = System.currentTimeMillis();
         elapsedTime = currentTime - lastTime;
 
-        if(wanderTime > 0) {
-            enemy.setXPosition(enemy.getXPosition() + xDirection);
-            enemy.setYPosition(enemy.getYPosition() + yDirection);
-            wanderTime -= elapsedTime;
+        if(idleTime > 0) {
+            idleTime -= elapsedTime;
         } else {
-            randomizedWander();
+            this.setNextStateName("run");
+            this.setTransition(true);
         }
         lastTime = currentTime;
     }
 
     private void randomizedWander() {
-        xDirection = Util.randomInt(-1, 1);
-        yDirection = Util.randomInt(-1, 1);
-        wanderTime = Util.randomInt(0, 3) * 1000;
+        idleTime = Util.randomInt(0, 3) * 1000;
     }
 
         

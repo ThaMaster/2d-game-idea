@@ -28,36 +28,27 @@ This section lists all the differnet keybinds used for the game. These keybinds 
 
 This section contains the most recent updates and changes that is implemented in the game. It will contain a somewhat detailed description of new systems, bug fixes, gameplay tweaks, and and more to give a good overview on how the project is going. In addition to this, the section will end with a TODO log that details what should be the focus of the next programming session. Only the most recent updates will be detailed here so if you would like to see previous logs, these are located [here](/readme_handling/logs).
 
-### Change log 2024-05-26
+### Change log 2024-05-27
+
+#### New system: Entity Behaviours
+
+- First implementation of the entity behaviours have been implemented and is showcased under the *Images* section.
+- Utilizing different *States*
 
 #### Changes
 
-- **Stock Market:** You are now actually able to buy and sell stocks.
-- **Stock Market:** The stock market now works in real time.
-- **Stock Market:** The stocks values are now set to be rounded to two decimals to reduce the risk of mayor floating point errors.
-- **Stock Market:** The simulation of the prices in the stock market will not be constantly updated when the stock market window is closed. Instead, a variable is incremented everytime an update should've occured and used to perform the corresponding number of *ticks* when the window is later opened.
-
 ---
 
-- **Code:** Mayor overhaul of the main loop that updates and renders the game. The *GameController* class now implements the *ActionListener* interface. Rather than using general while loop with expensive calculations, the updates occurs when a created *Timer* runs out that causes the *GameController* to run its *actionPerformed* function. This causes the performance of the game to behave much more stable but I'll need to keep an eye on it.
-- **Code:** Removed the *UpdateHandler* class.
-- **Code:** First iteration of the *loadStockInfo* function in the *JsonLoader* class.
+- **Code:** Created a *StateMachine* class that will be used when creating entities and objects that needs to transition from different states.
+- **Code:** Added a *Enemy* class that extends *Entity* but will later be more specified for each enemy type.
+- **Code:** Created new folder with all
+- **Code:** Refactored the *Animator* class to be more scalable, now containing animation classes instead of arraylists with images. The animation now keep track on its current frame and each animation can have seperate frame delay.
+- **Code:** Added draw function to the player, making it more decoupled between the classes.
+- **Code:** Changed so that the animator keeps track if the animation should be flipped or not.
 
 #### Bug Fixes
 
-- **Stock Market:** Fixed a bug where the stock value history graph did not update when stocks changed values.
-- **Stock Market:** Fixed an issue with the buy/sell buttons not behaving as they should.
-- **Stock Market:** Fixed an issue where the users currency updates to the wrong values when buying/selling stocks.
-
----
-
-- **Code:** Fixed an issue with predefined toggled keys not working as expected.
-
 #### Images
-
-![realTimeStockGraph](/readme_handling/images/2024-05-26/realTimeStockMarket.gif)
-
-*Gif of the **Stock Market** system being active in real time.*
 
 ### TODO
 
@@ -88,6 +79,7 @@ This section contains the most recent updates and changes that is implemented in
 - **General Game:** Make the camera follow the player and not be fixed.
 - **General Game:** Implement collisionboxes/hitboxes.
 - **General Game:** Figure out how the players different currencies will be stored, updated and accessed.
+- **General Game:** Implement a wandering enemy using the *StateMachine* class.
 
 ---
 

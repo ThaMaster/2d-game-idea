@@ -29,10 +29,10 @@ public class GameController implements ActionListener{
     //private int fpsCounter = 0;
 
     private KeyHandler keyHandler = new KeyHandler();
-    private MainFrame window = new MainFrame();
+    private MainFrame window;
 
-    private User user = new User("FrasByxan");;
-    private Player player;
+    private User user = new User("FrasByxan");
+    private Player player = new Player();
     private StockMarket sm;
     private StockMarketWindow smWindow;
     private Stock s1, s2, s3;
@@ -42,10 +42,8 @@ public class GameController implements ActionListener{
 
     public GameController() {
         keyHandler.setToggleKey(KeyEvent.VK_Q);
+        window = new MainFrame(player);
         this.window.getGamePanel().addKeyListener(keyHandler);
-        this.player = new Player();
-        
-
         this.timer = new Timer(1000/FRAME_RATE, this);
         initStockMarket();
         startGame();
@@ -76,7 +74,6 @@ public class GameController implements ActionListener{
 
     private void render() {
         SwingUtilities.invokeLater(() -> {
-            window.getGamePanel().updatePlayerData(player.getAnimator().getCurrentSprite(), player.getXPosition(), player.getYPosition(), player.getDirection());
             window.getGamePanel().revalidate();
             window.getGamePanel().repaint();
         });
@@ -85,7 +82,7 @@ public class GameController implements ActionListener{
     private void updatePlayer() {
         player.getAnimator().update();
         if(keyHandler.movementKeysActive()) {
-            player.getAnimator().changeAnimation("run");
+            player.getAnimator().setAnimation("run");
             if (keyHandler.isKeyActive(KeyEvent.VK_W)) {
                 player.setYPosition(player.getYPosition() - player.getSpeed());
                 player.setDirection(Direction.NORTH);
@@ -103,7 +100,7 @@ public class GameController implements ActionListener{
                 player.setDirection(Direction.WEST);
             }
         } else {
-            player.getAnimator().changeAnimation("idle");
+            player.getAnimator().setAnimation("idle");
         }
     }
 

@@ -14,8 +14,12 @@ public abstract class State {
     public abstract void exit();
     public abstract void update();
 
-    public boolean doTransition() {
+    public boolean shouldTransition() {
         return this.transition;
+    }
+
+    public void setTransition(boolean b) {
+        this.transition = b;
     }
 
     public String getStateName() {
@@ -24,5 +28,9 @@ public abstract class State {
 
     public String getNextStateName() {
         return this.nextState;
+    }
+
+    public void setNextStateName(String nextState) {
+        this.nextState = nextState;
     }
 }

@@ -1,7 +1,8 @@
 package se.gmail.game.model.entities;
 
-import se.gmail.game.model.state.EnemyIdle;
-import se.gmail.game.model.state.StateMachine;
+import se.gmail.game.model.state.*;
+import se.gmail.game.util.ImageLoader;
+import se.gmail.game.util.animation.Animation;
 
 public class Enemy extends Entity {
 
@@ -10,11 +11,18 @@ public class Enemy extends Entity {
     public Enemy() {
         setSpeed(1);
         setPosition(0, 0);
+        loadEnemyAnimations();
         enemySM = new StateMachine(new EnemyIdle("idle", this));
+        enemySM.addState(new EnemyRun("run", this));
     }
 
     public void update() {
         enemySM.update();
-        System.out.println("x: " + this.getXPosition() + " y: " + this.getYPosition());
+        getAnimator().setAnimation(enemySM.getCurrentStateName());
+    }
+
+    public void loadEnemyAnimations() {
+        getAnimator().addAnimation(new Animation("idle", ImageLoader.loadWholeDirectory("/enemy/sprites/idle"), 7));
+        getAnimator().addAnimation(new Animation("run", ImageLoader.loadWholeDirectory("/enemy/sprites/run"), 7));
     }
 }

@@ -8,23 +8,31 @@ public class StateMachine {
     private State currentState;
 
     public StateMachine(State s) {
+        states.add(s);
         this.currentState = s;
     }
 
-    public void update() {
+    public void addState(State s) {
+        states.add(s);
+    }
 
-        if(!currentState.doTransition()) {
+    public void update() {
+        if(!currentState.shouldTransition()) {
             currentState.update();
             return;
         }
 
         String nextState = currentState.getNextStateName();
         for(State s : states) {
-            if((s.getStateName().toLowerCase()).equals(nextState.toLowerCase())) {
+            if(s.getStateName().equals(nextState)) {
                 currentState.exit();
                 s.enter();
                 currentState = s;
             }
         }
+    }
+
+    public String getCurrentStateName() {
+        return this.currentState.getStateName();
     }
 }

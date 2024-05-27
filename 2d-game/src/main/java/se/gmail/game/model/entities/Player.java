@@ -1,5 +1,8 @@
 package se.gmail.game.model.entities;
 
+import se.gmail.game.util.ImageLoader;
+import se.gmail.game.util.animation.Animation;
+
 public class Player extends Entity {
 
     private double health;
@@ -7,6 +10,7 @@ public class Player extends Entity {
 
     public Player() {
         setPlayerDefaultValues();
+        loadPlayerAnimations();
     }
 
     public void setPlayerDefaultValues() {
@@ -30,5 +34,10 @@ public class Player extends Entity {
 
     public void setMana(double mana) {
         this.mana = mana;
+    }
+
+    public void loadPlayerAnimations() {
+        getAnimator().addAnimation(new Animation("idle", ImageLoader.loadWholeDirectory("/player/sprites/executioner/male/idle"), 7));
+        getAnimator().addAnimation(new Animation("run", ImageLoader.loadWholeDirectory("/player/sprites/executioner/male/run"), 7));
     }
 }

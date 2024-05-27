@@ -1,7 +1,10 @@
 package se.gmail.game.model.entities;
 
 import se.gmail.game.util.enums.Direction;
-import se.gmail.game.util.Animator;
+
+import java.awt.Graphics2D;
+
+import se.gmail.game.util.animation.Animator;
 
 /**
  * Base class for all entities in the game. Enemies, npcs and even
@@ -13,11 +16,16 @@ public class Entity {
     private Direction direction;
     private Animator animator;
 
-    public void setPosition(int x, int y) {
+    public Entity() {
+        xPos = 0;
+        yPos = 0;
         this.direction = Direction.WEST;
+        this.animator = new Animator();
+    }
+
+    public void setPosition(int x, int y) {
         this.xPos = x;
         this.yPos = y;
-        this.animator = new Animator();
     }
 
     public Animator getAnimator() {
@@ -45,6 +53,9 @@ public class Entity {
     }
 
     public void setDirection(Direction dir) {
+        if(dir == Direction.EAST || dir == Direction.WEST) {
+            this.animator.setFlipped(dir == Direction.EAST);
+        }
         this.direction = dir;
     }
 
@@ -54,5 +65,9 @@ public class Entity {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+    
+    public void draw(Graphics2D g2) {
+        this.animator.draw(g2, getXPosition(), getYPosition());
     }
 }
