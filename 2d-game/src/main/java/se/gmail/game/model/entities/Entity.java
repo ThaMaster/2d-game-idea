@@ -11,41 +11,65 @@ import se.gmail.game.util.animation.Animator;
  * the player should extend and utilize this base class.
  */
 public class Entity {
-    private int xPos, yPos;
+    private int worldXPos, worldYPos;
+    private int screenXPos, screenYPos;
     private int speed;
     private Direction direction;
     private Animator animator;
 
     public Entity() {
-        xPos = 0;
-        yPos = 0;
+        worldXPos = 0;
+        worldYPos = 0;
+        screenXPos = 0;
+        screenYPos = 0;
         this.direction = Direction.WEST;
         this.animator = new Animator();
-    }
-
-    public void setPosition(int x, int y) {
-        this.xPos = x;
-        this.yPos = y;
     }
 
     public Animator getAnimator() {
         return this.animator;
     }
 
-    public int getXPosition() {
-        return xPos;
+    public void setWorldPosition(int x, int y) {
+        this.worldXPos = x;
+        this.worldYPos = y;
     }
 
-    public int getYPosition() {
-        return yPos;
+    public void setScreenPosition(int x, int y) {
+        this.screenXPos = x;
+        this.screenYPos = y;
     }
 
-    public void setYPosition(int y) {
-        this.yPos = y;
+    public int getWorldXPosition() {
+        return worldXPos;
     }
 
-    public void setXPosition(int x) {
-        this.xPos = x;
+    public int getWorldYPosition() {
+        return worldYPos;
+    }
+
+    public int getScreenXPosition() {
+        return screenXPos;
+    }
+
+    public int getScreenYPosition() {
+        return screenYPos;
+    }
+
+    public void setWorldYPosition(int y) {
+        this.worldYPos = y;
+    }
+
+    public void setWorldXPosition(int x) {
+        this.worldXPos = x;
+    }
+
+    public void setScreenYPosition(int y) {
+        this.screenYPos = y;
+    }
+
+    public void setScreenXPosition(int x) {
+        this.screenXPos = x;
     }
 
     public Direction getDirection() {
@@ -68,6 +92,6 @@ public class Entity {
     }
     
     public void draw(Graphics2D g2) {
-        this.animator.draw(g2, getXPosition(), getYPosition());
+        this.animator.draw(g2, screenXPos, screenYPos);
     }
 }

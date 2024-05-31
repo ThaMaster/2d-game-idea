@@ -17,7 +17,6 @@ public class Player extends Entity {
         this.health = 100.0;
         this.mana = 50.0;
         this.setSpeed(4);
-        this.setPosition(1, 1);
     }
 
     public double getHealth() {

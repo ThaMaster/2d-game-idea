@@ -83,19 +83,19 @@ public class GameController implements ActionListener{
         if(keyHandler.movementKeysActive()) {
             player.getAnimator().setAnimation("run");
             if (keyHandler.isKeyActive('w')) {
-                player.setYPosition(player.getYPosition() - player.getSpeed());
+                player.setWorldYPosition(player.getWorldYPosition() - player.getSpeed());
                 player.setDirection(Direction.NORTH);
             }
             if (keyHandler.isKeyActive('s')) {
-                player.setYPosition(player.getYPosition() + player.getSpeed());
+                player.setWorldYPosition(player.getWorldYPosition() + player.getSpeed());
                 player.setDirection(Direction.SOUTH);
             }
             if (keyHandler.isKeyActive('d')) {
-                player.setXPosition(player.getXPosition() + player.getSpeed());
+                player.setWorldXPosition(player.getWorldXPosition() + player.getSpeed());
                 player.setDirection(Direction.EAST);
             }
             if (keyHandler.isKeyActive('a')) {
-                player.setXPosition(player.getXPosition() - player.getSpeed());
+                player.setWorldXPosition(player.getWorldXPosition() - player.getSpeed());
                 player.setDirection(Direction.WEST);
             }
         } else {

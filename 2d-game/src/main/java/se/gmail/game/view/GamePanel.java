@@ -14,6 +14,7 @@ import se.gmail.game.model.tiles.TileManager;
 
 public class GamePanel extends JPanel {
 
+    // SCREEN SETTINGS
     final int originalTileSize = 80;
     final int scale = 1;
 
@@ -23,7 +24,16 @@ public class GamePanel extends JPanel {
     private final int screenWidth = tileSize * maxScreenCol;
     private final int screenHeight = tileSize * maxScreenRow;
 
+    // WORLD SETTINGS
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
+
     private Player player;
+
+    private final int pScreenX = screenWidth/2 - (tileSize/2);
+    private final int pScreenY = screenHeight/2 - (tileSize/2);
 
     private TileManager tileManager = new TileManager(this);
     private ArrayList<Enemy> enemies = new ArrayList<>();
@@ -37,9 +47,11 @@ public class GamePanel extends JPanel {
 
         for(int i = 0; i < 3; i++) {
             Enemy e = new Enemy();
-            e.setPosition((int)(screenWidth/2), (int)(screenHeight/2));
+            e.setWorldPosition((int)(screenWidth/2), (int)(screenHeight/2));
             this.enemies.add(e);
         }
+
+        this.player.setScreenPosition(pScreenX, pScreenY);
     }
 
     public void paintComponent(Graphics g) {
@@ -51,22 +63,28 @@ public class GamePanel extends JPanel {
             player.draw(g2);
 
             for(Enemy e : enemies) {
+                int screenX = e.getWorldXPosition() - player.getWorldXPosition() + player.getScreenXPosition();
+                int screenY = e.getWorldYPosition() - player.getWorldYPosition() + player.getScreenYPosition();
+                e.setScreenPosition(screenX, screenY);
                 e.update();
                 e.getAnimator().update();
                 // Prevent enemies going outside the screen, for now...
-                if(e.getXPosition() > screenWidth) {
-                    e.setXPosition(screenWidth-1);
+                if(e.getWorldXPosition() > screenWidth) {
+                    e.setWorldXPosition(screenWidth-1);
                 } 
-                if(e.getXPosition() < 0) {
-                    e.setXPosition(1);
+                if(e.getWorldXPosition() < 0) {
+                    e.setWorldXPosition(1);
                 }
-                if(e.getYPosition() > screenHeight) {
-                    e.setYPosition(screenHeight-1);
+                if(e.getWorldYPosition() > screenHeight) {
+                    e.setWorldYPosition(screenHeight-1);
                 } 
-                if(e.getYPosition() < 0) {
-                    e.setYPosition(1);
+                if(e.getWorldYPosition() < 0) {
+                    e.setWorldYPosition(1);
                 }
-                e.draw(g2);
+
+                if(tileManager.insideScreen(e.getWorldXPosition(), e.getWorldYPosition())) {
+                    e.draw(g2);
+                }
             }
         }
     }
@@ -89,5 +107,17 @@ public class GamePanel extends JPanel {
 
     public int getMaxScreenHeight() {
         return this.screenHeight;
+    }
+
+    public int getMaxWorldColumns() {
+        return this.maxWorldCol;
+    }
+
+    public int getMaxWorldRows() {
+        return this.maxWorldRow;
+    }
+
+    public Player getPlayer() {
+        return this.player;
     }
 }

@@ -17,7 +17,7 @@ public class TileManager {
         this.gp = gp;
 
         tiles = new Tile[10];
-        mapTileNum = new int[gp.getMaxScreenColumns()][gp.getMaxScreenRows()];
+        mapTileNum = new int[gp.getMaxWorldColumns()][gp.getMaxWorldRows()];
 
         getTileImages();
         loadMap();
@@ -50,9 +50,9 @@ public class TileManager {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             String line;
-            for(int row = 0; row < gp.getMaxScreenRows(); row++) {
+            for(int row = 0; row < gp.getMaxWorldRows(); row++) {
                 line = br.readLine();
-                for(int col = 0; col < gp.getMaxScreenColumns(); col++) {
+                for(int col = 0; col < gp.getMaxWorldColumns(); col++) {
                     String numbers[] = line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
@@ -65,16 +65,30 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        int x = 0;
-        int y = 0;
-        for(int row = 0; row < gp.getMaxScreenRows(); row++) {
-            for(int col = 0; col < gp.getMaxScreenColumns(); col++) {
-                int tileNum = mapTileNum[col][row];
-                g2.drawImage(tiles[tileNum].getImage(), x, y, gp.getTileSize(), gp.getTileSize(), null);
-                x += gp.getTileSize();
+        for(int worldRow = 0; worldRow < gp.getMaxWorldRows(); worldRow++) {
+            for(int worldCol = 0; worldCol < gp.getMaxWorldColumns(); worldCol++) {
+                int tileNum = mapTileNum[worldCol][worldRow];
+
+                int worldX = worldCol * gp.getTileSize();
+                int worldY = worldRow * gp.getTileSize();
+                
+                // This is cringe, refactor it!
+                if(insideScreen(worldX, worldY)) {
+                    int screenX = worldX - gp.getPlayer().getWorldXPosition() + gp.getPlayer().getScreenXPosition();
+                    int screenY = worldY - gp.getPlayer().getWorldYPosition() + gp.getPlayer().getScreenYPosition();
+                    g2.drawImage(tiles[tileNum].getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+                }
             }
-            x = 0;
-            y += gp.getTileSize();
         }
+    }
+
+    public boolean insideScreen(int worldX, int worldY) {
+        if(worldX + gp.getTileSize() > gp.getPlayer().getWorldXPosition() - gp.getPlayer().getScreenXPosition() && 
+            worldX - gp.getTileSize() < gp.getPlayer().getWorldXPosition() + gp.getPlayer().getScreenXPosition() && 
+            worldY + gp.getTileSize() > gp.getPlayer().getWorldYPosition() - gp.getPlayer().getScreenYPosition() && 
+            worldY - gp.getTileSize() < gp.getPlayer().getWorldYPosition() + gp.getPlayer().getScreenYPosition()) {
+            return true;
+        }
+        return false;
     }
 }
