@@ -32,17 +32,31 @@ This section contains the most recent updates and changes that is implemented in
 
 #### Changes
 
+---
+
 - **Code:** The entities in the game now have two types of positions, *world position* and *screen position*.
 - **Code:** The game camera now always displays the character in the middle of the screen and moves the world making larger areas possible, see section *Images* for example.
-- **Code:** Refactored the draw method in the *TileManager* class to not draw the content outside the screen.
-- **Code:** Added a *insideScreen* function to check if coordinates are inside the screen or not.
+- **Code:** Refactored the draw method in the *TileManager* class to not draw the content outside the screen, see section *Images for demonstration*.
+
+---
+
+- **Collisions:** Added a *insideScreen* function to check if coordinates are inside the screen or not.
+- **Collisions:** Added the *CollisionBox* class that will handle the collision detection in the game.
+- **Collisions:** Made it possible to draw the collision boxes for debugging purposes.
+- **Collisions:** Implemented the first attempt at collisions, but only works for players as of writing this.
 
 #### Bug Fixes
+
+- **Collisions**
+
 
 #### Images
 
 ![updatedCamera](/readme_handling/images/2024-05-31/updatedCamera.gif)
 *Updated camera behaviour, the camera now follows the player instead of being static around the whole map.*
+
+![restrictedDrawing](/readme_handling/images/2024-05-31/restrictedDrawing.gif)
+*The game only renders the content inside the window. The image above showcases this but with decreased boundaries.*
 
 ### TODO
 
@@ -69,9 +83,6 @@ This section contains the most recent updates and changes that is implemented in
 - **General Game:** Make the environemnt tiles have multiple layers such as a base terrain layer, detail layer, and more.
 - **General Game:** Fix the scaling of the tilemap.
 - **General Game:** Make it possible to save the character and all the gear that is in inventory/equipped.
-- **General Game:** Make the game run smoothly and become more reliable, oh god...
-- **General Game:** Make the camera follow the player and not be fixed.
-- **General Game:** Implement collisionboxes/hitboxes.
 - **General Game:** Figure out how the players different currencies will be stored, updated and accessed.
 
 ---

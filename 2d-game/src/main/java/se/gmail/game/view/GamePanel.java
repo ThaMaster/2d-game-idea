@@ -52,6 +52,7 @@ public class GamePanel extends JPanel {
         }
 
         this.player.setScreenPosition(pScreenX, pScreenY);
+        this.player.setWorldPosition((int)(screenWidth/2), (int)(screenHeight/2));
     }
 
     public void paintComponent(Graphics g) {
@@ -61,6 +62,7 @@ public class GamePanel extends JPanel {
         synchronized(g2) {
             tileManager.draw(g2);
             player.draw(g2);
+            player.drawCollisionBox(g2);
 
             for(Enemy e : enemies) {
                 int screenX = e.getWorldXPosition() - player.getWorldXPosition() + player.getScreenXPosition();
@@ -84,6 +86,7 @@ public class GamePanel extends JPanel {
 
                 if(tileManager.insideScreen(e.getWorldXPosition(), e.getWorldYPosition())) {
                     e.draw(g2);
+                    e.drawCollisionBox(g2);
                 }
             }
         }
@@ -119,5 +122,9 @@ public class GamePanel extends JPanel {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public TileManager getTileManager() {
+        return this.tileManager;
     }
 }

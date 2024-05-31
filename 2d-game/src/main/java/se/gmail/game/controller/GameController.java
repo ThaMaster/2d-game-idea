@@ -83,21 +83,31 @@ public class GameController implements ActionListener{
         if(keyHandler.movementKeysActive()) {
             player.getAnimator().setAnimation("run");
             if (keyHandler.isKeyActive('w')) {
-                player.setWorldYPosition(player.getWorldYPosition() - player.getSpeed());
                 player.setDirection(Direction.NORTH);
+                if(!player.isTileColliding(window.getGamePanel().getTileManager())) {
+                    player.setWorldYPosition(player.getWorldYPosition() - player.getSpeed());
+                }
             }
             if (keyHandler.isKeyActive('s')) {
-                player.setWorldYPosition(player.getWorldYPosition() + player.getSpeed());
                 player.setDirection(Direction.SOUTH);
+                if(!player.isTileColliding(window.getGamePanel().getTileManager())) {
+                    player.setWorldYPosition(player.getWorldYPosition() + player.getSpeed());
+
+                }
             }
             if (keyHandler.isKeyActive('d')) {
-                player.setWorldXPosition(player.getWorldXPosition() + player.getSpeed());
                 player.setDirection(Direction.EAST);
+                if(!player.isTileColliding(window.getGamePanel().getTileManager())) {
+                    player.setWorldXPosition(player.getWorldXPosition() + player.getSpeed());
+                }
             }
             if (keyHandler.isKeyActive('a')) {
-                player.setWorldXPosition(player.getWorldXPosition() - player.getSpeed());
                 player.setDirection(Direction.WEST);
+                if(!player.isTileColliding(window.getGamePanel().getTileManager())) {
+                    player.setWorldXPosition(player.getWorldXPosition() - player.getSpeed());
+                }
             }
+
         } else {
             player.getAnimator().setAnimation("idle");
         }

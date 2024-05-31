@@ -1,7 +1,10 @@
 package se.gmail.game.model.entities;
 
 import se.gmail.game.util.enums.Direction;
+import se.gmail.game.model.tiles.TileManager;
+import se.gmail.game.util.CollisionBox;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import se.gmail.game.util.animation.Animator;
@@ -16,6 +19,7 @@ public class Entity {
     private int speed;
     private Direction direction;
     private Animator animator;
+    private CollisionBox cBox;
 
     public Entity() {
         worldXPos = 0;
@@ -24,6 +28,8 @@ public class Entity {
         screenYPos = 0;
         this.direction = Direction.WEST;
         this.animator = new Animator();
+        this.cBox = new CollisionBox(25, 50, 30, 30);
+        this.cBox.enableCollision(true);
     }
 
     public Animator getAnimator() {
@@ -33,6 +39,7 @@ public class Entity {
     public void setWorldPosition(int x, int y) {
         this.worldXPos = x;
         this.worldYPos = y;
+        this.cBox.setCoords(x, y);
     }
 
     public void setScreenPosition(int x, int y) {
@@ -58,10 +65,12 @@ public class Entity {
 
     public void setWorldYPosition(int y) {
         this.worldYPos = y;
+        this.cBox.setYCoord(y);
     }
 
     public void setWorldXPosition(int x) {
         this.worldXPos = x;
+        this.cBox.setXCoord(x);
     }
 
     public void setScreenYPosition(int y) {
@@ -93,5 +102,25 @@ public class Entity {
     
     public void draw(Graphics2D g2) {
         this.animator.draw(g2, screenXPos, screenYPos);
+    }
+
+    public void setCollisionBox(CollisionBox collisionBox) {
+        this.cBox = collisionBox;
+    }
+
+    public CollisionBox getCollisionBox() {
+        return this.cBox;
+    }
+
+    public void drawCollisionBox(Graphics2D g2) {
+        g2.setColor(Color.RED);
+        g2.drawRect(screenXPos + cBox.getXOffset(), screenYPos + cBox.getYOffset(), cBox.getWidth(), cBox.getHeight());
+    }
+
+    public boolean isTileColliding(TileManager tm) {
+        if(this.cBox.hasCollision()) {
+            return cBox.checkTile(this, tm);
+        }
+        return false;
     }
 }

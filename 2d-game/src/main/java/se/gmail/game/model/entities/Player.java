@@ -1,5 +1,4 @@
 package se.gmail.game.model.entities;
-
 import se.gmail.game.util.ImageLoader;
 import se.gmail.game.util.animation.Animation;
 
