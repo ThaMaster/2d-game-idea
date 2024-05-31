@@ -45,10 +45,14 @@ This section contains the most recent updates and changes that is implemented in
 - **Collisions:** Made it possible to draw the collision boxes for debugging purposes.
 - **Collisions:** Implemented the first attempt at collisions, but only works for players as of writing this.
 
+---
+
+- **Art:** Added a bunch of different weapons and potions to be used for the different equipment and objects.
+
 #### Bug Fixes
 
-- **Collisions**
-
+- **Collisions:** Fixed an issue with the player being able to go through a collision tile and then getting stuck.
+- **Collisions:** Fixed an issue where the collision is displayed in the wrong place at the screen.
 
 #### Images
 
