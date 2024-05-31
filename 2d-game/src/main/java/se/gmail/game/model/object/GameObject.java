@@ -1,5 +1,6 @@
 package se.gmail.game.model.object;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.text.html.parser.Entity;
@@ -13,6 +14,7 @@ public abstract class GameObject {
     private String description;
     private CollisionBox cBox;
     private int worldXPos, worldYPos;
+    private int screenXPos, screenYPos;
 
     public void loadObjectImage(String imagePath) {
         this.image = ImageLoader.loadImage(imagePath);
@@ -25,6 +27,11 @@ public abstract class GameObject {
     public void setWorldPosition(int x, int y) {
         this.worldXPos = x;
         this.worldYPos = y;
+    }
+
+    public void setScreenPosition(int x, int y) {
+        this.screenXPos = x;
+        this.screenYPos = y;
     }
 
     public void setWorldXPosition(int x) {
@@ -61,6 +68,10 @@ public abstract class GameObject {
 
     public CollisionBox getCollisionBox() {
         return this.cBox;
+    }
+
+    public void draw(Graphics2D g2) {
+        g2.drawImage(image, screenXPos, screenYPos, image.getWidth(), image.getHeight(), null);
     }
     
     public abstract void onPickup(Entity e);

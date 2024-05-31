@@ -4,8 +4,8 @@ import se.gmail.game.util.animation.Animation;
 
 public class Player extends Entity {
 
-    private double health;
-    private double mana;
+    private double currentHealth;
+    private double maxHealth;
 
     public Player() {
         setPlayerDefaultValues();
@@ -13,25 +13,25 @@ public class Player extends Entity {
     }
 
     public void setPlayerDefaultValues() {
-        this.health = 100.0;
-        this.mana = 50.0;
+        this.maxHealth = 100.0;
+        this.currentHealth = maxHealth;
         this.setSpeed(4);
     }
 
-    public double getHealth() {
-        return this.health;
+    public double getCurrentHealth() {
+        return this.currentHealth;
     }
 
-    public void setHealth(double health) {
-        this.health = health;
+    public void setCurrentHealth(double health) {
+        this.currentHealth = health;
     }
 
-    public double getMana() {
-        return this.mana;
+    public double getMaxHealth() {
+        return this.maxHealth;
     }
 
-    public void setMana(double mana) {
-        this.mana = mana;
+    public void setMaxHealth(double health) {
+        this.maxHealth = health;
     }
 
     public void loadPlayerAnimations() {

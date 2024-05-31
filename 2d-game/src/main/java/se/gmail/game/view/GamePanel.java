@@ -8,8 +8,11 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import se.gmail.game.model.GameMaster;
 import se.gmail.game.model.entities.Enemy;
 import se.gmail.game.model.entities.Player;
+import se.gmail.game.model.object.GameObject;
+import se.gmail.game.model.object.potions.HealthPotion;
 import se.gmail.game.model.tiles.TileManager;
 
 public class GamePanel extends JPanel {
@@ -35,8 +38,11 @@ public class GamePanel extends JPanel {
     private final int pScreenX = screenWidth/2 - (tileSize/2);
     private final int pScreenY = screenHeight/2 - (tileSize/2);
 
+    public GameMaster gMaster = new GameMaster(this);
+
     private TileManager tileManager = new TileManager(this);
     private ArrayList<Enemy> enemies = new ArrayList<>();
+    private ArrayList<GameObject> objects = new ArrayList<>();
 
     public GamePanel(Player p) {
         this.player = p;
@@ -53,6 +59,13 @@ public class GamePanel extends JPanel {
 
         this.player.setScreenPosition(pScreenX, pScreenY);
         this.player.setWorldPosition((int)(screenWidth/2), (int)(screenHeight/2));
+        setupGame();
+    }
+
+    public void setupGame() {
+        HealthPotion hPotion = new HealthPotion();
+        hPotion.setWorldPosition(10 * tileSize, 10 * tileSize);
+        objects.add(hPotion);
     }
 
     public void paintComponent(Graphics g) {
@@ -61,6 +74,16 @@ public class GamePanel extends JPanel {
         Graphics2D g2 = (Graphics2D)g;
         synchronized(g2) {
             tileManager.draw(g2);
+
+            for(GameObject obj : objects) {
+                int screenX = obj.getWorldXPosition() - player.getWorldXPosition() + player.getScreenXPosition();
+                int screenY = obj.getWorldYPosition() - player.getWorldYPosition() + player.getScreenYPosition();
+                obj.setScreenPosition(screenX, screenY);
+                if(tileManager.insideScreen(obj.getWorldXPosition(), obj.getWorldYPosition())) {
+                    obj.draw(g2);
+                }
+            }
+            
             player.draw(g2);
             player.drawCollisionBox(g2);
 
@@ -126,5 +149,9 @@ public class GamePanel extends JPanel {
 
     public TileManager getTileManager() {
         return this.tileManager;
+    }
+
+    public ArrayList<GameObject> getGameObjects() {
+        return this.objects;
     }
 }
