@@ -17,6 +17,8 @@ public abstract class GameObject {
     private int worldXPos, worldYPos;
     private int screenXPos, screenYPos;
 
+    private int sizeW, sizeH;
+
     public void loadObjImage(String imagePath) {
         this.objImage = ImageLoader.loadImage(imagePath);
     }
@@ -78,6 +80,19 @@ public abstract class GameObject {
 
     public void setCollisionBox(CollisionBox cBox) {
         this.cBox = cBox;
+    }
+
+    public void setItemSize(int width, int height) {
+        this.sizeW = width;
+        this.sizeH = height;
+    }
+
+    public int getItemSizeW() {
+        return this.sizeW;
+    }
+
+    public int getItemSizeH() {
+        return this.sizeH;
     }
 
     public void draw(Graphics2D g2) {

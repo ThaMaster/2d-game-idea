@@ -12,6 +12,7 @@ public class HealthPotion extends ConsumableObject {
         this.setObjDesc("Very poggersh health potion that replenishes your health points.");
         this.loadObjImage("/objects/potions/sprites/potion_0.png");
         this.loadUsedImage("/objects/potions/sprites/potion_6.png");
+        this.setItemSize(1, 1);
     }
 
     @Override

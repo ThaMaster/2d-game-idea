@@ -9,6 +9,7 @@ import se.gmail.game.model.object.consumables.ConsumableObject;
 
 import se.gmail.game.model.User;
 import se.gmail.game.model.entities.Player;
+import se.gmail.game.model.systems.inventory.Inventory;
 import se.gmail.game.model.systems.stockMarket.Stock;
 import se.gmail.game.model.systems.stockMarket.StockMarket;
 import se.gmail.game.util.ImageLoader;
@@ -50,6 +51,8 @@ public class GameController implements ActionListener{
         this.timer = new Timer(1000/FRAME_RATE, this);
         initStockMarket();
         startGame();
+        Inventory inventory = new Inventory(10, 10);
+        System.out.println(inventory.toString());
     }
 
     public void startGame() {
