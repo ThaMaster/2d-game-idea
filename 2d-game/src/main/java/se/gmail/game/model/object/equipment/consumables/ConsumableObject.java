@@ -1,12 +1,18 @@
-package se.gmail.game.model.object.consumables;
+package se.gmail.game.model.object.equipment.consumables;
+
 
 import java.awt.image.BufferedImage;
 
 import se.gmail.game.model.entities.Player;
-import se.gmail.game.model.object.GameObject;
+import se.gmail.game.model.object.equipment.Equipment;
 import se.gmail.game.util.ImageLoader;
+import se.gmail.game.util.enums.EquipmentType;
 
-public abstract class ConsumableObject extends GameObject {
+public abstract class ConsumableObject extends Equipment {
+    public ConsumableObject(EquipmentType type) {
+        super(type);
+    }
+
     private boolean used = false;
     private BufferedImage usedImage;
     public abstract void onUse(Player p);

@@ -3,7 +3,7 @@ package se.gmail.game.model.systems.inventory;
 import java.util.HashMap;
 
 import se.gmail.game.model.object.GameObject;
-import se.gmail.game.model.object.consumables.potions.HealthPotion;
+import se.gmail.game.model.object.equipment.consumables.potions.HealthPotion;
 
 public class Inventory {
 

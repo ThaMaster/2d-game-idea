@@ -11,7 +11,8 @@ import javax.swing.JPanel;
 import se.gmail.game.model.entities.Enemy;
 import se.gmail.game.model.entities.Player;
 import se.gmail.game.model.object.GameObject;
-import se.gmail.game.model.object.consumables.potions.HealthPotion;
+import se.gmail.game.model.object.equipment.consumables.potions.HealthPotion;
+
 import se.gmail.game.model.tiles.TileManager;
 
 public class GamePanel extends JPanel {

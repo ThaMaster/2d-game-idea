@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import se.gmail.game.model.object.GameObject;
-import se.gmail.game.model.object.consumables.ConsumableObject;
+import se.gmail.game.model.object.equipment.consumables.ConsumableObject;
 
 import se.gmail.game.model.User;
 import se.gmail.game.model.entities.Player;
