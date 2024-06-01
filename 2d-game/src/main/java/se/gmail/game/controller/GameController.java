@@ -4,6 +4,9 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import se.gmail.game.model.object.GameObject;
+import se.gmail.game.model.object.consumables.ConsumableObject;
+
 import se.gmail.game.model.User;
 import se.gmail.game.model.entities.Player;
 import se.gmail.game.model.systems.stockMarket.Stock;
@@ -16,6 +19,7 @@ import se.gmail.game.view.stockMarket.StockMarketWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class GameController implements ActionListener{
@@ -38,6 +42,7 @@ public class GameController implements ActionListener{
     private Boolean enableBuy[] = {false, false, false};
     private Boolean enableSell[] = {false, false, false};
 
+    private int hotbarSelection = 0;
 
     public GameController() {
         keyHandler.setToggleKey('q');
@@ -73,6 +78,7 @@ public class GameController implements ActionListener{
 
     private void render() {
         SwingUtilities.invokeLater(() -> {
+            window.getGamePanel().setHotbarSelection(hotbarSelection+1);
             window.getGamePanel().revalidate();
             window.getGamePanel().repaint();
         });
@@ -107,9 +113,62 @@ public class GameController implements ActionListener{
                     player.setWorldXPosition(player.getWorldXPosition() - player.getSpeed());
                 }
             }
-
         } else {
             player.getAnimator().setAnimation("idle");
+        }
+
+        if(keyHandler.isKeyActive('1'))  {
+            hotbarSelection = 0;
+        }
+
+        if(keyHandler.isKeyActive('2'))  {
+            this.hotbarSelection = 1;
+        }
+
+        if(keyHandler.isKeyActive('3'))  {
+            this.hotbarSelection = 2;
+        }
+
+        if(keyHandler.isKeyActive('4'))  {
+            this.hotbarSelection = 3;
+
+        }
+
+        if(keyHandler.isKeyActive('5'))  {
+            this.hotbarSelection = 4;
+        }
+
+        if(keyHandler.isKeyActive('6'))  {
+            this.hotbarSelection = 5;
+        }
+
+        if(keyHandler.isKeyActive('7'))  {
+            this.hotbarSelection = 6;
+        }
+
+        if(keyHandler.isKeyActive('8'))  {
+            this.hotbarSelection = 7;
+        }
+
+        if(keyHandler.isKeyActive('9'))  {
+            this.hotbarSelection = 8;
+        }
+
+        // Use selected item in hotbar
+        if(keyHandler.isKeyActive('e')) {
+            if(player.getInventory()[hotbarSelection] != null) {
+                ((ConsumableObject)player.getInventory()[hotbarSelection]).onUse(player);
+            }
+        }
+
+        // Drop selected item in hotbar
+        if(keyHandler.isKeyActive('g')) {
+            if(player.getInventory()[hotbarSelection] != null) {
+                GameObject object = player.getInventory()[hotbarSelection];
+                object.setWorldPosition(player.getWorldXPosition() + 30, player.getWorldYPosition() + 30);
+                window.getGamePanel().addGameObject(object);
+                player.getInventory()[hotbarSelection] = null;
+            }
         }
     }
 

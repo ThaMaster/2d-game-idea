@@ -54,11 +54,19 @@ public class CollisionBox {
             default:
                 tileNum1 = 0;
                 tileNum2 = 0;
-                System.out.println(e.getDirection());
                 break;
         }
 
         if(tm.getTile(tileNum1).getCollisionBox().hasCollision() || tm.getTile(tileNum2).getCollisionBox().hasCollision()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean checkCollision(Entity e) {
+        Rectangle cShape = e.getCollisionBox().getCollisionShape();
+        if(cShape.intersects(collisionBox)) {
             return true;
         }
 

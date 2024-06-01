@@ -123,4 +123,8 @@ public class Entity {
         }
         return false;
     }
+
+    public boolean isPlayer() {
+        return this.getClass().equals(Player.class);
+    }
 }

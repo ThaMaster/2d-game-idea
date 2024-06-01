@@ -8,11 +8,10 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import se.gmail.game.model.GameMaster;
 import se.gmail.game.model.entities.Enemy;
 import se.gmail.game.model.entities.Player;
 import se.gmail.game.model.object.GameObject;
-import se.gmail.game.model.object.potions.HealthPotion;
+import se.gmail.game.model.object.consumables.potions.HealthPotion;
 import se.gmail.game.model.tiles.TileManager;
 
 public class GamePanel extends JPanel {
@@ -38,11 +37,11 @@ public class GamePanel extends JPanel {
     private final int pScreenX = screenWidth/2 - (tileSize/2);
     private final int pScreenY = screenHeight/2 - (tileSize/2);
 
-    public GameMaster gMaster = new GameMaster(this);
-
     private TileManager tileManager = new TileManager(this);
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<GameObject> objects = new ArrayList<>();
+
+    private int hotbarSelection;
 
     public GamePanel(Player p) {
         this.player = p;
@@ -64,7 +63,7 @@ public class GamePanel extends JPanel {
 
     public void setupGame() {
         HealthPotion hPotion = new HealthPotion();
-        hPotion.setWorldPosition(10 * tileSize, 10 * tileSize);
+        hPotion.setWorldPosition(5 * tileSize, 5 * tileSize);
         objects.add(hPotion);
     }
 
@@ -75,12 +74,18 @@ public class GamePanel extends JPanel {
         synchronized(g2) {
             tileManager.draw(g2);
 
-            for(GameObject obj : objects) {
+            for(int i = 0; i < objects.size(); i++) {
+                GameObject obj = objects.get(i);
                 int screenX = obj.getWorldXPosition() - player.getWorldXPosition() + player.getScreenXPosition();
                 int screenY = obj.getWorldYPosition() - player.getWorldYPosition() + player.getScreenYPosition();
                 obj.setScreenPosition(screenX, screenY);
                 if(tileManager.insideScreen(obj.getWorldXPosition(), obj.getWorldYPosition())) {
                     obj.draw(g2);
+                    obj.drawCollisionBox(g2);
+                    if(obj.getCollisionBox().checkCollision(player)) {
+                        obj.onPickup(player);
+                        objects.remove(obj);
+                    }
                 }
             }
             
@@ -112,7 +117,26 @@ public class GamePanel extends JPanel {
                     e.drawCollisionBox(g2);
                 }
             }
+
+            for(int i = 1; i <= 9; i++) {
+                g2.setColor(new Color(128, 128, 128, 127));
+                g2.fillRect((i+1)*tileSize, screenHeight-tileSize, tileSize, tileSize);
+                if(i == hotbarSelection) {
+                    g2.setColor(Color.WHITE);
+                } else {
+                    g2.setColor(Color.BLACK);
+                }
+                g2.drawRect((i+1)*tileSize, screenHeight-tileSize, tileSize, tileSize);
+                g2.drawString(String.valueOf(i), (i+1)*tileSize, screenHeight);
+                if(player.getInventory()[i-1] != null) {
+                    player.getInventory()[i-1].draw(g2, (i+1)*tileSize, screenHeight-tileSize);
+                }
+            }
         }
+    }
+
+    public void setHotbarSelection(int selection) {
+        this.hotbarSelection = selection;
     }
 
     public int getTileSize() {
@@ -153,5 +177,9 @@ public class GamePanel extends JPanel {
 
     public ArrayList<GameObject> getGameObjects() {
         return this.objects;
+    }
+
+    public void addGameObject(GameObject gObj) {
+        this.objects.add(gObj);
     }
 }
