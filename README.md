@@ -28,22 +28,37 @@ This section lists all the differnet keybinds used for the game. These keybinds 
 
 This section contains the most recent updates and changes that is implemented in the game. It will contain a somewhat detailed description of new systems, bug fixes, gameplay tweaks, and and more to give a good overview on how the project is going. In addition to this, the section will end with a TODO log that details what should be the focus of the next programming session. Only the most recent updates will be detailed here so if you would like to see previous logs, these are located [here](/readme_handling/logs).
 
-### Change log 2024-05-27
-
-#### New system: Inventory Management
-
-- First iteration of the inventory system has been implemented.
-- Items must now come with a specific inventory space width and height.
-- Items can be added to the inventory either by specifying the coordinates or inserted at the first available position.
-- The inventory has not yet received a GUI, but can be visible by calling the *toString* method.
+### Change log 2024-06-02
 
 #### Changes
 
-- **Objects:** Each objects must now specify how much space it takes up in the inventory.
+- **Inventory:** The inventory now has a functioning UI, see section *Images*.
+- **Inventory:** Implemented so that the inventory interface uses the mouse.
+- **Inventory:** The player now has a personal inventory instead of an *Arraylist* containing *GameObjects*.
+- **Inventroy:** Items picked up from the ground is now added to the players inventory instead of the hotbar.
+- **Inventory:** The hotbar is temporarily remove. It will be added back later when I know how to structure everything better.
+- **Inventory:** Added a bunch of inventory slot parts that is used to draw the inventory screen.
+
+---
+
+- **Objects:** Added two weapons to the game, the wodden bow and the wodden spear. Many more weapons and items will be added later.
 
 #### Bug Fixes
 
+- **Inventory:** Fixed an issue where the inventory slots did not add the borders in the correct way.
+- **Inventory:** Fixed a *NullPointerException* when trying to drag an item from one slot to another.
+- **Inventory:** Fixed an issue with not being able to load images from the resource folder.
+
 #### Images
+
+![inventoryShowcase](/readme_handling/images/2024-06-02/inventoryShowcase.gif)
+
+*A breif showcase of interacting with the inventory. The mouse is used to drag and drop items inside the inventory.*
+
+![woddenBow](/readme_handling/images/2024-06-02/bow_0.png)
+![woddenSpear](/readme_handling/images/2024-06-02/spear_0.png)
+
+*Added two additional objects to the game, a wodden spear and a wodden bow.*
 
 ### TODO
 
@@ -51,6 +66,16 @@ This section contains the most recent updates and changes that is implemented in
 - **Stock Market:** The East stock market panel have small white border that should not be present.
 - **Stock Market:** Decide how the stocks for a market is to be selected and what information should be stored in the resource file.
 - **Stock Market:** Take out the logic of creating the stock market graph to seperate function so that the *paintComponent* function does less logic.
+- **Stock Market:** Integrate the stock market to the game instead of having it be a seperate window.
+
+---
+
+- **Inventory:** Make it possible to drop items from inventory.
+- **Inventory:** Polish the styling of the grid so it becomes more readable.
+- **Inventory:** Make items in the inventory highlight when hovering over them with the mouse.
+- **Inventory:** Create the hotbar using either the inventory or its own section in the equipment window.
+- **Inventory:** Refactor the inventory drawing method for occupied inventory slots. DO IT AS SOON AS POSSIBLE!
+- **Inventory:** Integrate the inventory interface into the main game window instead of having a seperate window for it.
 
 ---
 
@@ -67,7 +92,6 @@ This section contains the most recent updates and changes that is implemented in
 - **General Game:** Create a starting screen.
 - **General Game:** Create the player stats screen which displays all kinds of stats.
 - **General Game:** Create the equipment screen where different types of equipable gear is placed, does not need to change appearence of player yet.
-- **General Game:** Create the inventory screen where different items can be stored, toggled with *Tab*.
 - **General Game:** Make the environemnt tiles have multiple layers such as a base terrain layer, detail layer, and more.
 - **General Game:** Fix the scaling of the tilemap.
 - **General Game:** Make it possible to save the character and all the gear that is in inventory/equipped.
