@@ -24,8 +24,6 @@ public class Inventory {
             }
         }
 
-        insertItem(new HealthPotion(), 5, 5);
-        insertItem(new HealthPotion(), 0, 0);
         insertAtFirstAvailableSlot(new HealthPotion());
     }
 
@@ -115,5 +113,21 @@ public class Inventory {
         }
 
         return strOutput;
+    }
+
+    public boolean[][] getInventoryGrid() {
+        return this.grid;
+    }
+
+    public GameObject getItemAt(int x, int y) {
+        return this.itemSpace[x][y];
+    }
+
+    public int getGridHeight() {
+        return this.gridHeight;
+    }
+
+    public int getGridWidth() {
+        return this.gridWidth;
     }
 }

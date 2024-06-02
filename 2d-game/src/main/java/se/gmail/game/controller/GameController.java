@@ -16,6 +16,7 @@ import se.gmail.game.util.ImageLoader;
 import se.gmail.game.util.JsonLoader;
 import se.gmail.game.util.enums.Direction;
 import se.gmail.game.view.MainFrame;
+import se.gmail.game.view.inventory.InventoryWindow;
 import se.gmail.game.view.stockMarket.StockMarketWindow;
 
 import java.awt.event.ActionEvent;
@@ -42,6 +43,8 @@ public class GameController implements ActionListener{
     private Boolean enableBuy[] = {false, false, false};
     private Boolean enableSell[] = {false, false, false};
 
+    private InventoryWindow invWindow;
+
     private int hotbarSelection = 0;
 
     public GameController() {
@@ -51,8 +54,7 @@ public class GameController implements ActionListener{
         this.timer = new Timer(1000/FRAME_RATE, this);
         initStockMarket();
         startGame();
-        Inventory inventory = new Inventory(10, 10);
-        System.out.println(inventory.toString());
+        invWindow = new InventoryWindow(player.getInventory());
     }
 
     public void startGame() {
@@ -157,21 +159,21 @@ public class GameController implements ActionListener{
         }
 
         // Use selected item in hotbar
-        if(keyHandler.isKeyActive('e')) {
-            if(player.getInventory()[hotbarSelection] != null) {
-                ((ConsumableObject)player.getInventory()[hotbarSelection]).onUse(player);
-            }
-        }
+        // if(keyHandler.isKeyActive('e')) {
+        //     if(player.getInventory()[hotbarSelection] != null) {
+        //         ((ConsumableObject)player.getInventory()[hotbarSelection]).onUse(player);
+        //     }
+        // }
 
         // Drop selected item in hotbar
-        if(keyHandler.isKeyActive('g')) {
-            if(player.getInventory()[hotbarSelection] != null) {
-                GameObject object = player.getInventory()[hotbarSelection];
-                object.setWorldPosition(player.getWorldXPosition() + 30, player.getWorldYPosition() + 30);
-                window.getGamePanel().addGameObject(object);
-                player.getInventory()[hotbarSelection] = null;
-            }
-        }
+        // if(keyHandler.isKeyActive('g')) {
+        //     if(player.getInventory()[hotbarSelection] != null) {
+        //         GameObject object = player.getInventory()[hotbarSelection];
+        //         object.setWorldPosition(player.getWorldXPosition() + 30, player.getWorldYPosition() + 30);
+        //         window.getGamePanel().addGameObject(object);
+        //         player.getInventory()[hotbarSelection] = null;
+        //     }
+        // }
     }
 
     private void initStockMarket() {

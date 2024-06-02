@@ -3,15 +3,17 @@ import se.gmail.game.util.ImageLoader;
 import se.gmail.game.util.animation.Animation;
 
 import se.gmail.game.model.object.GameObject;
+import se.gmail.game.model.systems.inventory.Inventory;
 
 public class Player extends Entity {
 
     private double currentHealth;
     private double maxHealth;
 
-    private GameObject inventory[] = new GameObject[9];
+    private Inventory inventory;
 
     public Player() {
+        this.inventory = new Inventory(10, 10);
         setPlayerDefaultValues();
         loadPlayerAnimations();
     }
@@ -43,11 +45,13 @@ public class Player extends Entity {
         getAnimator().addAnimation(new Animation("run", ImageLoader.loadWholeDirectory("/player/sprites/executioner/male/run"), 7));
     }
 
-    public void addToInventory(GameObject gObj, int i) {
-        this.inventory[i] = gObj;
+    public void addToInventory(GameObject gObj) {
+        if(!this.inventory.insertAtFirstAvailableSlot(gObj)) {
+            System.out.println("NO SPACE IN INVENTORY!");
+        }
     }
 
-    public GameObject[] getInventory() {
+    public Inventory getInventory() {
         return this.inventory;
     }
 }

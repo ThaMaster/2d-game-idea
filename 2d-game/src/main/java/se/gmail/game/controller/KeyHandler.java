@@ -23,7 +23,6 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("pressed: '" + e.getKeyChar() + "'");
         if(keyToggleMap.containsKey(e.getKeyChar())) {
             boolean keyStatus = keyToggleMap.get(e.getKeyChar());
             keyToggleMap.put(e.getKeyChar(), !keyStatus);

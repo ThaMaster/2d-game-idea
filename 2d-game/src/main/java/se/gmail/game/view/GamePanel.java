@@ -12,7 +12,8 @@ import se.gmail.game.model.entities.Enemy;
 import se.gmail.game.model.entities.Player;
 import se.gmail.game.model.object.GameObject;
 import se.gmail.game.model.object.equipment.consumables.potions.HealthPotion;
-
+import se.gmail.game.model.object.equipment.weapons.melee.spears.WoddenSpear;
+import se.gmail.game.model.object.equipment.weapons.ranged.bows.WoddenBow;
 import se.gmail.game.model.tiles.TileManager;
 
 public class GamePanel extends JPanel {
@@ -65,9 +66,16 @@ public class GamePanel extends JPanel {
     public void setupGame() {
         HealthPotion hPotion = new HealthPotion();
         hPotion.setWorldPosition(5 * tileSize, 5 * tileSize);
+        WoddenBow wBow = new WoddenBow();
+        wBow.setWorldPosition(6 * tileSize, 6 * tileSize);
+        WoddenSpear wSpear = new WoddenSpear();
+        wSpear.setWorldPosition(7 * tileSize, 6 * tileSize);
         objects.add(hPotion);
+        objects.add(wBow);
+        objects.add(wSpear);
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -119,20 +127,20 @@ public class GamePanel extends JPanel {
                 }
             }
 
-            for(int i = 1; i <= 9; i++) {
-                g2.setColor(new Color(128, 128, 128, 127));
-                g2.fillRect((i+1)*tileSize, screenHeight-tileSize, tileSize, tileSize);
-                if(i == hotbarSelection) {
-                    g2.setColor(Color.WHITE);
-                } else {
-                    g2.setColor(Color.BLACK);
-                }
-                g2.drawRect((i+1)*tileSize, screenHeight-tileSize, tileSize, tileSize);
-                g2.drawString(String.valueOf(i), (i+1)*tileSize, screenHeight);
-                if(player.getInventory()[i-1] != null) {
-                    player.getInventory()[i-1].draw(g2, (i+1)*tileSize, screenHeight-tileSize);
-                }
-            }
+            // for(int i = 1; i <= 9; i++) {
+            //     g2.setColor(new Color(128, 128, 128, 127));
+            //     g2.fillRect((i+1)*tileSize, screenHeight-tileSize, tileSize, tileSize);
+            //     if(i == hotbarSelection) {
+            //         g2.setColor(Color.WHITE);
+            //     } else {
+            //         g2.setColor(Color.BLACK);
+            //     }
+            //     g2.drawRect((i+1)*tileSize, screenHeight-tileSize, tileSize, tileSize);
+            //     g2.drawString(String.valueOf(i), (i+1)*tileSize, screenHeight);
+            //     if(player.getInventory()[i-1] != null) {
+            //         player.getInventory()[i-1].draw(g2, (i+1)*tileSize, screenHeight-tileSize);
+            //     }
+            // }
         }
     }
 

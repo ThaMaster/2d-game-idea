@@ -33,12 +33,7 @@ public class HealthPotion extends ConsumableObject {
 
     @Override
     public void onPickup(Player p) {
-        for(int i = 0; i < 9; i++) {
-            if(p.getInventory()[i] == null) {
-                p.addToInventory(this, i);
-                break;
-            }
-        }
+        p.addToInventory(this);
     }
 
     @Override
