@@ -4,12 +4,8 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import se.gmail.game.model.object.GameObject;
-import se.gmail.game.model.object.equipment.consumables.ConsumableObject;
-
 import se.gmail.game.model.User;
 import se.gmail.game.model.entities.Player;
-import se.gmail.game.model.systems.inventory.Inventory;
 import se.gmail.game.model.systems.stockMarket.Stock;
 import se.gmail.game.model.systems.stockMarket.StockMarket;
 import se.gmail.game.util.ImageLoader;
