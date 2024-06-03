@@ -44,15 +44,20 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
     }
 
     private void loadImages() {
-        images.put("t_l_c", ImageLoader.loadImage("/ui/inventory_slot_1.png"));
-        images.put("t_r_c", ImageLoader.loadImage("/ui/inventory_slot_2.png"));
-        images.put("b_l_c", ImageLoader.loadImage("/ui/inventory_slot_3.png"));
-        images.put("b_r_c", ImageLoader.loadImage("/ui/inventory_slot_4.png"));
-        images.put("r_w", ImageLoader.loadImage("/ui/inventory_slot_5.png"));
-        images.put("l_w", ImageLoader.loadImage("/ui/inventory_slot_6.png"));
-        images.put("b_w", ImageLoader.loadImage("/ui/inventory_slot_7.png"));
-        images.put("t_w", ImageLoader.loadImage("/ui/inventory_slot_8.png"));
-        images.put("e", ImageLoader.loadImage("/ui/inventory_slot_9.png"));
+        images.put("t_l_c", ImageLoader.loadImage("/ui/inventory_slots/brown/inventory_slot_1.png"));
+        images.put("t_r_c", ImageLoader.loadImage("/ui/inventory_slots/brown/inventory_slot_2.png"));
+        images.put("b_l_c", ImageLoader.loadImage("/ui/inventory_slots/brown/inventory_slot_3.png"));
+        images.put("b_r_c", ImageLoader.loadImage("/ui/inventory_slots/brown/inventory_slot_4.png"));
+        images.put("r_w", ImageLoader.loadImage("/ui/inventory_slots/brown/inventory_slot_5.png"));
+        images.put("l_w", ImageLoader.loadImage("/ui/inventory_slots/brown/inventory_slot_6.png"));
+        images.put("b_w", ImageLoader.loadImage("/ui/inventory_slots/brown/inventory_slot_7.png"));
+        images.put("t_w", ImageLoader.loadImage("/ui/inventory_slots/brown/inventory_slot_8.png"));
+        images.put("fill", ImageLoader.loadImage("/ui/inventory_slots/brown/inventory_slot_9.png"));
+        images.put("empty_t_l", ImageLoader.loadImage("/ui/inventory_slots/empty/inventory_slot_1.png"));
+        images.put("empty_t_r", ImageLoader.loadImage("/ui/inventory_slots/empty/inventory_slot_2.png"));
+        images.put("empty_b_l", ImageLoader.loadImage("/ui/inventory_slots/empty/inventory_slot_3.png"));
+        images.put("empty_b_r", ImageLoader.loadImage("/ui/inventory_slots/empty/inventory_slot_4.png"));
+
         slotWidth = images.get("t_l_c").getWidth();
         slotHeight = images.get("t_l_c").getHeight();
     }
@@ -86,10 +91,10 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
     }
 
     private void renderEmptySlot(Graphics2D g2, int x, int y) {
-        g2.drawImage(images.get("t_l_c"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
-        g2.drawImage(images.get("t_r_c"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
-        g2.drawImage(images.get("b_l_c"), x*slotWidth*2, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
-        g2.drawImage(images.get("b_r_c"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
+        g2.drawImage(images.get("empty_t_l"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
+        g2.drawImage(images.get("empty_t_r"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
+        g2.drawImage(images.get("empty_b_l"), x*slotWidth*2, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
+        g2.drawImage(images.get("empty_b_r"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
         this.gridDone[x][y] = true;
     }
 
@@ -118,7 +123,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
                         } else {
                             g2.drawImage(images.get("t_w"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
                             g2.drawImage(images.get("l_w"), x*slotWidth*2, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
-                            g2.drawImage(images.get("e"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
+                            g2.drawImage(images.get("fill"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                         }
                     } else if(x+1 == sizeW) {
                         g2.drawImage(images.get("t_r_c"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
@@ -129,7 +134,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
                         } else {
                             g2.drawImage(images.get("t_w"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
                             g2.drawImage(images.get("r_w"), x*slotWidth*2+slotWidth, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
-                            g2.drawImage(images.get("e"), x*slotWidth*2, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
+                            g2.drawImage(images.get("fill"), x*slotWidth*2, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                         }
                     } else {
                         if(y+1 == sizeH) {
@@ -140,8 +145,8 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
                         } else {
                             g2.drawImage(images.get("t_w"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
                             g2.drawImage(images.get("t_w"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
-                            g2.drawImage(images.get("e"), x*slotWidth*2, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
-                            g2.drawImage(images.get("e"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
+                            g2.drawImage(images.get("fill"), x*slotWidth*2, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
+                            g2.drawImage(images.get("fill"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                         }
                     }
                 } else if(y+1 == sizeH) {
@@ -152,17 +157,17 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
                         g2.drawImage(images.get("b_r_c"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                     } else if(x == xPos) {
                         g2.drawImage(images.get("l_w"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
-                        g2.drawImage(images.get("e"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
                         g2.drawImage(images.get("b_l_c"), x*slotWidth*2, y*slotHeight*2  + slotHeight, slotWidth, slotHeight, null);
                         g2.drawImage(images.get("b_w"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
                     } else if(x+1 == sizeW) {
-                        g2.drawImage(images.get("e"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
                         g2.drawImage(images.get("r_w"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
                         g2.drawImage(images.get("b_w"), x*slotWidth*2, y*slotHeight*2+slotHeight, slotWidth, slotHeight, null);
                         g2.drawImage(images.get("b_r_c"), x*slotWidth*2+slotWidth, y*slotHeight*2+slotHeight, slotWidth, slotHeight, null);
                     } else {
-                        g2.drawImage(images.get("e"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
-                        g2.drawImage(images.get("e"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
                         g2.drawImage(images.get("b_w"), x*slotWidth*2, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                         g2.drawImage(images.get("b_w"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                     }
@@ -174,19 +179,19 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
                         g2.drawImage(images.get("r_w"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                     } else if(x == xPos) {
                         g2.drawImage(images.get("l_w"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
-                        g2.drawImage(images.get("e"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
                         g2.drawImage(images.get("l_w"), x*slotWidth*2, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
-                        g2.drawImage(images.get("e"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                     } else if(x+1 == sizeW) {
-                        g2.drawImage(images.get("e"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
                         g2.drawImage(images.get("r_w"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
-                        g2.drawImage(images.get("e"), x*slotWidth*2, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
                         g2.drawImage(images.get("r_w"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                     } else {
-                        g2.drawImage(images.get("e"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
-                        g2.drawImage(images.get("e"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
-                        g2.drawImage(images.get("e"), x*slotWidth*2, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
-                        g2.drawImage(images.get("e"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2, y*slotHeight*2, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2 + slotWidth, y*slotHeight*2, slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2, y*slotHeight*2 + slotHeight , slotWidth, slotHeight, null);
+                        g2.drawImage(images.get("fill"), x*slotWidth*2 + slotWidth, y*slotHeight*2 + slotHeight, slotWidth, slotHeight, null);
                     }
                 }
                 this.gridDone[x][y] = true;
