@@ -12,6 +12,7 @@ import se.gmail.game.util.ImageLoader;
 import se.gmail.game.util.JsonLoader;
 import se.gmail.game.util.enums.Direction;
 import se.gmail.game.view.MainFrame;
+import se.gmail.game.view.inventory.InventoryWindow;
 import se.gmail.game.view.stockMarket.StockMarketWindow;
 
 import java.awt.event.ActionEvent;
@@ -38,6 +39,9 @@ public class GameController implements ActionListener{
     private Boolean enableBuy[] = {false, false, false};
     private Boolean enableSell[] = {false, false, false};
 
+    private InventoryWindow invWindow;
+
+    private int hotbarSelection = 0;
 
     public GameController() {
         keyHandler.setToggleKey('q');
@@ -46,6 +50,7 @@ public class GameController implements ActionListener{
         this.timer = new Timer(1000/FRAME_RATE, this);
         initStockMarket();
         startGame();
+        invWindow = new InventoryWindow(player.getInventory());
     }
 
     public void startGame() {
@@ -73,6 +78,7 @@ public class GameController implements ActionListener{
 
     private void render() {
         SwingUtilities.invokeLater(() -> {
+            window.getGamePanel().setHotbarSelection(hotbarSelection+1);
             window.getGamePanel().revalidate();
             window.getGamePanel().repaint();
         });
@@ -83,24 +89,87 @@ public class GameController implements ActionListener{
         if(keyHandler.movementKeysActive()) {
             player.getAnimator().setAnimation("run");
             if (keyHandler.isKeyActive('w')) {
-                player.setYPosition(player.getYPosition() - player.getSpeed());
                 player.setDirection(Direction.NORTH);
+                if(!player.isTileColliding(window.getGamePanel().getTileManager())) {
+                    player.setWorldYPosition(player.getWorldYPosition() - player.getSpeed());
+                }
             }
             if (keyHandler.isKeyActive('s')) {
-                player.setYPosition(player.getYPosition() + player.getSpeed());
                 player.setDirection(Direction.SOUTH);
+                if(!player.isTileColliding(window.getGamePanel().getTileManager())) {
+                    player.setWorldYPosition(player.getWorldYPosition() + player.getSpeed());
+
+                }
             }
             if (keyHandler.isKeyActive('d')) {
-                player.setXPosition(player.getXPosition() + player.getSpeed());
                 player.setDirection(Direction.EAST);
+                if(!player.isTileColliding(window.getGamePanel().getTileManager())) {
+                    player.setWorldXPosition(player.getWorldXPosition() + player.getSpeed());
+                }
             }
             if (keyHandler.isKeyActive('a')) {
-                player.setXPosition(player.getXPosition() - player.getSpeed());
                 player.setDirection(Direction.WEST);
+                if(!player.isTileColliding(window.getGamePanel().getTileManager())) {
+                    player.setWorldXPosition(player.getWorldXPosition() - player.getSpeed());
+                }
             }
         } else {
             player.getAnimator().setAnimation("idle");
         }
+
+        if(keyHandler.isKeyActive('1'))  {
+            hotbarSelection = 0;
+        }
+
+        if(keyHandler.isKeyActive('2'))  {
+            this.hotbarSelection = 1;
+        }
+
+        if(keyHandler.isKeyActive('3'))  {
+            this.hotbarSelection = 2;
+        }
+
+        if(keyHandler.isKeyActive('4'))  {
+            this.hotbarSelection = 3;
+
+        }
+
+        if(keyHandler.isKeyActive('5'))  {
+            this.hotbarSelection = 4;
+        }
+
+        if(keyHandler.isKeyActive('6'))  {
+            this.hotbarSelection = 5;
+        }
+
+        if(keyHandler.isKeyActive('7'))  {
+            this.hotbarSelection = 6;
+        }
+
+        if(keyHandler.isKeyActive('8'))  {
+            this.hotbarSelection = 7;
+        }
+
+        if(keyHandler.isKeyActive('9'))  {
+            this.hotbarSelection = 8;
+        }
+
+        // Use selected item in hotbar
+        // if(keyHandler.isKeyActive('e')) {
+        //     if(player.getInventory()[hotbarSelection] != null) {
+        //         ((ConsumableObject)player.getInventory()[hotbarSelection]).onUse(player);
+        //     }
+        // }
+
+        // Drop selected item in hotbar
+        // if(keyHandler.isKeyActive('g')) {
+        //     if(player.getInventory()[hotbarSelection] != null) {
+        //         GameObject object = player.getInventory()[hotbarSelection];
+        //         object.setWorldPosition(player.getWorldXPosition() + 30, player.getWorldYPosition() + 30);
+        //         window.getGamePanel().addGameObject(object);
+        //         player.getInventory()[hotbarSelection] = null;
+        //     }
+        // }
     }
 
     private void initStockMarket() {

@@ -28,47 +28,54 @@ This section lists all the differnet keybinds used for the game. These keybinds 
 
 This section contains the most recent updates and changes that is implemented in the game. It will contain a somewhat detailed description of new systems, bug fixes, gameplay tweaks, and and more to give a good overview on how the project is going. In addition to this, the section will end with a TODO log that details what should be the focus of the next programming session. Only the most recent updates will be detailed here so if you would like to see previous logs, these are located [here](/readme_handling/logs).
 
-### Change log 2024-05-27
-
-#### New system: States and Entity Behaviours
-
-- First implementation of the entity behaviours have been implemented and is showcased under the *Images* section.
-- The behaviour comes from classes that extends the abstract *State* class.
-- Created the *StateMachine* class that will be used to handle the changes in state.
+### Change log 2024-06-02
 
 #### Changes
 
+- **Inventory:** The inventory now has a functioning UI, see section *Images*.
+- **Inventory:** Implemented so that the inventory interface uses the mouse.
+- **Inventory:** The player now has a personal inventory instead of an *Arraylist* containing *GameObjects*.
+- **Inventroy:** Items picked up from the ground is now added to the players inventory instead of the hotbar.
+- **Inventory:** The hotbar is temporarily remove. It will be added back later when I know how to structure everything better.
+- **Inventory:** Added a bunch of inventory slot parts that is used to draw the inventory screen.
+
 ---
 
-- **Code:** Added a *Enemy* class that extends *Entity* but will later be more specified for each enemy type.
-- **Code:** Created new folder that contains everything regarding animations.
-- **Code:** Refactored the *Animator* class to be more scalable, now containing animation classes instead of arraylists with images. The animation now keep track on its current frame and each animation can have seperate frame delay.
-- **Code:** Added a draw function to the player, making it more decoupled between the classes.
-- **Code:** Changed so that the animator keeps track if the animation should be flipped or not.
-- **Code:** Refactored the *GameController* class substationally.
-- **Code:** Changed the *KeyHandler* class to use characters instead of key codes for readability. 
-
+- **Objects:** Added two weapons to the game, the wodden bow and the wodden spear. Many more weapons and items will be added later.
 
 #### Bug Fixes
 
-- **Animations:** Fixed an issue with the enemy sprites not flipping accordingly .
-- **State Machine:** Fixed an issue where the animations were set to the next state, rather than the current.
+- **Inventory:** Fixed an issue where the inventory slots did not add the borders in the correct way.
+- **Inventory:** Fixed a *NullPointerException* when trying to drag an item from one slot to another.
+- **Inventory:** Fixed an issue with not being able to load images from the resource folder.
 
 #### Images
 
-![](/readme_handling/images/2024-05-27/idleEnemy.png)
+![inventoryShowcase](/readme_handling/images/2024-06-02/inventoryShowcase.gif)
 
-*Sneakpeak at the first enemy in the game*
+*A breif showcase of interacting with the inventory. The mouse is used to drag and drop items inside the inventory.*
 
-![firstStateMachineTest](/readme_handling/images/2024-05-27/firstStateMachineTest.gif)
+![woddenBow](/readme_handling/images/2024-06-02/bow_0.png)
+![woddenSpear](/readme_handling/images/2024-06-02/spear_0.png)
 
-*First look at the entity behaviour system. Rather than the entity just standing still, it wanders around.*
+*Added two additional objects to the game, a wodden spear and a wodden bow.*
 
 ### TODO
 
 - **Stock Market:** Take a look at the stock modes, they maybe should have percentages such that they switch to the *right* mode. For example, *Fast Climb* have a *3%* chance to switch to *Fast Fall*.
 - **Stock Market:** The East stock market panel have small white border that should not be present.
 - **Stock Market:** Decide how the stocks for a market is to be selected and what information should be stored in the resource file.
+- **Stock Market:** Take out the logic of creating the stock market graph to seperate function so that the *paintComponent* function does less logic.
+- **Stock Market:** Integrate the stock market to the game instead of having it be a seperate window.
+
+---
+
+- **Inventory:** Make it possible to drop items from inventory.
+- **Inventory:** Polish the styling of the grid so it becomes more readable.
+- **Inventory:** Make items in the inventory highlight when hovering over them with the mouse.
+- **Inventory:** Create the hotbar using either the inventory or its own section in the equipment window.
+- **Inventory:** Refactor the inventory drawing method for occupied inventory slots. DO IT AS SOON AS POSSIBLE!
+- **Inventory:** Integrate the inventory interface into the main game window instead of having a seperate window for it.
 
 ---
 
@@ -85,18 +92,14 @@ This section contains the most recent updates and changes that is implemented in
 - **General Game:** Create a starting screen.
 - **General Game:** Create the player stats screen which displays all kinds of stats.
 - **General Game:** Create the equipment screen where different types of equipable gear is placed, does not need to change appearence of player yet.
-- **General Game:** Create the inventory screen where different items can be stored, toggled with *Tab*.
 - **General Game:** Make the environemnt tiles have multiple layers such as a base terrain layer, detail layer, and more.
 - **General Game:** Fix the scaling of the tilemap.
 - **General Game:** Make it possible to save the character and all the gear that is in inventory/equipped.
-- **General Game:** Make the game run smoothly and become more reliable, oh god...
-- **General Game:** Make the camera follow the player and not be fixed.
-- **General Game:** Implement collisionboxes/hitboxes.
 - **General Game:** Figure out how the players different currencies will be stored, updated and accessed.
+- **General Game:** Implement a 'pickup' key so that items do not immediately get picked up on collision.
 
 ---
 
-- **Code:** Take out the logic of creating the stock market graph to seperate function so that the *paintComponent* function does less logic.
 - **Code:** Decide how the overall architecture of the game should look like such that it is easy to implement new features while being good from a programming stand point.
 - **Code:** Start to comment the code so I know what is going on.
 - **Code:** Refactor the way the buttons becomes enabled/disabled.

@@ -10,7 +10,6 @@ public class Enemy extends Entity {
 
     public Enemy() {
         setSpeed(1);
-        setPosition(0, 0);
         loadEnemyAnimations();
         enemySM = new StateMachine(new EnemyIdle("idle", this));
         enemySM.addState(new EnemyRun("run", this));

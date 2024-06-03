@@ -43,8 +43,8 @@ public class EnemyRun extends State {
             } else {
                 enemy.setDirection(Direction.WEST);
             }
-            enemy.setXPosition(enemy.getXPosition() + xDirection);
-            enemy.setYPosition(enemy.getYPosition() + yDirection);
+            enemy.setWorldXPosition(enemy.getWorldXPosition() + xDirection);
+            enemy.setWorldYPosition(enemy.getWorldYPosition() + yDirection);
             wanderTime -= elapsedTime;
         } else {
             this.setNextStateName("idle");
