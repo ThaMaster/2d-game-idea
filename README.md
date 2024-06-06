@@ -36,12 +36,26 @@ This section contains the most recent updates and changes that is implemented in
 - **Inventory:** The players inventory is now changed to 8x8 instead of 10x10.
 - **Inventory:** Added inventory ui walls.
 
+---
+
+- **Code:** Divided the code in the inventory folder to more easily handle different gui layers.
+- **Code:** Created a *GameMaster* class that will handle all the enemies and items on the map, which fixed the issue where enemies updated extra fast while interacting with the gui.
+- **Code:** The general structure of the game has now been made much more clear which is why it is removed from the TODO. This is an ongoing topic which is why the architecture can change now and then.
+
 #### Bug Fixes
 
 - **Inventory:** Fixed a bug where all the enemies were updated super fast when interacting with the inventory.
 - **Inventory:** Fixed a bug where the game crashed upon picking up an item.
+- **Inventory:** Fixed a bug where the items in the inventory did not return to the original space when trying to move the item to unavailable position.
+- **Inventory:** Fixed an issue with the game not recognising the items and always print null.
+- **Inventory:** Fixed a gui bug where the inventory did not show.
+- **Inventory:** Fixed issues where the inventory layers did not properly align with each other.
 
 #### Images
+
+![inventoryPreview](/readme_handling/images/2024-06-06/inventoryPreview.png)
+
+*New updated inventory which is integrated within the game instead of a seperate window.*
 
 ### TODO
 
@@ -57,7 +71,10 @@ This section contains the most recent updates and changes that is implemented in
 - **Inventory:** Make items in the inventory highlight when hovering over them with the mouse.
 - **Inventory:** Create the hotbar using either the inventory or its own section in the equipment window.
 - **Inventory:** Refactor the inventory drawing method for occupied inventory slots. DO IT AS SOON AS POSSIBLE!
-- ~~**Inventory:** Integrate the inventory interface into the main game window instead of having a seperate window for it.~~
+- **Inventory:** Remove the mouse handling from the *BackpackSlots* class and instead handle it in the more general *InventoryPanel* class. This is to enable draging between backpack and equipment panels.
+- **Inventory:** Start to create the equipemnt panel.
+- **Inventory:** Create the equipment slots and draw icons that should be used when the equipment slots are empty. (silhouette of pants/helmet etc). 
+
 
 ---
 
@@ -82,7 +99,5 @@ This section contains the most recent updates and changes that is implemented in
 
 ---
 
-- **Code:** Decide how the overall architecture of the game should look like such that it is easy to implement new features while being good from a programming stand point.
 - **Code:** Start to comment the code so I know what is going on.
 - **Code:** Refactor the way the buttons becomes enabled/disabled.
-- **Code:** Create some sort of a *GameMaster* class that handles the spawning of enemies and such.
