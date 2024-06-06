@@ -4,16 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-
 import javax.swing.JPanel;
 
+import se.gmail.game.controller.GameMaster;
 import se.gmail.game.model.entities.Enemy;
 import se.gmail.game.model.entities.Player;
 import se.gmail.game.model.object.GameObject;
-import se.gmail.game.model.object.equipment.consumables.potions.HealthPotion;
-import se.gmail.game.model.object.equipment.weapons.melee.spears.WoddenSpear;
-import se.gmail.game.model.object.equipment.weapons.ranged.bows.WoddenBow;
 import se.gmail.game.model.tiles.TileManager;
 
 public class GamePanel extends JPanel {
@@ -40,8 +36,6 @@ public class GamePanel extends JPanel {
     private final int pScreenY = screenHeight/2 - (tileSize/2);
 
     private TileManager tileManager = new TileManager(this);
-    private ArrayList<Enemy> enemies = new ArrayList<>();
-    private ArrayList<GameObject> objects = new ArrayList<>();
 
     private int hotbarSelection;
 
@@ -52,27 +46,8 @@ public class GamePanel extends JPanel {
         this.setDoubleBuffered(true);
         this.setFocusable(true);
 
-        for(int i = 0; i < 3; i++) {
-            Enemy e = new Enemy();
-            e.setWorldPosition((int)(screenWidth/2), (int)(screenHeight/2));
-            this.enemies.add(e);
-        }
-
         this.player.setScreenPosition(pScreenX, pScreenY);
         this.player.setWorldPosition((int)(screenWidth/2), (int)(screenHeight/2));
-        setupGame();
-    }
-
-    public void setupGame() {
-        HealthPotion hPotion = new HealthPotion();
-        hPotion.setWorldPosition(5 * tileSize, 5 * tileSize);
-        WoddenBow wBow = new WoddenBow();
-        wBow.setWorldPosition(6 * tileSize, 6 * tileSize);
-        WoddenSpear wSpear = new WoddenSpear();
-        wSpear.setWorldPosition(7 * tileSize, 6 * tileSize);
-        objects.add(hPotion);
-        objects.add(wBow);
-        objects.add(wSpear);
     }
 
     @Override
@@ -83,8 +58,8 @@ public class GamePanel extends JPanel {
         synchronized(g2) {
             tileManager.draw(g2);
 
-            for(int i = 0; i < objects.size(); i++) {
-                GameObject obj = objects.get(i);
+            for(int i = 0; i < GameMaster.getObjects().size(); i++) {
+                GameObject obj = GameMaster.getObjects().get(i);
                 int screenX = obj.getWorldXPosition() - player.getWorldXPosition() + player.getScreenXPosition();
                 int screenY = obj.getWorldYPosition() - player.getWorldYPosition() + player.getScreenYPosition();
                 obj.setScreenPosition(screenX, screenY);
@@ -93,7 +68,7 @@ public class GamePanel extends JPanel {
                     obj.drawCollisionBox(g2);
                     if(obj.getCollisionBox().checkCollision(player)) {
                         obj.onPickup(player);
-                        objects.remove(obj);
+                        GameMaster.getObjects().remove(obj);
                     }
                 }
             }
@@ -101,26 +76,10 @@ public class GamePanel extends JPanel {
             player.draw(g2);
             player.drawCollisionBox(g2);
 
-            for(Enemy e : enemies) {
+            for(Enemy e : GameMaster.getEnemies()) {
                 int screenX = e.getWorldXPosition() - player.getWorldXPosition() + player.getScreenXPosition();
                 int screenY = e.getWorldYPosition() - player.getWorldYPosition() + player.getScreenYPosition();
                 e.setScreenPosition(screenX, screenY);
-                e.update();
-                e.getAnimator().update();
-                // Prevent enemies going outside the screen, for now...
-                if(e.getWorldXPosition() > screenWidth) {
-                    e.setWorldXPosition(screenWidth-1);
-                } 
-                if(e.getWorldXPosition() < 0) {
-                    e.setWorldXPosition(1);
-                }
-                if(e.getWorldYPosition() > screenHeight) {
-                    e.setWorldYPosition(screenHeight-1);
-                } 
-                if(e.getWorldYPosition() < 0) {
-                    e.setWorldYPosition(1);
-                }
-
                 if(tileManager.insideScreen(e.getWorldXPosition(), e.getWorldYPosition())) {
                     e.draw(g2);
                     e.drawCollisionBox(g2);
@@ -182,13 +141,5 @@ public class GamePanel extends JPanel {
 
     public TileManager getTileManager() {
         return this.tileManager;
-    }
-
-    public ArrayList<GameObject> getGameObjects() {
-        return this.objects;
-    }
-
-    public void addGameObject(GameObject gObj) {
-        this.objects.add(gObj);
     }
 }

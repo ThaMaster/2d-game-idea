@@ -130,4 +130,8 @@ public class Inventory {
     public int getGridWidth() {
         return this.gridWidth;
     }
+
+    public Integer[] getItemPos(GameObject obj) {
+        return this.itemPos.get(obj);
+    }
 }

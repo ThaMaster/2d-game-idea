@@ -12,7 +12,6 @@ import se.gmail.game.util.ImageLoader;
 import se.gmail.game.util.JsonLoader;
 import se.gmail.game.util.enums.Direction;
 import se.gmail.game.view.MainFrame;
-import se.gmail.game.view.inventory.InventoryWindow;
 import se.gmail.game.view.stockMarket.StockMarketWindow;
 
 import java.awt.event.ActionEvent;
@@ -39,18 +38,21 @@ public class GameController implements ActionListener{
     private Boolean enableBuy[] = {false, false, false};
     private Boolean enableSell[] = {false, false, false};
 
-    private InventoryWindow invWindow;
-
     private int hotbarSelection = 0;
+
+    private GameMaster gameMaster;
 
     public GameController() {
         keyHandler.setToggleKey('q');
+        keyHandler.setToggleKey('i');
+        keyHandler.setToggleKey('o');
+
         window = new MainFrame(player);
         this.window.getGamePanel().addKeyListener(keyHandler);
         this.timer = new Timer(1000/FRAME_RATE, this);
+        this.gameMaster = new GameMaster();
         initStockMarket();
         startGame();
-        invWindow = new InventoryWindow(player.getInventory());
     }
 
     public void startGame() {
@@ -73,6 +75,7 @@ public class GameController implements ActionListener{
      */
     private void update() {
         updatePlayer();
+        gameMaster.updateWorld();
         updateStockMarket();
     }
 
@@ -131,7 +134,6 @@ public class GameController implements ActionListener{
 
         if(keyHandler.isKeyActive('4'))  {
             this.hotbarSelection = 3;
-
         }
 
         if(keyHandler.isKeyActive('5'))  {
@@ -154,22 +156,16 @@ public class GameController implements ActionListener{
             this.hotbarSelection = 8;
         }
 
-        // Use selected item in hotbar
-        // if(keyHandler.isKeyActive('e')) {
-        //     if(player.getInventory()[hotbarSelection] != null) {
-        //         ((ConsumableObject)player.getInventory()[hotbarSelection]).onUse(player);
-        //     }
-        // }
+        boolean toggleInventory = keyHandler.isKeyActive('i');
+        if(Boolean.compare(toggleInventory, window.isInventoryVisible()) != 0) {
+            window.showInventory(toggleInventory);
+        }
 
-        // Drop selected item in hotbar
-        // if(keyHandler.isKeyActive('g')) {
-        //     if(player.getInventory()[hotbarSelection] != null) {
-        //         GameObject object = player.getInventory()[hotbarSelection];
-        //         object.setWorldPosition(player.getWorldXPosition() + 30, player.getWorldYPosition() + 30);
-        //         window.getGamePanel().addGameObject(object);
-        //         player.getInventory()[hotbarSelection] = null;
-        //     }
-        // }
+        // TODO: When selecting fullscreen, change dimensions accordingly.
+        boolean toggleFullscreen = keyHandler.isKeyActive('o');
+        if(Boolean.compare(toggleFullscreen, window.isFullscreen()) != 0) {
+            window.setFullscreen(toggleFullscreen);
+        }
     }
 
     private void initStockMarket() {

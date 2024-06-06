@@ -13,7 +13,7 @@ public class Player extends Entity {
     private Inventory inventory;
 
     public Player() {
-        this.inventory = new Inventory(10, 10);
+        this.inventory = new Inventory(8, 8);
         setPlayerDefaultValues();
         loadPlayerAnimations();
     }
