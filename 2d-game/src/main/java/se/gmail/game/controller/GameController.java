@@ -12,6 +12,7 @@ import se.gmail.game.util.ImageLoader;
 import se.gmail.game.util.JsonLoader;
 import se.gmail.game.util.enums.Direction;
 import se.gmail.game.view.MainFrame;
+import se.gmail.game.view.StyleManager;
 import se.gmail.game.view.stockMarket.StockMarketWindow;
 
 import java.awt.event.ActionEvent;

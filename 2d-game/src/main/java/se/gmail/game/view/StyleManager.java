@@ -3,6 +3,9 @@ package se.gmail.game.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,11 +15,37 @@ import javax.swing.border.Border;
 
 public class StyleManager {
 
+    public static Font DEFAULT_FONT;
+
+    static {
+        InputStream is = null;
+        try {
+            // Load the font from resources
+            is = StyleManager.class.getResourceAsStream("/fonts/yoster.ttf");
+            if (is == null) {
+                throw new IOException("Font resource not found");
+            }
+            DEFAULT_FONT = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(24f);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Provide a fallback font or handle the exception as needed
+            DEFAULT_FONT = new Font("Serif", Font.PLAIN, 12);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     // Default font definitions
-    public static final Font TITLE_FONT = new Font("serif", Font.BOLD, 24);
-    public static final Font LABEL_FONT = new Font("serif", Font.PLAIN, 14);
-    public static final Font BUTTON_FONT = new Font("serif", Font.BOLD, 16);
-    public static final Font TEXT_FIELD_FONT = new Font("serif", Font.PLAIN, 14);
+    public static final Font TITLE_FONT = DEFAULT_FONT.deriveFont(Font.BOLD).deriveFont(24f);
+    public static final Font LABEL_FONT = DEFAULT_FONT.deriveFont(Font.PLAIN).deriveFont(14f);
+    public static final Font BUTTON_FONT = DEFAULT_FONT.deriveFont(Font.BOLD).deriveFont(16f);
+    public static final Font TEXT_FIELD_FONT = DEFAULT_FONT.deriveFont(Font.PLAIN).deriveFont(14f);
 
     // Default color definitions
     public static final Color PRIMARY_COLOR = new Color(0, 122, 255); // Blue

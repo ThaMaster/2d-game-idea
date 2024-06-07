@@ -2,6 +2,7 @@ package se.gmail.game.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
@@ -75,6 +76,10 @@ public class GamePanel extends JPanel {
             
             player.draw(g2);
             player.drawCollisionBox(g2);
+
+            g2.setFont(StyleManager.DEFAULT_FONT);
+            String text = "I WILL END YOUR LIFE SO FUCKING HARD YOU MAAGGGOT!";
+            g2.drawString(text, 100, 100);
 
             for(Enemy e : GameMaster.getEnemies()) {
                 int screenX = e.getWorldXPosition() - player.getWorldXPosition() + player.getScreenXPosition();
