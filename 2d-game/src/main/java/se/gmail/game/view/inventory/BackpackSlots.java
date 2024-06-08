@@ -1,5 +1,6 @@
 package se.gmail.game.view.inventory;
 
+import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -83,6 +84,7 @@ public class BackpackSlots extends JPanel implements MouseListener, MouseMotionL
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
+        g2.setComposite(AlphaComposite.SrcOver);
 
         int gridWidth = inventory.getGridWidth();
         int gridHeight= inventory.getGridHeight();

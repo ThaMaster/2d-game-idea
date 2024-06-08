@@ -3,7 +3,6 @@ package se.gmail.game.controller;
 import java.util.ArrayList;
 
 import se.gmail.game.model.entities.Enemy;
-import se.gmail.game.model.entities.Player;
 import se.gmail.game.model.object.GameObject;
 import se.gmail.game.model.object.equipment.consumables.potions.HealthPotion;
 import se.gmail.game.model.object.equipment.weapons.melee.spears.WoddenSpear;

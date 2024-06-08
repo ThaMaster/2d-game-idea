@@ -10,7 +10,7 @@ import se.gmail.game.util.enums.WeaponType;
 public class WoddenBow extends Weapon{
 
     public WoddenBow() {
-        super(EquipmentType.TWO_HANDED_WEAPON, WeaponType.BOW, true);
+        super(EquipmentType.MAIN_HAND, WeaponType.BOW, true);
         this.setObjName("Wodden Bow");
         this.setObjDesc("A very standard bow used by hunters across the realm.");
         this.loadObjImage("/objects/weapons/bows/sprites/bow_0.png");

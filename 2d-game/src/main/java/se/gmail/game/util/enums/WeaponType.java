@@ -9,5 +9,10 @@ public enum WeaponType {
     WAND,
     HANDGUN,
     RIFLE,
-    SHOTGUN,
+    SHOTGUN;
+
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
 }

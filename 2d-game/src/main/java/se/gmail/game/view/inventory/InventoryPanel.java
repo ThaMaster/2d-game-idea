@@ -36,12 +36,13 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
         bpPanel = new BackpackPanel(inv);
         eqPanel = new EquipmentPanel();
 
-        this.invWidth = bpPanel.getBackpackWidth() + eqPanel.getEquipmentWidth();
+        this.invWidth = bpPanel.getBackpackWidth() + eqPanel.getWindowWidth();
         this.invHeight= bpPanel.getBackpackHeight();
 
         this.add(bpPanel, BorderLayout.CENTER);
         this.add(eqPanel, BorderLayout.EAST);
         this.setVisible(false);
+        this.setOpaque(false);
     }
 
     public int getInventoryWidth() {

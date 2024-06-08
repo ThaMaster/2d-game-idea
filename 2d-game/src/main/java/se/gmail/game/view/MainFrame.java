@@ -12,6 +12,7 @@ import javax.swing.RepaintManager;
 import se.gmail.game.model.entities.Player;
 import se.gmail.game.view.inventory.InventoryPanel;
 import se.gmail.game.view.stockMarket.StockMarketWindow;
+import se.gmail.game.view.userInterface.UserInterface;
 
 public class MainFrame extends JFrame {
 
@@ -20,6 +21,7 @@ public class MainFrame extends JFrame {
     private JLayeredPane layeredPane;
     private GamePanel gamePanel;
     private InventoryPanel invPanel;
+    private UserInterface ui;
 
     private boolean isFullscreen = false;
 
@@ -32,6 +34,7 @@ public class MainFrame extends JFrame {
         // Initialize panels
         gamePanel = new GamePanel(p);
         invPanel = new InventoryPanel(p.getInventory());
+        ui = new UserInterface();
 
         setupMainPanel();
 
@@ -56,6 +59,10 @@ public class MainFrame extends JFrame {
         invPanel.setOpaque(false);
         layeredPane.add(invPanel, JLayeredPane.PALETTE_LAYER);
 
+        ui.setBounds(0, 0, UtilView.screenWidth, UtilView.screenHeight);
+        ui.setOpaque(false);
+        layeredPane.add(ui, JLayeredPane.PALETTE_LAYER);
+        
         // Add additional panels below...
     }
 

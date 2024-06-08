@@ -10,7 +10,7 @@ import se.gmail.game.util.enums.WeaponType;
 public class WoddenSpear extends Weapon{
 
     public WoddenSpear() {
-        super(EquipmentType.TWO_HANDED_WEAPON, WeaponType.SPEAR, false);
+        super(EquipmentType.MAIN_HAND, WeaponType.SPEAR, false);
         this.setObjName("Wodden Bow");
         this.setObjDesc("A very standard bow used by hunters across the realm.");
         this.loadObjImage("/objects/weapons/spears/sprites/spear_0.png");

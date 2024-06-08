@@ -4,5 +4,10 @@ public enum Direction {
     NORTH,
     SOUTH,
     WEST,
-    EAST
+    EAST;
+    
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
 }

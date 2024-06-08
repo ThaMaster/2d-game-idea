@@ -39,6 +39,7 @@ public class BackpackPanel extends JPanel {
         layeredPane.add(bpSlots, JLayeredPane.PALETTE_LAYER);
         this.setPreferredSize(new Dimension(bpSlots.getSlotsWidth(), bpSlots.getSlotsHeight()));
         this.setVisible(true);
+        this.setOpaque(false);
     }
 
     public int getBackpackWidth() {
