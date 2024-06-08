@@ -1,9 +1,7 @@
 package se.gmail.game.view;
 
-
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 
