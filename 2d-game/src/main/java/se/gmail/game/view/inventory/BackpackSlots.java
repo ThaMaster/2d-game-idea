@@ -4,9 +4,6 @@ import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -16,7 +13,7 @@ import se.gmail.game.model.object.GameObject;
 import se.gmail.game.model.systems.inventory.Inventory;
 import se.gmail.game.util.ImageLoader;
 
-public class BackpackSlots extends JPanel implements MouseListener, MouseMotionListener {
+public class BackpackSlots extends JPanel {
 
     private HashMap<String, BufferedImage> images = new HashMap<>();
 
@@ -27,20 +24,10 @@ public class BackpackSlots extends JPanel implements MouseListener, MouseMotionL
     private boolean inventoryGrid[][]; 
     private boolean gridDone[][];
 
-    private GameObject holdingObject;
-    private BufferedImage holdingImage;
-    private int selectedXPos = -1;
-    private int selectedYPos = -1;
-    private int hItemX = -1;
-    private int hItemY = -1;
-    private boolean dragging = false;
-
     private int bpSlotWidth = 0;
     private int bpSlotHeight = 0;
 
     public BackpackSlots(Inventory inv) {
-        this.addMouseListener(this);
-        this.addMouseMotionListener(this);
         this.inventory = inv;
         this.inventoryGrid = this.inventory.getInventoryGrid();
         this.gridDone = new boolean[inventory.getGridWidth()][inventory.getGridHeight()];
@@ -101,10 +88,6 @@ public class BackpackSlots extends JPanel implements MouseListener, MouseMotionL
                     }
                 }
             }
-        }
-
-        if(hItemX != -1 && hItemY != -1) {
-            g.drawImage(holdingImage, hItemX, hItemY, holdingImage.getWidth(), holdingImage.getHeight(), null);
         }
     }
 
@@ -223,63 +206,12 @@ public class BackpackSlots extends JPanel implements MouseListener, MouseMotionL
         g2.drawImage(itemImage, itemXPos, itemYPos, slotWidth*2, slotHeight*2, null);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {}
-
-    @Override
-    public void mouseEntered(MouseEvent e) {}
-
-    @Override
-    public void mouseExited(MouseEvent e) {}
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if(e.getButton() == MouseEvent.BUTTON1) {
-            this.selectedXPos = e.getX()/(slotWidth*2);
-            this.selectedYPos = e.getY()/(slotHeight*2);
-            
-            this.holdingObject = inventory.getItemAt(selectedXPos, selectedYPos);
-
-            if(this.holdingObject != null) {
-                Integer pos[] = inventory.getItemPos(holdingObject);
-                this.selectedXPos = pos[0];
-                this.selectedYPos = pos[1];
-                this.dragging = true;
-                inventory.removeItem(selectedXPos, selectedYPos);
-                this.holdingImage = holdingObject.getObjImage();
-                updateImagePosition(e.getX(), e.getY());
-            }
-        }
+    public int getSlotWidth() {
+        return this.slotWidth;
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        if(e.getButton() == MouseEvent.BUTTON1) {
-            this.dragging = false;
-            this.hItemX = -1;
-            this.hItemY = -1;
-            if(this.holdingObject != null) {
-                if(!inventory.insertItem(holdingObject, e.getX()/(slotWidth*2), e.getY()/(slotHeight*2))) {
-                    inventory.insertItem(holdingObject, this.selectedXPos, this.selectedYPos);
-                }
-            }
-            repaint();
-        }
+    public int getSlotHeight() {
+        return this.slotHeight;
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        if (dragging) {
-            updateImagePosition(e.getX(), e.getY());
-        }
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {}
-    
-    private void updateImagePosition(int x, int y) {
-        hItemX = x - holdingImage.getWidth() / 2;
-        hItemY = y - holdingImage.getHeight() / 2;
-        repaint();
-    }
 }

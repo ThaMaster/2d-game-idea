@@ -49,4 +49,12 @@ public class BackpackPanel extends JPanel {
     public int getBackpackHeight() {
         return bpHeight;
     } 
+
+    public int getSlotWidth() {
+        return this.bpSlots.getSlotWidth();
+    }
+    public int getSlotHeight() {
+        return this.bpSlots.getSlotHeight();
+    }
+    
 }

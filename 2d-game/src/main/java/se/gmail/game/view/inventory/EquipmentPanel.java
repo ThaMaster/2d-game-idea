@@ -132,4 +132,13 @@ public class EquipmentPanel extends JPanel {
     public void removeEquipment(String slot) {
         this.eqSlots.get(slot).removeItemImage();
     }
+
+    public String getHoveringSlot(int xPos, int yPos) {
+        for (String key : eqSlots.keySet()) {
+            if(eqSlots.get(key).getSlotRect().contains(xPos, yPos)) {
+                return key;
+            }
+        }
+        return "none";
+    }
 }
